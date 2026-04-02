@@ -16,7 +16,7 @@
 # - 简化字八股文 https://github.com/rime/rime-essay-simp
 ---
 name: ext
-version: "2026-03-15"
+version: "2026-03-28"
 sort: by_weight
 ...
 # +_+
@@ -2922,6 +2922,7 @@ sort: by_weight
 熬个十年八载	ao ge shi nian ba zai	100
 熬个夜	ao ge ye	100
 熬个一年半载	ao ge yi nian ban zai	100
+熬工龄	ao gong ling	100
 傲骨凌人	ao gu ling ren	100
 奥古斯托	ao gu si tuo	100
 傲骨燕	ao gu yan	100
@@ -5352,6 +5353,7 @@ sort: by_weight
 巴蛇吞象	ba she tun xiang	100
 八神龙	ba shen long	100
 把什么	ba shen me	100
+八声杜鹃	ba sheng du juan	100
 八省市	ba sheng shi	100
 八十八十	ba shi ba shi	100
 把事办了	ba shi ban le	100
@@ -5412,6 +5414,7 @@ sort: by_weight
 八四八七年	ba si ba qi nian	100
 八四八三	ba si ba san	100
 八四八三年	ba si ba san nian	100
+八死八伤	ba si ba shang	100
 八四八四	ba si ba si	100
 八四八四年	ba si ba si nian	100
 八四八五	ba si ba wu	100
@@ -5433,6 +5436,7 @@ sort: by_weight
 八四二七年	ba si er qi nian	100
 八四二三	ba si er san	100
 八四二三年	ba si er san nian	100
+八死二伤	ba si er shang	100
 八四二四	ba si er si	100
 八四二四年	ba si er si nian	100
 八四二五	ba si er wu	100
@@ -5453,6 +5457,7 @@ sort: by_weight
 八四九七年	ba si jiu qi nian	100
 八四九三	ba si jiu san	100
 八四九三年	ba si jiu san nian	100
+八死九伤	ba si jiu shang	100
 八四九四	ba si jiu si	100
 八四九四年	ba si jiu si nian	100
 八四九五	ba si jiu wu	100
@@ -5466,6 +5471,7 @@ sort: by_weight
 巴斯克语	ba si ke yu	100
 芭思蔻	ba si kou	100
 巴斯勒	ba si le	100
+八死两伤	ba si liang shang	100
 八四〇八	ba si ling ba	100
 八四〇八年	ba si ling ba nian	100
 八四〇二	ba si ling er	100
@@ -5500,6 +5506,7 @@ sort: by_weight
 八四六七年	ba si liu qi nian	100
 八四六三	ba si liu san	100
 八四六三年	ba si liu san nian	100
+八死六伤	ba si liu shang	100
 八四六四	ba si liu si	100
 八四六四年	ba si liu si nian	100
 八四六五	ba si liu wu	100
@@ -5520,6 +5527,7 @@ sort: by_weight
 八四七七年	ba si qi qi nian	100
 八四七三	ba si qi san	100
 八四七三年	ba si qi san nian	100
+八死七伤	ba si qi shang	100
 八四七四	ba si qi si	100
 八四七四年	ba si qi si nian	100
 八四七五	ba si qi wu	100
@@ -5540,12 +5548,14 @@ sort: by_weight
 八四三七年	ba si san qi nian	100
 八四三三	ba si san san	100
 八四三三年	ba si san san nian	100
+八死三伤	ba si san shang	100
 八四三四	ba si san si	100
 八四三四年	ba si san si nian	100
 八四三五	ba si san wu	100
 八四三五年	ba si san wu nian	100
 八四三一	ba si san yi	100
 八四三一年	ba si san yi nian	100
+八死十伤	ba si shi shang	100
 八四四八	ba si si ba	100
 八四四八年	ba si si ba nian	100
 八四四二	ba si si er	100
@@ -5560,6 +5570,7 @@ sort: by_weight
 八四四七年	ba si si qi nian	100
 八四四三	ba si si san	100
 八四四三年	ba si si san nian	100
+八死四伤	ba si si shang	100
 八四四四	ba si si si	100
 八四四四年	ba si si si nian	100
 八四四五	ba si si wu	100
@@ -5584,6 +5595,7 @@ sort: by_weight
 八四五七年	ba si wu qi nian	100
 八四五三	ba si wu san	100
 八四五三年	ba si wu san nian	100
+八死五伤	ba si wu shang	100
 八四五四	ba si wu si	100
 八四五四年	ba si wu si nian	100
 八四五五	ba si wu wu	100
@@ -5604,6 +5616,7 @@ sort: by_weight
 八四一七年	ba si yi qi nian	100
 八四一三	ba si yi san	100
 八四一三年	ba si yi san nian	100
+八死一伤	ba si yi shang	100
 八四一四	ba si yi si	100
 八四一四年	ba si yi si nian	100
 八四一五	ba si yi wu	100
@@ -9737,9 +9750,9 @@ sort: by_weight
 包皮过长或包茎	bao pi guo chang huo bao jing	100
 包皮过长手术	bao pi guo chang shou shu	100
 包皮环切	bao pi huan qie	100
-包皮系带	bao pi ji dai	100
 豹皮帽	bao pi mao	100
 暴脾气	bao pi qi	100
+包皮系带	bao pi xi dai	100
 刨片机	bao pian ji	100
 爆品日	bao pin ri	100
 包苹果	bao ping guo	100
@@ -10966,7 +10979,6 @@ sort: by_weight
 北京市朝阳	bei jing shi chao yang	100
 北京市朝阳区	bei jing shi chao yang qu	100
 北京市地方标准	bei jing shi di fang biao zhun	100
-北京市地方税务局	bei jing shi di fang shui wu ju	100
 北京市副市长	bei jing shi fu shi zhang	100
 北京市高校	bei jing shi gao xiao	100
 北京市积分落户	bei jing shi ji fen luo hu	100
@@ -21133,7 +21145,6 @@ sort: by_weight
 不睡觉了	bu shui jiao le	100
 不睡啦	bu shui la	100
 不睡懒觉	bu shui lan jiao	100
-补水面膜排行榜	bu shui mian mo pai hang bang	100
 补水凝露	bu shui ning lu	100
 不睡三觉	bu shui san jiao	100
 不睡午觉	bu shui wu jiao	100
@@ -27966,6 +27977,7 @@ sort: by_weight
 产业重点	chan ye zhong dian	100
 产业重镇	chan ye zhong zhen	100
 禅意写红尘	chan yi xie hong chen	100
+阐幽发微	chan you fa wei	100
 产油量	chan you liang	100
 阐幽明微	chan you ming wei	100
 阐幽显微	chan you xian wei	100
@@ -28784,6 +28796,7 @@ sort: by_weight
 长沟镇	chang gou zhen	100
 长谷部诚	chang gu bu cheng	100
 长谷川博己	chang gu chuan bo ji	100
+长谷川町子	chang gu chuan ding zi	100
 长谷川芳明	chang gu chuan fang ming	100
 长谷川留衣	chang gu chuan liu yi	100
 长谷川萌	chang gu chuan meng	100
@@ -30013,6 +30026,7 @@ sort: by_weight
 怅然自失	chang ran zi shi	100
 长热集团	chang re ji tuan	100
 唱日出	chang ri chu	100
+长日将尽	chang ri jiang jin	100
 唱日落	chang ri luo	100
 长日欣喜	chang ri xin xi	100
 长日照	chang ri zhao	100
@@ -39737,6 +39751,7 @@ sort: by_weight
 出色的弹跳	chu se de tan tiao	100
 出色地完成	chu se de wan cheng	100
 出色地完成了任务	chu se de wan cheng le ren wu	100
+出啥事	chu sha shi	100
 出啥事了	chu sha shi le	100
 出社会	chu she hui	100
 初审初检	chu shen chu jian	100
@@ -42615,7 +42630,6 @@ sort: by_weight
 穿越时间	chuan yue shi jian	100
 穿越系统	chuan yue xi tong	100
 穿越小说	chuan yue xiao shuo	100
-穿越小说排行榜	chuan yue xiao shuo pai hang bang	100
 穿云弓	chuan yun gong	100
 穿云箭	chuan yun jian	100
 穿云裂石	chuan yun lie shi	100
@@ -44970,6 +44984,7 @@ sort: by_weight
 攒尖顶	cuan jian ding	100
 窜进窜出	cuan jin cuan chu	100
 蹿起来了	cuan qi lai le	100
+窜三苗于三危	cuan san miao yu san wei	100
 蹿上蹿下	cuan shang cuan xia	100
 蹿上了	cuan shang le	100
 蹿天猴	cuan tian hou	100
@@ -46235,6 +46250,7 @@ sort: by_weight
 大都会区	da du hui qu	100
 大都会人寿	da du hui ren shou	100
 大都会艺术博物馆	da du hui yi shu bo wu guan	100
+大杜鹃	da du juan	100
 大度宽容	da du kuan rong	100
 大度路	da du lu	100
 大都市地区	da du shi di qu	100
@@ -58829,7 +58845,6 @@ sort: by_weight
 电影盛会	dian ying sheng hui	100
 电影室	dian ying shi	100
 电影试镜	dian ying shi jing	100
-电影是什么	dian ying shi shen me	100
 电影天堂	dian ying tian tang	100
 电影系	dian ying xi	100
 电影系列	dian ying xi lie	100
@@ -66251,7 +66266,7 @@ sort: by_weight
 顿巴斯战争	dun ba si zhan zheng	100
 顿巴斯重镇	dun ba si zhong zhen	100
 顿百事	dun bai shi	100
-顿兵挫锐	dun bing cuo rui	100
+钝兵挫锐	dun bing cuo rui	100
 墩布墩地	dun bu dun di	100
 蹲草丛	dun cao cong	100
 蹲厕所呢	dun ce suo ne	100
@@ -70290,6 +70305,7 @@ sort: by_weight
 二四八七年	er si ba qi nian	100
 二四八三	er si ba san	100
 二四八三年	er si ba san nian	100
+二死八伤	er si ba shang	100
 二四八四	er si ba si	100
 二四八四年	er si ba si nian	100
 二四八五	er si ba wu	100
@@ -70311,6 +70327,7 @@ sort: by_weight
 二四二七年	er si er qi nian	100
 二四二三	er si er san	100
 二四二三年	er si er san nian	100
+二死二伤	er si er shang	100
 二四二四	er si er si	100
 二四二四年	er si er si nian	100
 二四二五	er si er wu	100
@@ -70331,6 +70348,7 @@ sort: by_weight
 二四九七年	er si jiu qi nian	100
 二四九三	er si jiu san	100
 二四九三年	er si jiu san nian	100
+二死九伤	er si jiu shang	100
 二四九四	er si jiu si	100
 二四九四年	er si jiu si nian	100
 二四九五	er si jiu wu	100
@@ -70372,6 +70390,7 @@ sort: by_weight
 二四六七年	er si liu qi nian	100
 二四六三	er si liu san	100
 二四六三年	er si liu san nian	100
+二死六伤	er si liu shang	100
 二四六四	er si liu si	100
 二四六四年	er si liu si nian	100
 二四六五	er si liu wu	100
@@ -70392,6 +70411,7 @@ sort: by_weight
 二四七七年	er si qi qi nian	100
 二四七三	er si qi san	100
 二四七三年	er si qi san nian	100
+二死七伤	er si qi shang	100
 二四七四	er si qi si	100
 二四七四年	er si qi si nian	100
 二四七五	er si qi wu	100
@@ -70412,12 +70432,14 @@ sort: by_weight
 二四三七年	er si san qi nian	100
 二四三三	er si san san	100
 二四三三年	er si san san nian	100
+二死三伤	er si san shang	100
 二四三四	er si san si	100
 二四三四年	er si san si nian	100
 二四三五	er si san wu	100
 二四三五年	er si san wu nian	100
 二四三一	er si san yi	100
 二四三一年	er si san yi nian	100
+二死十伤	er si shi shang	100
 二四四八	er si si ba	100
 二四四八年	er si si ba nian	100
 二四四二	er si si er	100
@@ -70432,6 +70454,7 @@ sort: by_weight
 二四四七年	er si si qi nian	100
 二四四三	er si si san	100
 二四四三年	er si si san nian	100
+二死四伤	er si si shang	100
 二四四四	er si si si	100
 二四四四年	er si si si nian	100
 二四四五	er si si wu	100
@@ -70452,6 +70475,7 @@ sort: by_weight
 二四五七年	er si wu qi nian	100
 二四五三	er si wu san	100
 二四五三年	er si wu san nian	100
+二死五伤	er si wu shang	100
 二四五四	er si wu si	100
 二四五四年	er si wu si nian	100
 二四五五	er si wu wu	100
@@ -70472,6 +70496,7 @@ sort: by_weight
 二四一七年	er si yi qi nian	100
 二四一三	er si yi san	100
 二四一三年	er si yi san nian	100
+二死一伤	er si yi shang	100
 二四一四	er si yi si	100
 二四一四年	er si yi si nian	100
 二四一五	er si yi wu	100
@@ -71357,6 +71382,7 @@ sort: by_weight
 发短信给我	fa duan xin gei wo	100
 法尔卡什	fa er ka shi	100
 法尔科	fa er ke	100
+法尔廷斯	fa er ting si	100
 发儿小	fa er xiao	100
 发发节	fa fa jie	100
 发发信息	fa fa xin xi	100
@@ -74198,6 +74224,7 @@ sort: by_weight
 防化学兵	fang hua xue bing	100
 访华之旅	fang hua zhi lv	100
 芳华自在	fang hua zi zai	100
+放𬴐兜于崇山	fang huan dou yu chong shan	100
 放缓了	fang huan le	100
 放缓了动作	fang huan le dong zuo	100
 防患未萌	fang huan wei meng	100
@@ -76170,6 +76197,7 @@ sort: by_weight
 非你不爱	fei ni bu ai	100
 非你不嫁	fei ni bu jia	100
 非你不娶	fei ni bu qu	100
+腓尼基字母	fei ni ji zi mu	100
 非你莫属啊	fei ni mo shu a	100
 飞鸟不尽	fei niao bu jin	100
 飞鸟尽	fei niao jin	100
@@ -78964,6 +78992,7 @@ sort: by_weight
 福尔摩斯全集	fu er mo si quan ji	100
 复发率低	fu fa lv di	100
 复发率高	fu fa lv gao	100
+附法外道	fu fa wai dao	100
 副法向量	fu fa xiang liang	100
 副翻译器	fu fan yi qi	100
 复方板蓝根	fu fang ban lan gen	100
@@ -79480,6 +79509,7 @@ sort: by_weight
 负利率债券	fu li lv zhai quan	100
 负利率政策	fu li lv zheng ce	100
 弗里曼	fu li man	100
+弗里曼·戴森	fu li man dai sen	100
 福利品	fu li pin	100
 弗里奇	fu li qi	100
 弗利萨	fu li sa	100
@@ -79498,6 +79528,7 @@ sort: by_weight
 复利增长	fu li zeng zhang	100
 福利值	fu li zhi	100
 福利制	fu li zhi	100
+氟离子	fu li zi	100
 负离子浓度	fu li zi nong du	100
 复联二	fu lian er	100
 复联三	fu lian san	100
@@ -81214,6 +81245,7 @@ sort: by_weight
 该有的模样	gai you de mu yang	100
 该有多好	gai you duo hao	100
 该游戏	gai you xi	100
+钙铀云母	gai you yun mu	100
 改玉改步	gai yu gai bu	100
 改玉改行	gai yu gai xing	100
 改源码	gai yuan ma	100
@@ -90658,11 +90690,9 @@ sort: by_weight
 股票配资系统	gu piao pei zi xi tong	100
 股票期权行权	gu piao qi quan xing quan	100
 股票热降温了	gu piao re jiang wen le	100
-股票软件排行	gu piao ruan jian pai hang	100
 股票什么时候	gu piao shen me shi hou	100
 股票市场行情	gu piao shi chang hang qing	100
 股票是什么	gu piao shi shen me	100
-股票是什么意思	gu piao shi shen me yi si	100
 股票实时行情	gu piao shi shi hang qing	100
 股票市盈率	gu piao shi ying lv	100
 股票收益率	gu piao shou yi lv	100
@@ -91459,7 +91489,6 @@ sort: by_weight
 官场礼貌	guan chang li mao	100
 惯常认知	guan chang ren zhi	100
 官场现形记	guan chang xian xing ji	100
-官场小说排行榜	guan chang xiao shuo pai hang bang	100
 观潮派	guan chao pai	100
 观潮起	guan chao qi	100
 贯彻和执行	guan che he zhi xing	100
@@ -91839,7 +91868,6 @@ sort: by_weight
 管理什么	guan li shen me	100
 管理市场	guan li shi chang	100
 管理书籍	guan li shu ji	100
-管理书籍排行榜	guan li shu ji pai hang bang	100
 管理司	guan li si	100
 管理提升行动	guan li ti sheng xing dong	100
 管理体系标准	guan li ti xi biao zhun	100
@@ -92600,7 +92628,6 @@ sort: by_weight
 广东省财政厅	guang dong sheng cai zheng ting	100
 广东省潮州市	guang dong sheng chao zhou shi	100
 广东省第二中医院	guang dong sheng di er zhong yi yuan	100
-广东省地方税务局	guang dong sheng di fang shui wu ju	100
 广东省第六	guang dong sheng di liu	100
 广东省第五	guang dong sheng di wu	100
 广东省第一	guang dong sheng di yi	100
@@ -97122,6 +97149,7 @@ sort: by_weight
 还没有结束	hai mei you jie shu	100
 还没有开始	hai mei you kai shi	100
 还没有吗	hai mei you ma	100
+还没有眉目	hai mei you mei mu	100
 还没有名字	hai mei you ming zi	100
 还没有去	hai mei you qu	100
 还没有射	hai mei you she	100
@@ -100986,7 +101014,6 @@ sort: by_weight
 好看的车	hao kan de che	100
 好看的地方	hao kan de di fang	100
 好看的电影	hao kan de dian ying	100
-好看的电影排行榜	hao kan de dian ying pai hang bang	100
 好看得很	hao kan de hen	100
 好看的女孩儿	hao kan de nv hai er	100
 好看的皮囊	hao kan de pi nang	100
@@ -102194,6 +102221,7 @@ sort: by_weight
 合府上	he fu shang	100
 核辐射外泄	he fu she wai xie	100
 赫福特郡	he fu te jun	100
+阖府统请	he fu tong qing	100
 和副作用	he fu zuo yong	100
 合该有事	he gai you shi	100
 合格的	he ge de	100
@@ -104950,7 +104978,8 @@ sort: by_weight
 横了心	heng le xin	100
 哼了一声	heng le yi sheng	100
 横棱纹	heng leng wen	100
-亨利克森	heng li ke sen	100
+亨利·福特	heng li fu te	100
+亨里克森	heng li ke sen	100
 恒力弹簧	heng li tan huang	100
 恒力弹簧支吊架	heng li tan huang zhi diao jia	100
 亨利五世	heng li wu shi	100
@@ -106709,6 +106738,7 @@ sort: by_weight
 虎鹿羊	hu lu yang	100
 虎鹿羊三妖	hu lu yang san yao	100
 胡乱堆放	hu luan dui fang	100
+护卵行为	hu luan xing wei	100
 呼伦贝尔大草原	hu lun bei er da cao yuan	100
 呼伦贝尔高原	hu lun bei er gao yuan	100
 囫囵竹	hu lun zhu	100
@@ -107029,11 +107059,9 @@ sort: by_weight
 忽然发觉	hu ran fa jue	100
 忽然感觉	hu ran gan jue	100
 忽然更加	hu ran geng jia	100
-忽然戛然而止	hu ran jia ran er zhi	100
 忽然见到	hu ran jian dao	100
 忽然就	hu ran jiu	100
 忽然觉得	hu ran jue de	100
-忽然觉得很可惜	hu ran jue de hen ke xi	100
 忽然开口	hu ran kai kou	100
 忽然亮了	hu ran liang le	100
 忽然明白了	hu ran ming bai le	100
@@ -107389,6 +107417,7 @@ sort: by_weight
 互有输赢	hu you shu ying	100
 忽有所感	hu you suo gan	100
 胡幼伟	hu you wei	100
+护幼行为	hu you xing wei	100
 忽悠者	hu you zhe	100
 护佑着	hu you zhe	100
 护佑者	hu you zhe	100
@@ -114506,6 +114535,7 @@ sort: by_weight
 集光之夜	ji guang zhi ye	100
 继晷焚膏	ji gui fen gao	100
 机柜空调	ji gui kong tiao	100
+殛鲧于羽山	ji gun yu yu shan	100
 济国安邦	ji guo an bang	100
 寄过来了	ji guo lai le	100
 寄过去了	ji guo qu le	100
@@ -115508,6 +115538,7 @@ sort: by_weight
 挤破头	ji po tou	100
 记谱法	ji pu fa	100
 吉普莉尔	ji pu li er	100
+基普林	ji pu lin	100
 鸡脯肉	ji pu rou	100
 吉普塞人	ji pu sai ren	100
 吉普斯夸	ji pu si kua	100
@@ -119469,7 +119500,6 @@ sort: by_weight
 减肥了吗	jian fei le ma	100
 减肥速度	jian fei su du	100
 减肥心得	jian fei xin de	100
-减肥药排行榜	jian fei yao pai hang bang	100
 减肥瑜伽	jian fei yu jia	100
 捡肥皂	jian fei zao	100
 见缝插针地	jian feng cha zhen de	100
@@ -126724,6 +126754,7 @@ sort: by_weight
 今晚我就要远航	jin wan wo jiu yao yuan hang	100
 晋王朝	jin wang chao	100
 禁网疏阔	jin wang shu kuo	100
+近卫笃麿	jin wei du mo	100
 进位法	jin wei fa	100
 尽为齑粉	jin wei ji fen	100
 浸微浸灭	jin wei jin mie	100
@@ -126732,6 +126763,7 @@ sort: by_weight
 近卫天灾	jin wei tian zai	100
 近卫统率	jin wei tong shuai	100
 近卫文麿	jin wei wen mo	100
+近卫秀麿	jin wei xiu mo	100
 金文昌	jin wen chang	100
 晋文公重耳	jin wen gong chong er	100
 今文经	jin wen jing	100
@@ -131506,6 +131538,7 @@ sort: by_weight
 九四八七年	jiu si ba qi nian	100
 九四八三	jiu si ba san	100
 九四八三年	jiu si ba san nian	100
+九死八伤	jiu si ba shang	100
 九四八四	jiu si ba si	100
 九四八四年	jiu si ba si nian	100
 九四八五	jiu si ba wu	100
@@ -131527,6 +131560,7 @@ sort: by_weight
 九四二七年	jiu si er qi nian	100
 九四二三	jiu si er san	100
 九四二三年	jiu si er san nian	100
+九死二伤	jiu si er shang	100
 九四二四	jiu si er si	100
 九四二四年	jiu si er si nian	100
 九四二五	jiu si er wu	100
@@ -131549,12 +131583,14 @@ sort: by_weight
 九四九七年	jiu si jiu qi nian	100
 九四九三	jiu si jiu san	100
 九四九三年	jiu si jiu san nian	100
+九死九伤	jiu si jiu shang	100
 九四九四	jiu si jiu si	100
 九四九四年	jiu si jiu si nian	100
 九四九五	jiu si jiu wu	100
 九四九五年	jiu si jiu wu nian	100
 九四九一	jiu si jiu yi	100
 九四九一年	jiu si jiu yi nian	100
+九死两伤	jiu si liang shang	100
 九四〇八	jiu si ling ba	100
 九四〇八年	jiu si ling ba nian	100
 九四〇二	jiu si ling er	100
@@ -131589,6 +131625,7 @@ sort: by_weight
 九四六七年	jiu si liu qi nian	100
 九四六三	jiu si liu san	100
 九四六三年	jiu si liu san nian	100
+九死六伤	jiu si liu shang	100
 九四六四	jiu si liu si	100
 九四六四年	jiu si liu si nian	100
 九四六五	jiu si liu wu	100
@@ -131609,6 +131646,7 @@ sort: by_weight
 九四七七年	jiu si qi qi nian	100
 九四七三	jiu si qi san	100
 九四七三年	jiu si qi san nian	100
+九死七伤	jiu si qi shang	100
 九四七四	jiu si qi si	100
 九四七四年	jiu si qi si nian	100
 九四七五	jiu si qi wu	100
@@ -131629,12 +131667,14 @@ sort: by_weight
 九四三七年	jiu si san qi nian	100
 九四三三	jiu si san san	100
 九四三三年	jiu si san san nian	100
+九死三伤	jiu si san shang	100
 九四三四	jiu si san si	100
 九四三四年	jiu si san si nian	100
 九四三五	jiu si san wu	100
 九四三五年	jiu si san wu nian	100
 九四三一	jiu si san yi	100
 九四三一年	jiu si san yi nian	100
+九死十伤	jiu si shi shang	100
 九四四八	jiu si si ba	100
 九四四八年	jiu si si ba nian	100
 九四四二	jiu si si er	100
@@ -131649,6 +131689,7 @@ sort: by_weight
 九四四七年	jiu si si qi nian	100
 九四四三	jiu si si san	100
 九四四三年	jiu si si san nian	100
+九死四伤	jiu si si shang	100
 九四四四	jiu si si si	100
 九四四四年	jiu si si si nian	100
 九四四五	jiu si si wu	100
@@ -131670,6 +131711,7 @@ sort: by_weight
 九四五七年	jiu si wu qi nian	100
 九四五三	jiu si wu san	100
 九四五三年	jiu si wu san nian	100
+九死五伤	jiu si wu shang	100
 九四五四	jiu si wu si	100
 九四五四年	jiu si wu si nian	100
 九四五五	jiu si wu wu	100
@@ -131690,6 +131732,7 @@ sort: by_weight
 九四一七年	jiu si yi qi nian	100
 九四一三	jiu si yi san	100
 九四一三年	jiu si yi san nian	100
+九死一伤	jiu si yi shang	100
 九四一四	jiu si yi si	100
 九四一四年	jiu si yi si nian	100
 九四一五	jiu si yi wu	100
@@ -134831,6 +134874,7 @@ sort: by_weight
 君子交绝不出恶声	jun zi jiao jue bu chu e sheng	100
 君子堂	jun zi tang	100
 君子务本	jun zi wu ben	100
+君子恶居下流	jun zi wu ju xia liu	100
 君子行	jun zi xing	100
 君子一诺	jun zi yi nuo	100
 君子于役	jun zi yu yi	100
@@ -135775,7 +135819,7 @@ sort: by_weight
 开设院校	kai she yuan xiao	100
 开什么	kai shen me	100
 开什么车	kai shen me che	100
-开什么店赚钱	kai shen me dian zhuan qian	100
+开什么店	kai shen me dian	100
 开什么国际玩笑	kai shen me guo ji wan xiao	100
 开什么号码	kai shen me hao ma	100
 开什么玩笑	kai shen me wan xiao	100
@@ -138878,7 +138922,6 @@ sort: by_weight
 可乐瓶	ke le ping	100
 可乐瓶子	ke le ping zi	100
 可乐圈	ke le quan	100
-可乐视频	ke le shi pin	100
 克勒斯	ke le si	100
 可乐糖浆	ke le tang jiang	100
 克勒特	ke le te	100
@@ -146547,7 +146590,6 @@ sort: by_weight
 立不住脚	li bu zhu jiao	100
 力不自胜	li bu zi sheng	100
 力不足	li bu zu	100
-理财产品排行	li cai chan pin pai hang	100
 理财产品收益率	li cai chan pin shou yi lv	100
 理财的重要性	li cai de zhong yao xing	100
 理财高手	li cai gao shou	100
@@ -150013,8 +150055,17 @@ sort: by_weight
 亮水城	liang shui cheng	100
 量水而行	liang shui er xing	100
 凉水送服	liang shui song fu	100
+两死八伤	liang si ba shang	100
+两死九伤	liang si jiu shang	100
 两死两伤	liang si liang shang	100
+两死六伤	liang si liu shang	100
+两死七伤	liang si qi shang	100
+两死三伤	liang si san shang	100
 梁思申	liang si shen	100
+两死十伤	liang si shi shang	100
+两死四伤	liang si si shang	100
+两死五伤	liang si wu shang	100
+两死一伤	liang si yi shang	100
 两艘船	liang sou chuan	100
 两艘船儿	liang sou chuan er	100
 两艘大船	liang sou da chuan	100
@@ -152610,7 +152661,8 @@ sort: by_weight
 留给中国队的时间不多了	liu gei zhong guo dui de shi jian bu duo le	100
 六根不净	liu gen bu jing	100
 六根具足	liu gen ju zu	100
-刘耕宏	liu geng hong	100
+刘畊宏	liu geng hong	100
+流共工于幽州	liu gong gong yu you zhou	100
 柳骨颜筋	liu gu yan jin	100
 留莞过年	liu guan guo nian	100
 六贯钱	liu guan qian	100
@@ -154098,6 +154150,7 @@ sort: by_weight
 六四八七年	liu si ba qi nian	100
 六四八三	liu si ba san	100
 六四八三年	liu si ba san nian	100
+六死八伤	liu si ba shang	100
 六四八四	liu si ba si	100
 六四八四年	liu si ba si nian	100
 六四八五	liu si ba wu	100
@@ -154118,6 +154171,7 @@ sort: by_weight
 六四二七年	liu si er qi nian	100
 六四二三	liu si er san	100
 六四二三年	liu si er san nian	100
+六死二伤	liu si er shang	100
 六四二四	liu si er si	100
 六四二四年	liu si er si nian	100
 六四二五	liu si er wu	100
@@ -154138,12 +154192,14 @@ sort: by_weight
 六四九七年	liu si jiu qi nian	100
 六四九三	liu si jiu san	100
 六四九三年	liu si jiu san nian	100
+六死九伤	liu si jiu shang	100
 六四九四	liu si jiu si	100
 六四九四年	liu si jiu si nian	100
 六四九五	liu si jiu wu	100
 六四九五年	liu si jiu wu nian	100
 六四九一	liu si jiu yi	100
 六四九一年	liu si jiu yi nian	100
+六死两伤	liu si liang shang	100
 六四〇八	liu si ling ba	100
 六四〇八年	liu si ling ba nian	100
 六四〇二	liu si ling er	100
@@ -154178,6 +154234,7 @@ sort: by_weight
 六四六七年	liu si liu qi nian	100
 六四六三	liu si liu san	100
 六四六三年	liu si liu san nian	100
+六死六伤	liu si liu shang	100
 六四六四	liu si liu si	100
 六四六四年	liu si liu si nian	100
 六四六五	liu si liu wu	100
@@ -154198,6 +154255,7 @@ sort: by_weight
 六四七七年	liu si qi qi nian	100
 六四七三	liu si qi san	100
 六四七三年	liu si qi san nian	100
+六死七伤	liu si qi shang	100
 六四七四	liu si qi si	100
 六四七四年	liu si qi si nian	100
 六四七五	liu si qi wu	100
@@ -154218,12 +154276,14 @@ sort: by_weight
 六四三七年	liu si san qi nian	100
 六四三三	liu si san san	100
 六四三三年	liu si san san nian	100
+六死三伤	liu si san shang	100
 六四三四	liu si san si	100
 六四三四年	liu si san si nian	100
 六四三五	liu si san wu	100
 六四三五年	liu si san wu nian	100
 六四三一	liu si san yi	100
 六四三一年	liu si san yi nian	100
+六死十伤	liu si shi shang	100
 六四四八	liu si si ba	100
 六四四八年	liu si si ba nian	100
 六四四二	liu si si er	100
@@ -154238,6 +154298,7 @@ sort: by_weight
 六四四七年	liu si si qi nian	100
 六四四三	liu si si san	100
 六四四三年	liu si si san nian	100
+六死四伤	liu si si shang	100
 六四四四	liu si si si	100
 六四四四年	liu si si si nian	100
 六四四五	liu si si wu	100
@@ -154259,6 +154320,7 @@ sort: by_weight
 六四五七年	liu si wu qi nian	100
 六四五三	liu si wu san	100
 六四五三年	liu si wu san nian	100
+六死五伤	liu si wu shang	100
 六四五四	liu si wu si	100
 六四五四年	liu si wu si nian	100
 六四五五	liu si wu wu	100
@@ -154279,6 +154341,7 @@ sort: by_weight
 六四一七年	liu si yi qi nian	100
 六四一三	liu si yi san	100
 六四一三年	liu si yi san nian	100
+六死一伤	liu si yi shang	100
 六四一四	liu si yi si	100
 六四一四年	liu si yi si nian	100
 六四一五	liu si yi wu	100
@@ -156572,7 +156635,6 @@ sort: by_weight
 论据不足	lun ju bu zu	100
 轮廓勾勒	lun kuo gou le	100
 轮来轮去	lun lai lun qu	100
-伦理电影排行榜	lun li dian ying pai hang bang	100
 伦理纲常	lun li gang chang	100
 伦理关系	lun li guan xi	100
 论理学	lun li xue	100
@@ -157079,8 +157141,8 @@ sort: by_weight
 罗教授	luo jiao shou	100
 落脚之处	luo jiao zhi chu	100
 落脚之地	luo jiao zhi di	100
-罗洁爱尔之	luo jie ai er zhi	100
 罗姐姐	luo jie jie	100
+罗杰·彭罗斯	luo jie peng luo si	100
 罗杰斯杯	luo jie si bei	100
 洛锦桑	luo jin sang	100
 落井投石	luo jing tou shi	100
@@ -158063,7 +158125,6 @@ sort: by_weight
 旅行的目的地	lv xing de mu di di	100
 旅行的朋友	lv xing de peng you	100
 旅行的意义	lv xing de yi yi	100
-旅行的意义是什么	lv xing de yi yi shi shen me	100
 旅行地	lv xing di	100
 履行地点	lv xing di dian	100
 旅行地点	lv xing di dian	100
@@ -161733,7 +161794,6 @@ sort: by_weight
 没答对	mei da dui	100
 没大改变	mei da gai bian	100
 没打过针	mei da guo zhen	100
-没打好	mei da hao	100
 没打架	mei da jia	100
 没打架啊	mei da jia a	100
 没打架呀	mei da jia ya	100
@@ -165855,6 +165915,7 @@ sort: by_weight
 没有猫	mei you mao	100
 没有么	mei you me	100
 没有眉毛	mei you mei mao	100
+没有眉目	mei you mei mu	100
 没有没有没有	mei you mei you mei you	100
 没有梦想	mei you meng xiang	100
 没有秘密	mei you mi mi	100
@@ -169680,6 +169741,8 @@ sort: by_weight
 末大不掉	mo da bu diao	100
 莫大的好处	mo da de hao chu	100
 莫大的威能	mo da de wei neng	100
+抹大拉	mo da la	100
+抹大拉的玛利亚	mo da la de ma li ya	100
 莫大神通	mo da shen tong	100
 墨大夫	mo dai fu	100
 磨刀霍霍向猪羊	mo dao huo huo xiang zhu yang	100
@@ -172183,7 +172246,7 @@ sort: by_weight
 哪个好看	na ge hao kan	100
 哪个号码	na ge hao ma	100
 哪个好用	na ge hao yong	100
-那个耗子不偷油	na ge hao zi bu tou you	100
+哪个耗子不偷油	na ge hao zi bu tou you	100
 那个价格	na ge jia ge	100
 那个角落	na ge jiao luo	100
 那个教室	na ge jiao shi	100
@@ -172195,7 +172258,8 @@ sort: by_weight
 那个了	na ge le	100
 那个了吗	na ge le ma	100
 那个良夜	na ge liang ye	100
-那个猫儿不吃腥	na ge mao er bu chi xing	100
+哪个猫儿不吃腥	na ge mao er bu chi xing	100
+哪个猫儿不偷腥	na ge mao er bu tou xing	100
 那个门	na ge men	100
 拿个棉签	na ge mian qian	100
 那个模样	na ge mu yang	100
@@ -176340,6 +176404,8 @@ sort: by_weight
 你得负责	ni dei fu ze	100
 你得学	ni dei xue	100
 你得知道	ni dei zhi dao	100
+你得支棱起来	ni dei zhi leng qi lai	100
+你得支棱起来啊	ni dei zhi leng qi lai a	100
 你得注意	ni dei zhu yi	100
 你等死	ni deng si	100
 你等死吧	ni deng si ba	100
@@ -180167,7 +180233,6 @@ sort: by_weight
 捏脊治疗	nie ji zhi liao	100
 捏脚啊	nie jiao a	100
 蹑脚跟	nie jiao gen	100
-捏脚捏手	nie jiao nie shou	100
 捏脚去	nie jiao qu	100
 蹑蹻担簦	nie jue dan deng	100
 捏诀念咒	nie jue nian zhou	100
@@ -180194,7 +180259,6 @@ sort: by_weight
 捏软肋	nie ruan lei	100
 颞上沟	nie shang gou	100
 涅舍盘精之术	nie she pan jing zhi shu	100
-捏手捏脚	nie shou nie jiao	100
 蹑手蹑足	nie shou nie zu	100
 涅瓦河	nie wa he	100
 捏我脸	nie wo lian	100
@@ -181043,6 +181107,8 @@ sort: by_weight
 弄卫生	nong wei sheng	100
 浓雾密布	nong wu mi bu	100
 秾纤合度	nong xian he du	100
+秾纤适宜	nong xian shi yi	100
+秾纤相宜	nong xian xiang yi	100
 农校对接	nong xiao dui jie	100
 农信通	nong xin tong	100
 农信系统	nong xin xi tong	100
@@ -181537,7 +181603,6 @@ sort: by_weight
 女人审美	nv ren shen mei	100
 女人生了孩子	nv ren sheng le hai zi	100
 女人是什么	nv ren shi shen me	100
-女人书籍排行榜	nv ren shu ji pai hang bang	100
 女人说	nv ren shuo	100
 女人味儿	nv ren wei er	100
 女人味儿十足	nv ren wei er shi zu	100
@@ -181808,6 +181873,7 @@ sort: by_weight
 欧拉朱万	ou la zhu wan	100
 欧莱雅男士	ou lai ya nan shi	100
 欧乐堡	ou le bao	100
+怄了一肚子火	ou le yi du zi huo	100
 欧雷克	ou lei ke	100
 欧里庇得斯	ou li bi de si	100
 欧里桑	ou li sang	100
@@ -183577,7 +183643,6 @@ sort: by_weight
 配重铁	pei zhong tie	100
 配资行业	pei zi hang ye	100
 佩紫怀黄	pei zi huai huang	100
-配资是什么意思	pei zi shi shen me yi si	100
 裴子添	pei zi tian	100
 配资系统	pei zi xi tong	100
 配做一个	pei zuo yi ge	100
@@ -185408,7 +185473,6 @@ sort: by_weight
 苹果系统	ping guo xi tong	100
 苹果馅饼	ping guo xian bing	100
 苹果音乐	ping guo yin yue	100
-苹果游戏排行榜	ping guo you xi pai hang bang	100
 苹果邮箱	ping guo you xiang	100
 苹果娱乐	ping guo yu le	100
 苹果账号	ping guo zhang hao	100
@@ -189486,6 +189550,7 @@ sort: by_weight
 七四八七年	qi si ba qi nian	100
 七四八三	qi si ba san	100
 七四八三年	qi si ba san nian	100
+七死八伤	qi si ba shang	100
 七四八四	qi si ba si	100
 七四八四年	qi si ba si nian	100
 七四八五	qi si ba wu	100
@@ -189506,6 +189571,7 @@ sort: by_weight
 七四二七年	qi si er qi nian	100
 七四二三	qi si er san	100
 七四二三年	qi si er san nian	100
+七死二伤	qi si er shang	100
 七四二四	qi si er si	100
 七四二四年	qi si er si nian	100
 七四二五	qi si er wu	100
@@ -189527,6 +189593,7 @@ sort: by_weight
 七四九七年	qi si jiu qi nian	100
 七四九三	qi si jiu san	100
 七四九三年	qi si jiu san nian	100
+七死九伤	qi si jiu shang	100
 七四九四	qi si jiu si	100
 七四九四年	qi si jiu si nian	100
 七四九五	qi si jiu wu	100
@@ -189534,6 +189601,7 @@ sort: by_weight
 七四九一	qi si jiu yi	100
 七四九一年	qi si jiu yi nian	100
 气死啦	qi si la	100
+七死两伤	qi si liang shang	100
 七四〇八	qi si ling ba	100
 七四〇八年	qi si ling ba nian	100
 七四〇二	qi si ling er	100
@@ -189568,6 +189636,7 @@ sort: by_weight
 七四六七年	qi si liu qi nian	100
 七四六三	qi si liu san	100
 七四六三年	qi si liu san nian	100
+七死六伤	qi si liu shang	100
 七四六四	qi si liu si	100
 七四六四年	qi si liu si nian	100
 七四六五	qi si liu wu	100
@@ -189598,6 +189667,7 @@ sort: by_weight
 七四七七年	qi si qi qi nian	100
 七四七三	qi si qi san	100
 七四七三年	qi si qi san nian	100
+七死七伤	qi si qi shang	100
 七四七四	qi si qi si	100
 七四七四年	qi si qi si nian	100
 七四七五	qi si qi wu	100
@@ -189620,12 +189690,14 @@ sort: by_weight
 七四三七年	qi si san qi nian	100
 七四三三	qi si san san	100
 七四三三年	qi si san san nian	100
+七死三伤	qi si san shang	100
 七四三四	qi si san si	100
 七四三四年	qi si san si nian	100
 七四三五	qi si san wu	100
 七四三五年	qi si san wu nian	100
 七四三一	qi si san yi	100
 七四三一年	qi si san yi nian	100
+七死十伤	qi si shi shang	100
 起司鼠	qi si shu	100
 七四四八	qi si si ba	100
 七四四八年	qi si si ba nian	100
@@ -189641,6 +189713,7 @@ sort: by_weight
 七四四七年	qi si si qi nian	100
 七四四三	qi si si san	100
 七四四三年	qi si si san nian	100
+七死四伤	qi si si shang	100
 七四四四	qi si si si	100
 七四四四年	qi si si si nian	100
 七四四五	qi si si wu	100
@@ -189672,6 +189745,7 @@ sort: by_weight
 七四五七年	qi si wu qi nian	100
 七四五三	qi si wu san	100
 七四五三年	qi si wu san nian	100
+七死五伤	qi si wu shang	100
 七四五四	qi si wu si	100
 七四五四年	qi si wu si nian	100
 七四五五	qi si wu wu	100
@@ -189692,6 +189766,7 @@ sort: by_weight
 七四一七年	qi si yi qi nian	100
 七四一三	qi si yi san	100
 七四一三年	qi si yi san nian	100
+七死一伤	qi si yi shang	100
 七四一四	qi si yi si	100
 七四一四年	qi si yi si nian	100
 七四一五	qi si yi wu	100
@@ -200277,6 +200352,7 @@ sort: by_weight
 人叫声	ren jiao sheng	100
 人教云	ren jiao yun	100
 任教者	ren jiao zhe	100
+人皆可以为尧舜	ren jie ke yi wei yao shun	100
 任洁玲	ren jie ling	100
 韧劲儿	ren jin er	100
 人尽其材	ren jin qi cai	100
@@ -200909,6 +200985,7 @@ sort: by_weight
 认识与了解	ren shi yu liao jie	100
 任师长	ren shi zhang	100
 人手动	ren shou dong	100
+人兽共患病	ren shou gong huan bing	100
 仁寿街	ren shou jie	100
 人兽系列	ren shou xi lie	100
 人手严重不足	ren shou yan zhong bu zu	100
@@ -201568,7 +201645,6 @@ sort: by_weight
 日本电报电话公司	ri ben dian bao dian hua gong si	100
 日本电影分级制度	ri ben dian ying fen ji zhi du	100
 日本调查	ri ben diao cha	100
-日本动漫排行榜	ri ben dong man pai hang bang	100
 日本法务省	ri ben fa wu sheng	100
 日本房地产	ri ben fang di chan	100
 日本房地产泡沫	ri ben fang di chan pao mo	100
@@ -205639,6 +205715,7 @@ sort: by_weight
 三面网	san mian wang	100
 三面夏娃	san mian xia wa	100
 三面亚当	san mian ya dang	100
+三苗部落	san miao bu luo	100
 三妙夫人	san miao fu ren	100
 三秒记忆	san miao ji yi	100
 三民区	san min qu	100
@@ -206319,6 +206396,7 @@ sort: by_weight
 三四八七年	san si ba qi nian	100
 三四八三	san si ba san	100
 三四八三年	san si ba san nian	100
+三死八伤	san si ba shang	100
 三四八四	san si ba si	100
 三四八四年	san si ba si nian	100
 三四八五	san si ba wu	100
@@ -206342,6 +206420,7 @@ sort: by_weight
 三四二七年	san si er qi nian	100
 三四二三	san si er san	100
 三四二三年	san si er san nian	100
+三死二伤	san si er shang	100
 三四二四	san si er si	100
 三四二四年	san si er si nian	100
 三四二五	san si er wu	100
@@ -206367,12 +206446,14 @@ sort: by_weight
 三四九七年	san si jiu qi nian	100
 三四九三	san si jiu san	100
 三四九三年	san si jiu san nian	100
+三死九伤	san si jiu shang	100
 三四九四	san si jiu si	100
 三四九四年	san si jiu si nian	100
 三四九五	san si jiu wu	100
 三四九五年	san si jiu wu nian	100
 三四九一	san si jiu yi	100
 三四九一年	san si jiu yi nian	100
+三死两伤	san si liang shang	100
 三四〇八	san si ling ba	100
 三四〇八年	san si ling ba nian	100
 三四〇二	san si ling er	100
@@ -206407,6 +206488,7 @@ sort: by_weight
 三四六七年	san si liu qi nian	100
 三四六三	san si liu san	100
 三四六三年	san si liu san nian	100
+三死六伤	san si liu shang	100
 三四六四	san si liu si	100
 三四六四年	san si liu si nian	100
 三四六五	san si liu wu	100
@@ -206428,6 +206510,7 @@ sort: by_weight
 三四七七年	san si qi qi nian	100
 三四七三	san si qi san	100
 三四七三年	san si qi san nian	100
+三死七伤	san si qi shang	100
 三四七四	san si qi si	100
 三四七四年	san si qi si nian	100
 三四七五	san si qi wu	100
@@ -206448,6 +206531,7 @@ sort: by_weight
 三四三七年	san si san qi nian	100
 三四三三	san si san san	100
 三四三三年	san si san san nian	100
+三死三伤	san si san shang	100
 三四三四	san si san si	100
 三四三四年	san si san si nian	100
 三四三五	san si san wu	100
@@ -206458,6 +206542,7 @@ sort: by_weight
 三四十分	san si shi fen	100
 三四十年	san si shi nian	100
 三四十年了	san si shi nian le	100
+三死十伤	san si shi shang	100
 三四四八	san si si ba	100
 三四四八年	san si si ba nian	100
 三四四二	san si si er	100
@@ -206472,6 +206557,7 @@ sort: by_weight
 三四四七年	san si si qi nian	100
 三四四三	san si si san	100
 三四四三年	san si si san nian	100
+三死四伤	san si si shang	100
 三四四四	san si si si	100
 三四四四年	san si si si nian	100
 三四四五	san si si wu	100
@@ -206498,6 +206584,7 @@ sort: by_weight
 三四五七年	san si wu qi nian	100
 三四五三	san si wu san	100
 三四五三年	san si wu san nian	100
+三死五伤	san si wu shang	100
 三四五四	san si wu si	100
 三四五四年	san si wu si nian	100
 三四五五	san si wu wu	100
@@ -206519,6 +206606,7 @@ sort: by_weight
 三四一七年	san si yi qi nian	100
 三四一三	san si yi san	100
 三四一三年	san si yi san nian	100
+三死一伤	san si yi shang	100
 三四一四	san si yi si	100
 三四一四年	san si yi si nian	100
 三四一五	san si yi wu	100
@@ -208791,6 +208879,7 @@ sort: by_weight
 山景地产	shan jing di chan	100
 山荆子	shan jing zi	100
 山科大	shan ke da	100
+山口那津男	shan kou na jin nan	100
 山口市	shan kou shi	100
 山口县	shan kou xian	100
 山口洋	shan kou yang	100
@@ -219674,9 +219763,10 @@ sort: by_weight
 使后人	shi hou ren	100
 时候我	shi hou wo	100
 事后行赏	shi hou xing shang	100
-是胡歌	shi hu ge	100
+是虎得卧着	shi hu dei wo zhe	100
 十虎剑	shi hu jian	100
 实葫芦	shi hu lu	100
+是虎你得卧着	shi hu ni dei wo zhe	100
 石胡荽	shi hu sui	100
 实话啊	shi hua a	100
 石化产业基地	shi hua chan ye ji di	100
@@ -220813,7 +220903,6 @@ sort: by_weight
 十连跪	shi lian gui	100
 世联行	shi lian hang	100
 失恋了吗	shi lian le ma	100
-失恋了怎么办	shi lian le zen me ban	100
 失恋排行榜	shi lian pai hang bang	100
 十连券	shi lian quan	100
 十连三金	shi lian san jin	100
@@ -220865,6 +220954,8 @@ sort: by_weight
 是流行于	shi liu xing yu	100
 十六字心传	shi liu zi xin chuan	100
 十六字阴阳风水秘术	shi liu zi yin yang feng shui mi shu	100
+是龙得盘着	shi long dei pan zhe	100
+是龙你得盘着	shi long ni dei pan zhe	100
 使鹿部落	shi lu bu luo	100
 湿漉漉的	shi lu lu de	100
 失路迷踪	shi lu mi zong	100
@@ -221913,29 +222004,40 @@ sort: by_weight
 十水碳酸钠	shi shui tan suan na	100
 嗜睡症	shi shui zheng	100
 世硕电子	shi shuo dian zi	100
+十死八伤	shi si ba shang	100
 矢死不二	shi si bu er	100
+十死二伤	shi si er shang	100
 市司法局副局长	shi si fa ju fu ju zhang	100
 市司法局局长	shi si fa ju ju zhang	100
 十四番	shi si fan	100
 十四行	shi si hang	100
 十四级	shi si ji	100
 十四集	shi si ji	100
+十死九伤	shi si jiu shang	100
 十死九生	shi si jiu sheng	100
 十四块	shi si kuai	100
 十四郎	shi si lang	100
 十四例	shi si li	100
+十死两伤	shi si liang shang	100
+十死六伤	shi si liu shang	100
+十死七伤	shi si qi shang	100
 事死如生	shi si ru sheng	100
 事死如事生	shi si ru shi sheng	100
 视死如饴	shi si ru yi	100
 视死若归	shi si ruo gui	100
+十死三伤	shi si san shang	100
+十死十伤	shi si shi shang	100
+十死四伤	shi si si shang	100
 十四天	shi si tian	100
 十四天内	shi si tian nei	100
 誓死完成	shi si wan cheng	100
 十四五	shi si wu	100
+十死五伤	shi si wu shang	100
 十四小时	shi si xiao shi	100
 十四小时内	shi si xiao shi nei	100
 十四亿分之一	shi si yi fen zhi yi	100
 十四亿人	shi si yi ren	100
+十死一伤	shi si yi shang	100
 十四元	shi si yuan	100
 十四周	shi si zhou	100
 十四周年	shi si zhou nian	100
@@ -223662,6 +223764,7 @@ sort: by_weight
 首播收视率	shou bo shou shi lv	100
 受剥削	shou bo xue	100
 首播仪式	shou bo yi shi	100
+手不辍笔	shou bu chuo bi	100
 收不到啊	shou bu dao a	100
 收不到花	shou bu dao hua	100
 收不到么	shou bu dao me	100
@@ -224416,7 +224519,6 @@ sort: by_weight
 手机音乐	shou ji yin yue	100
 手机音乐播放器	shou ji yin yue bo fang qi	100
 手机优酷	shou ji you ku	100
-手机游戏排行榜	shou ji you xi pai hang bang	100
 手机娱乐	shou ji yu le	100
 手机运行	shou ji yun xing	100
 手机运行内存	shou ji yun xing nei cun	100
@@ -225688,7 +225790,7 @@ sort: by_weight
 树木生长	shu mu sheng zhang	100
 鼠目獐头	shu mu zhang tou	100
 树奈奈	shu nai nai	100
-孰能生巧	shu neng sheng qiao	100
+孰能无惑	shu neng wu huo	100
 数年后	shu nian hou	100
 鼠年快乐	shu nian kuai le	100
 鼠年限定	shu nian xian ding	100
@@ -225945,7 +226047,6 @@ sort: by_weight
 输下去	shu xia qu	100
 属下遵命	shu xia zun ming	100
 书香蓝郡	shu xiang lan jun	100
-书香门地	shu xiang men di	100
 书香社会	shu xiang she hui	100
 书香校园	shu xiang xiao yuan	100
 书香校园建设	shu xiang xiao yuan jian she	100
@@ -227090,6 +227191,7 @@ sort: by_weight
 睡得很熟	shui de hen shu	100
 睡得很死	shui de hen si	100
 睡得很香	shui de hen xiang	100
+睡得很早	shui de hen zao	100
 谁的肩上没有过齿痕	shui de jian shang mei you guo chi hen	100
 睡得可好	shui de ke hao	100
 水的密度	shui de mi du	100
@@ -231228,6 +231330,7 @@ sort: by_weight
 四声八调	si sheng ba diao	100
 死生不负	si sheng bu fu	100
 四圣谛	si sheng di	100
+四声杜鹃	si sheng du juan	100
 死声活气	si sheng huo qi	100
 四省交界	si sheng jiao jie	100
 四省联考	si sheng lian kao	100
@@ -231309,6 +231412,7 @@ sort: by_weight
 四四八七年	si si ba qi nian	100
 四四八三	si si ba san	100
 四四八三年	si si ba san nian	100
+四死八伤	si si ba shang	100
 四四八四	si si ba si	100
 四四八四年	si si ba si nian	100
 四四八五	si si ba wu	100
@@ -231333,6 +231437,7 @@ sort: by_weight
 四四二七年	si si er qi nian	100
 四四二三	si si er san	100
 四四二三年	si si er san nian	100
+四死二伤	si si er shang	100
 四四二四	si si er si	100
 四四二四年	si si er si nian	100
 四四二五	si si er wu	100
@@ -231353,12 +231458,14 @@ sort: by_weight
 四四九七年	si si jiu qi nian	100
 四四九三	si si jiu san	100
 四四九三年	si si jiu san nian	100
+四死九伤	si si jiu shang	100
 四四九四	si si jiu si	100
 四四九四年	si si jiu si nian	100
 四四九五	si si jiu wu	100
 四四九五年	si si jiu wu nian	100
 四四九一	si si jiu yi	100
 四四九一年	si si jiu yi nian	100
+四死两伤	si si liang shang	100
 四四〇八	si si ling ba	100
 四四〇八年	si si ling ba nian	100
 四四〇二	si si ling er	100
@@ -231393,6 +231500,7 @@ sort: by_weight
 四四六七年	si si liu qi nian	100
 四四六三	si si liu san	100
 四四六三年	si si liu san nian	100
+四死六伤	si si liu shang	100
 四四六四	si si liu si	100
 四四六四年	si si liu si nian	100
 四四六五	si si liu wu	100
@@ -231416,6 +231524,7 @@ sort: by_weight
 四四七七年	si si qi qi nian	100
 四四七三	si si qi san	100
 四四七三年	si si qi san nian	100
+四死七伤	si si qi shang	100
 四四七四	si si qi si	100
 四四七四年	si si qi si nian	100
 四四七五	si si qi wu	100
@@ -231436,6 +231545,7 @@ sort: by_weight
 四四三七年	si si san qi nian	100
 四四三三	si si san san	100
 四四三三年	si si san san nian	100
+四死三伤	si si san shang	100
 四四三四	si si san si	100
 四四三四年	si si san si nian	100
 四四三五	si si san wu	100
@@ -231443,6 +231553,7 @@ sort: by_weight
 四四三一	si si san yi	100
 四四三一年	si si san yi nian	100
 四四十六	si si shi liu	100
+四死十伤	si si shi shang	100
 死死死	si si si	100
 四四四八	si si si ba	100
 四四四八年	si si si ba nian	100
@@ -231458,6 +231569,7 @@ sort: by_weight
 四四四七年	si si si qi nian	100
 四四四三	si si si san	100
 四四四三年	si si si san nian	100
+四死四伤	si si si shang	100
 四四四四	si si si si	100
 四四四四年	si si si si nian	100
 四四四五	si si si wu	100
@@ -231478,6 +231590,7 @@ sort: by_weight
 四四五七年	si si wu qi nian	100
 四四五三	si si wu san	100
 四四五三年	si si wu san nian	100
+四死五伤	si si wu shang	100
 四四五四	si si wu si	100
 四四五四年	si si wu si nian	100
 四四五五	si si wu wu	100
@@ -231500,6 +231613,7 @@ sort: by_weight
 四四一七年	si si yi qi nian	100
 四四一三	si si yi san	100
 四四一三年	si si yi san nian	100
+四死一伤	si si yi shang	100
 四四一四	si si yi si	100
 四四一四年	si si yi si nian	100
 四四一五	si si yi wu	100
@@ -235278,6 +235392,7 @@ sort: by_weight
 她离开了	ta li kai le	100
 塔里克	ta li ke	100
 他里面	ta li mian	100
+铊离子	ta li zi	100
 塔列朗	ta lie lang	100
 塔列辛	ta lie xin	100
 踏路而行	ta lu er xing	100
@@ -244255,7 +244370,6 @@ sort: by_weight
 痛心刻骨	tong xin ke gu	100
 通信连	tong xin lian	100
 通信录	tong xin lu	100
-同心僇力	tong xin lu li	100
 通信密度	tong xin mi du	100
 通信模式	tong xin mo shi	100
 通信模组	tong xin mo zu	100
@@ -245669,11 +245783,9 @@ sort: by_weight
 屠龙勇士	tu long yong shi	100
 屠龙者	tu long zhe	100
 屠龙者系列	tu long zhe xi lie	100
-屠龙者系列电影	tu long zhe xi lie dian ying	100
-屠龙者系列电影版	tu long zhe xi lie dian ying ban	100
 屠龙之技	tu long zhi ji	100
+屠龙之术	tu long zhi shu	100
 屠戮殆尽	tu lu dai jin	100
-吐鲁番地	tu lu fan di	100
 土陆归来	tu lu gui lai	100
 秃噜皮	tu lu pi	100
 秃噜皮儿	tu lu pi er	100
@@ -248227,7 +248339,6 @@ sort: by_weight
 完结没完结	wan jie mei wan jie	100
 晚节末路	wan jie mo lu	100
 万劫难复	wan jie nan fu	100
-完结小说排行榜	wan jie xiao shuo pai hang bang	100
 万金不换	wan jin bu huan	100
 万金不易	wan jin bu yi	100
 玩劲舞团	wan jin wu tuan	100
@@ -249813,7 +249924,6 @@ sort: by_weight
 网罗无遗	wang luo wu yi	100
 网络系列	wang luo xi lie	100
 网络效率	wang luo xiao lv	100
-网络小说排行榜	wang luo xiao shuo pai hang bang	100
 网络新词	wang luo xin ci	100
 网络信号	wang luo xin hao	100
 网络信息传播	wang luo xin xi chuan bo	100
@@ -249831,7 +249941,6 @@ sort: by_weight
 网络营销系统	wang luo ying xiao xi tong	100
 网络用语	wang luo yong yu	100
 网络游戏行业	wang luo you xi hang ye	100
-网络游戏排行榜	wang luo you xi pai hang bang	100
 网络娱乐	wang luo yu le	100
 网络舆论	wang luo yu lun	100
 网络诈骗	wang luo zha pian	100
@@ -250285,7 +250394,6 @@ sort: by_weight
 网页收藏	wang ye shou cang	100
 网页速度	wang ye su du	100
 网页优化器	wang ye you hua qi	100
-网页游戏排行榜	wang ye you xi pai hang bang	100
 王爷与邮差	wang ye yu you chai	100
 网页抓取工具	wang ye zhua qu gong ju	100
 网页字体	wang ye zi ti	100
@@ -250903,7 +251011,6 @@ sort: by_weight
 纬度高	wei du gao	100
 微度假	wei du jia	100
 维度空间	wei du kong jian	100
-维度女性网	wei du nv xing wang	100
 围堵清零	wei du qing ling	100
 为读取	wei du qu	100
 未读取	wei du qu	100
@@ -251181,7 +251288,6 @@ sort: by_weight
 尾火虎	wei huo hu	100
 胃火旺盛	wei huo wang sheng	100
 未系安全带	wei ji an quan dai	100
-伪基百科	wei ji bai ke	100
 维基百科人	wei ji bai ke ren	100
 违纪参选	wei ji can xuan	100
 未及成年	wei ji cheng nian	100
@@ -261720,6 +261826,7 @@ sort: by_weight
 五四八七年	wu si ba qi nian	100
 五四八三	wu si ba san	100
 五四八三年	wu si ba san nian	100
+五死八伤	wu si ba shang	100
 五四八四	wu si ba si	100
 五四八四年	wu si ba si nian	100
 五四八五	wu si ba wu	100
@@ -261742,6 +261849,7 @@ sort: by_weight
 五四二七年	wu si er qi nian	100
 五四二三	wu si er san	100
 五四二三年	wu si er san nian	100
+五死二伤	wu si er shang	100
 五四二四	wu si er si	100
 五四二四年	wu si er si nian	100
 五四二五	wu si er wu	100
@@ -261765,6 +261873,7 @@ sort: by_weight
 五四九七年	wu si jiu qi nian	100
 五四九三	wu si jiu san	100
 五四九三年	wu si jiu san nian	100
+五死九伤	wu si jiu shang	100
 五四九四	wu si jiu si	100
 五四九四年	wu si jiu si nian	100
 五四九五	wu si jiu wu	100
@@ -261772,6 +261881,7 @@ sort: by_weight
 五四九一	wu si jiu yi	100
 五四九一年	wu si jiu yi nian	100
 五四快乐	wu si kuai le	100
+五死两伤	wu si liang shang	100
 五四〇八	wu si ling ba	100
 五四〇八年	wu si ling ba nian	100
 五四〇二	wu si ling er	100
@@ -261806,6 +261916,7 @@ sort: by_weight
 五四六七年	wu si liu qi nian	100
 五四六三	wu si liu san	100
 五四六三年	wu si liu san nian	100
+五死六伤	wu si liu shang	100
 五四六四	wu si liu si	100
 五四六四年	wu si liu si nian	100
 五四六五	wu si liu wu	100
@@ -261827,6 +261938,7 @@ sort: by_weight
 五四七七年	wu si qi qi nian	100
 五四七三	wu si qi san	100
 五四七三年	wu si qi san nian	100
+五死七伤	wu si qi shang	100
 五四七四	wu si qi si	100
 五四七四年	wu si qi si nian	100
 五四七五	wu si qi wu	100
@@ -261849,6 +261961,7 @@ sort: by_weight
 五四三七年	wu si san qi nian	100
 五四三三	wu si san san	100
 五四三三年	wu si san san nian	100
+五死三伤	wu si san shang	100
 五四三四	wu si san si	100
 五四三四年	wu si san si nian	100
 五四三五	wu si san wu	100
@@ -261857,6 +261970,7 @@ sort: by_weight
 五四三一年	wu si san yi nian	100
 五四式	wu si shi	100
 五四时代	wu si shi dai	100
+五死十伤	wu si shi shang	100
 五四四八	wu si si ba	100
 五四四八年	wu si si ba nian	100
 五四四二	wu si si er	100
@@ -261871,6 +261985,7 @@ sort: by_weight
 五四四七年	wu si si qi nian	100
 五四四三	wu si si san	100
 五四四三年	wu si si san nian	100
+五死四伤	wu si si shang	100
 五四四四	wu si si si	100
 五四四四年	wu si si si nian	100
 五四四五	wu si si wu	100
@@ -261892,6 +262007,7 @@ sort: by_weight
 五四五七年	wu si wu qi nian	100
 五四五三	wu si wu san	100
 五四五三年	wu si wu san nian	100
+五死五伤	wu si wu shang	100
 五四五四	wu si wu si	100
 五四五四年	wu si wu si nian	100
 五四五五	wu si wu wu	100
@@ -261912,6 +262028,7 @@ sort: by_weight
 五四一七年	wu si yi qi nian	100
 五四一三	wu si yi san	100
 五四一三年	wu si yi san nian	100
+五死一伤	wu si yi shang	100
 五四一四	wu si yi si	100
 五四一四年	wu si yi si nian	100
 五四一五	wu si yi wu	100
@@ -268070,6 +268187,8 @@ sort: by_weight
 仙尼亚唐恩	xian ni ya tang en	100
 陷你于死地	xian ni yu si di	100
 咸宁地区	xian ning di qu	100
+纤秾得中	xian nong de zhong	100
+纤秾合度	xian nong he du	100
 纤秾中度	xian nong zhong du	100
 仙女必备	xian nv bi bei	100
 仙女长裙	xian nv chang qun	100
@@ -270862,7 +270981,10 @@ sort: by_weight
 想要做点什么	xiang yao zuo dian shen me	100
 想要做什么	xiang yao zuo shen me	100
 想要做些什么	xiang yao zuo xie shen me	100
+想也不可以	xiang ye bu ke yi	100
+想也不行	xiang ye bu xing	100
 想也没想	xiang ye mei xiang	100
+想也有罪	xiang ye you zui	100
 飨以闭门羹	xiang yi bi men geng	100
 相依唇齿	xiang yi chun chi	100
 香邑国际	xiang yi guo ji	100
@@ -271490,14 +271612,13 @@ sort: by_weight
 小额贷款行业	xiao e dai kuan hang ye	100
 校额到校	xiao e dao xiao	100
 小额度	xiao e du	100
-小额理财产品排行	xiao e li cai chan pin pai hang	100
 小恶魔	xiao e mo	100
 小额融资	xiao e rong zi	100
 小额信用	xiao e xin yong	100
 小额信用贷款	xiao e xin yong dai kuan	100
 小额支付系统	xiao e zhi fu xi tong	100
-肖恩怀特	xiao en huai te	100
-肖恩康纳利	xiao en kang na li	100
+肖恩·怀特	xiao en huai te	100
+肖恩·康纳利	xiao en kang na li	100
 小恩雅	xiao en ya	100
 小而丑	xiao er chou	100
 小而聪了	xiao er cong liao	100
@@ -272848,13 +272969,9 @@ sort: by_weight
 小说女主角	xiao shuo nv zhu jue	100
 小说排行	xiao shuo pai hang	100
 小说排行榜	xiao shuo pai hang bang	100
-小说排行榜前	xiao shuo pai hang bang qian	100
-小说排行榜完本	xiao shuo pai hang bang wan ben	100
-小说排行榜完结版	xiao shuo pai hang bang wan jie ban	100
 小说史	xiao shuo shi	100
 小说是什么	xiao shuo shi shen me	100
 小说书	xiao shuo shu	100
-小说推荐排行榜	xiao shuo tui jian pai hang bang	100
 小说网文	xiao shuo wang wen	100
 小说系列	xiao shuo xi lie	100
 小说系统	xiao shuo xi tong	100
@@ -275844,7 +275961,6 @@ sort: by_weight
 心率正常	xin lv zheng chang	100
 新马师曾	xin ma shi zeng	100
 辛玛王国	xin ma wang guo	100
-信马游缰	xin ma you jiang	100
 新买的	xin mai de	100
 心满愿足	xin man yuan zu	100
 心忙意乱	xin mang yi luan	100
@@ -279293,6 +279409,7 @@ sort: by_weight
 修订记录	xiu ding ji lu	100
 修订历史	xiu ding li shi	100
 修订于	xiu ding yu	100
+修短合度	xiu duan he du	100
 修短有命	xiu duan you ming	100
 绣墩草	xiu dun cao	100
 秀恩爱死得快	xiu en ai si de kuai	100
@@ -283609,7 +283726,6 @@ sort: by_weight
 亚洲杯女	ya zhou bei nv	100
 亚洲超模	ya zhou chao mo	100
 亚洲大学	ya zhou da xue	100
-亚洲大学排行榜	ya zhou da xue pai hang bang	100
 亚洲的	ya zhou de	100
 压轴的	ya zhou de	100
 亚洲地区	ya zhou di qu	100
@@ -294965,6 +295081,7 @@ sort: by_weight
 一四八七年	yi si ba qi nian	100
 一四八三	yi si ba san	100
 一四八三年	yi si ba san nian	100
+一死八伤	yi si ba shang	100
 一四八四	yi si ba si	100
 一四八四年	yi si ba si nian	100
 一四八五	yi si ba wu	100
@@ -294997,6 +295114,7 @@ sort: by_weight
 一四二七年	yi si er qi nian	100
 一四二三	yi si er san	100
 一四二三年	yi si er san nian	100
+一死二伤	yi si er shang	100
 一四二四	yi si er si	100
 一四二四年	yi si er si nian	100
 一四二五	yi si er wu	100
@@ -295022,6 +295140,7 @@ sort: by_weight
 一四九七年	yi si jiu qi nian	100
 一四九三	yi si jiu san	100
 一四九三年	yi si jiu san nian	100
+一死九伤	yi si jiu shang	100
 一四九四	yi si jiu si	100
 一四九四年	yi si jiu si nian	100
 一四九五	yi si jiu wu	100
@@ -295041,6 +295160,7 @@ sort: by_weight
 伊斯兰圣战组织	yi si lan sheng zhan zu zhi	100
 伊斯兰式	yi si lan shi	100
 一丝两气	yi si liang qi	100
+一死两伤	yi si liang shang	100
 一四〇八	yi si ling ba	100
 一四〇八年	yi si ling ba nian	100
 一四〇二	yi si ling er	100
@@ -295075,6 +295195,7 @@ sort: by_weight
 一四六七年	yi si liu qi nian	100
 一四六三	yi si liu san	100
 一四六三年	yi si liu san nian	100
+一死六伤	yi si liu shang	100
 一四六四	yi si liu si	100
 一四六四年	yi si liu si nian	100
 一四六五	yi si liu wu	100
@@ -295101,6 +295222,7 @@ sort: by_weight
 一四七七年	yi si qi qi nian	100
 一四七三	yi si qi san	100
 一四七三年	yi si qi san nian	100
+一死七伤	yi si qi shang	100
 一四七四	yi si qi si	100
 一四七四年	yi si qi si nian	100
 一四七索	yi si qi suo	100
@@ -295126,12 +295248,14 @@ sort: by_weight
 一四三七年	yi si san qi nian	100
 一四三三	yi si san san	100
 一四三三年	yi si san san nian	100
+一死三伤	yi si san shang	100
 一四三四	yi si san si	100
 一四三四年	yi si san si nian	100
 一四三五	yi si san wu	100
 一四三五年	yi si san wu nian	100
 一四三一	yi si san yi	100
 一四三一年	yi si san yi nian	100
+一死十伤	yi si shi shang	100
 意思是什么	yi si shi shen me	100
 一四四八	yi si si ba	100
 一四四八年	yi si si ba nian	100
@@ -295147,6 +295271,7 @@ sort: by_weight
 一四四七年	yi si si qi nian	100
 一四四三	yi si si san	100
 一四四三年	yi si si san nian	100
+一死四伤	yi si si shang	100
 一四四四	yi si si si	100
 一四四四年	yi si si si nian	100
 一四四五	yi si si wu	100
@@ -295173,6 +295298,7 @@ sort: by_weight
 疑似污染地块	yi si wu ran di kuai	100
 一四五三	yi si wu san	100
 一四五三年	yi si wu san nian	100
+一死五伤	yi si wu shang	100
 一四五四	yi si wu si	100
 一四五四年	yi si wu si nian	100
 一四五五	yi si wu wu	100
@@ -295537,7 +295663,6 @@ sort: by_weight
 一万个心	yi wan ge xin	100
 一万韩元	yi wan han yuan	100
 一碗鸡汤	yi wan ji tang	100
-已完结小说排行榜	yi wan jie xiao shuo pai hang bang	100
 一万块钱	yi wan kuai qian	100
 一万美刀	yi wan mei dao	100
 已完美解决	yi wan mei jie jue	100
@@ -301727,6 +301852,7 @@ sort: by_weight
 游北美	you bei mei	100
 又被骗了	you bei pian le	100
 又被人	you bei ren	100
+有悖人伦	you bei ren lun	100
 尤杯赛	you bei sai	100
 由北往南	you bei wang nan	100
 由北向南行驶	you bei xiang nan xing shi	100
@@ -306892,6 +307018,7 @@ sort: by_weight
 鱼游釜中	yu you fu zhong	100
 豫有力	yu you li	100
 雨又萧萧	yu you xiao xiao	100
+育幼行为	yu you xing wei	100
 鱼游于鼎	yu you yu ding	100
 语有云	yu you yun	100
 郁郁彬彬	yu yu bin bin	100
@@ -313058,7 +313185,6 @@ sort: by_weight
 窄门窄户	zhai men zhai hu	100
 翟萌萌	zhai meng meng	100
 宅男费纸	zhai nan fei zhi	100
-宅男女神排行榜	zhai nan nv shen pai hang bang	100
 宅男塾	zhai nan shu	100
 宅男宅女	zhai nan zhai nv	100
 宅女费电	zhai nv fei dian	100
@@ -319103,7 +319229,6 @@ sort: by_weight
 真正成了	zhen zheng cheng le	100
 真正成长	zhen zheng cheng zhang	100
 真正到了	zhen zheng dao le	100
-真正的爱情是什么	zhen zheng de ai qing shi shen me	100
 真正的宝藏	zhen zheng de bao zang	100
 真正的成长	zhen zheng de cheng zhang	100
 真正的传奇	zhen zheng de chuan qi	100
@@ -323293,8 +323418,8 @@ sort: by_weight
 只说一半	zhi shuo yi ban	100
 只说一半儿	zhi shuo yi ban er	100
 只说这个	zhi shuo zhe ge	100
-至死不降	zhi si bu jiang	100
 至死不屈	zhi si bu qu	100
+至死不降	zhi si bu xiang	100
 置死地而后生	zhi si di er hou sheng	100
 治丝而棼	zhi si er fen	100
 致死剂量	zhi si ji liang	100
@@ -332330,7 +332455,6 @@ sort: by_weight
 装修地板	zhuang xiu di ban	100
 装修格调	zhuang xiu ge diao	100
 装修工地	zhuang xiu gong di	100
-装修公司排行榜	zhuang xiu gong si pai hang bang	100
 装修工长	zhuang xiu gong zhang	100
 装修行业	zhuang xiu hang ye	100
 装修进度	zhuang xiu jin du	100
@@ -332416,7 +332540,6 @@ sort: by_weight
 追赶而来	zhui gan er lai	100
 追赶进度	zhui gan jin du	100
 追赶者的角色	zhui gan zhe de jue se	100
-追根究柢	zhui gen jiu di	100
 追根究底儿	zhui gen jiu di er	100
 追光剑	zhui guang jian	100
 追光旅行	zhui guang lv xing	100
@@ -337450,11 +337573,6 @@ sort: by_weight
 最新的一期节目	zui xin de yi qi jie mu	100
 最新的一期节目中	zui xin de yi qi jie mu zhong	100
 最新地址	zui xin di zhi	100
-最新地址发布	zui xin di zhi fa bu	100
-最新地址发布页	zui xin di zhi fa bu ye	100
-最新地址获取	zui xin di zhi huo qu	100
-最新地址一	zui xin di zhi yi	100
-最新电影排行榜	zui xin dian ying pai hang bang	100
 最新调查	zui xin diao cha	100
 最新定调	zui xin ding diao	100
 最新发行	zui xin fa xing	100
