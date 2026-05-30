@@ -3235,7 +3235,7 @@
 #///
 ---
 name: base
-version: "2026-05-20"
+version: "2026-05-30"
 sort: by_weight
 ...
 # +_+
@@ -158971,6 +158971,7 @@ sort: by_weight
 核爆	he bao	3325
 核报	he bao	2330
 核保	he bao	1642
+和包	he bao	100
 # 河包	he bao	0
 荷包成型	he bao cheng xing	1
 荷包蛋	he bao dan	5330
