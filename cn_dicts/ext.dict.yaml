@@ -16,7 +16,7 @@
 # - 简化字八股文 https://github.com/rime/rime-essay-simp
 ---
 name: ext
-version: "2026-06-20"
+version: "2026-07-01"
 sort: by_weight
 ...
 # +_+
@@ -8903,7 +8903,6 @@ sort: by_weight
 报备了吗	bao bei le ma	100
 宝贝龙	bao bei long	100
 报备吗	bao bei ma	100
-宝呗青年	bao bei qing nian	100
 宝贝球菇	bao bei qiu gu	100
 宝贝权重	bao bei quan zhong	100
 宝贝生日快乐	bao bei sheng ri kuai le	100
@@ -41545,8 +41544,8 @@ sort: by_weight
 传入参数	chuan ru can shu	100
 传入中国	chuan ru zhong guo	100
 传入中原	chuan ru zhong yuan	100
+传三代	chuan san dai	100
 传三过四	chuan san guo si	100
-川三省	chuan san sheng	100
 穿啥都好看	chuan sha dou hao kan	100
 穿山而过	chuan shan er guo	100
 川陕革命根据地	chuan shan ge ming gen ju di	100
@@ -51156,7 +51155,6 @@ sort: by_weight
 铛铛车	dang dang che	100
 当当船	dang dang chuan	100
 当当当当	dang dang dang dang	100
-当当丁丁	dang dang ding ding	100
 当挡箭牌	dang dang jian pai	100
 当当网	dang dang wang	100
 荡荡悠悠	dang dang you you	100
@@ -53217,9 +53215,7 @@ sort: by_weight
 到你家坐坐	dao ni jia zuo zuo	100
 到你们家	dao ni men jia	100
 到年底	dao nian di	100
-悼念李玟	dao nian li wen	100
 到尿点了	dao niao dian le	100
-叨陪鲤对	dao pei li dui	100
 捣皮调蛋	dao pi tiao dan	100
 刀片嗓	dao pian sang	100
 倒便宜	dao pian yi	100
@@ -59833,9 +59829,7 @@ sort: by_weight
 定点企业	ding dian qi ye	100
 定点学校	ding dian xue xiao	100
 丁丁炒面	ding ding chao mian	100
-叮叮当当的婆娘	ding ding dang dang de po niang	100
 定定的	ding ding de	100
-丁丁地图	ding ding di tu	100
 顶顶顶	ding ding ding	100
 顶顶顶顶	ding ding ding ding	100
 丁丁历险记	ding ding li xian ji	100
@@ -65243,7 +65237,6 @@ sort: by_weight
 独特的地理	du te de di li	100
 独特的地理环境	du te de di li huan jing	100
 独特的地理条件	du te de di li tiao jian	100
-独特的地理位置	du te de di li wei zhi	100
 独特的地貌	du te de di mao	100
 独特的地形	du te de di xing	100
 独特的地形地貌	du te de di xing di mao	100
@@ -68941,6 +68934,7 @@ sort: by_weight
 二机位	er ji wei	100
 耳机线	er ji xian	100
 二级鞋	er ji xie	100
+二级行政执法员	er ji xing zheng zhi fa yuan	100
 二级页表	er ji ye biao	100
 二级英模	er ji ying mo	100
 二级院系	er ji yuan xi	100
@@ -76110,6 +76104,8 @@ sort: by_weight
 匪来贸丝	fei lai mao si	100
 飞来艳福	fei lai yan fu	100
 肥蓝猫	fei lan mao	100
+费老劲	fei lao jin	100
+费老劲儿	fei lao jin er	100
 费了半天劲	fei le ban tian jin	100
 费了不少	fei le bu shao	100
 费了不少功夫	fei le bu shao gong fu	100
@@ -117997,6 +117993,7 @@ sort: by_weight
 价钱行情	jia qian hang qing	100
 加钱可及	jia qian ke ji	100
 价钱便宜	jia qian pian yi	100
+贾浅浅	jia qian qian	100
 加签证	jia qian zheng	100
 加强部门协调	jia qiang bu men xie tiao	100
 加强调	jia qiang diao	100
@@ -124429,7 +124426,6 @@ sort: by_weight
 接球法	jie qiu fa	100
 结球甘蓝	jie qiu gan lan	100
 接球员	jie qiu yuan	100
-诘屈聱牙	jie qu ao ya	100
 街衢巷陌	jie qu xiang mo	100
 截然不同的	jie ran bu tong de	100
 接壤处	jie rang chu	100
@@ -145470,14 +145466,9 @@ sort: by_weight
 老子高兴	lao zi gao xing	100
 劳资合作	lao zi he zuo	100
 老子婆娑	lao zi po suo	100
-老子一直在说话	lao zi yi zhi zai shuo hua	100
-老子做鬼	lao zi zuo gui	100
-老总瞪着眼睛	lao zong deng zhe yan jing	100
-老总掏出十块钱	lao zong tao chu shi kuai qian	100
 老族长	lao zu zhang	100
 劳作课	lao zuo ke	100
 老作品	lao zuo pin	100
-乐爱豆	le ai dou	100
 勒贝尔	le bei er	100
 勒贝格	le bei ge	100
 勒贝格测度	le bei ge ce du	100
@@ -145491,7 +145482,6 @@ sort: by_weight
 乐不可极	le bu ke ji	100
 乐不可言	le bu ke yan	100
 勒布朗队	le bu lang dui	100
-勒布朗会	le bu lang hui	100
 乐不乐	le bu le	100
 乐不乐观啊	le bu le guan a	100
 乐不乐观吧	le bu le guan ba	100
@@ -145515,6 +145505,7 @@ sort: by_weight
 乐昌分镜	le chang fen jing	100
 乐昌公主	le chang gong zhu	100
 乐昌含笑	le chang han xiao	100
+乐昌破镜	le chang po jing	100
 乐昌之镜	le chang zhi jing	100
 乐车邦	le che bang	100
 乐成街道	le cheng jie dao	100
@@ -146878,10 +146869,8 @@ sort: by_weight
 李菲菲	li fei fei	100
 黎沸挥	li fei hui	100
 礼废乐崩	li fei yue beng	100
+里芬施塔尔	li fen shi ta er	100
 立丰城	li feng cheng	100
-李风持	li feng chi	100
-李风起	li feng qi	100
-厉风行	li feng xing	100
 李复甸	li fu dian	100
 礼服店	li fu dian	100
 里弗赛德	li fu sai de	100
@@ -172019,6 +172008,7 @@ sort: by_weight
 姆总监	mu zong jian	100
 慕宗悫之长风	mu zong que zhi chang feng	100
 纳爱斯	na ai si	100
+𦰡拔林	na ba lin	100
 那拜拜	na bai bai	100
 那般对待	na ban dui dai	100
 那般刚烈	na ban gang lie	100
@@ -181691,7 +181681,6 @@ sort: by_weight
 女神写真	nv shen xie zhen	100
 女神有礼	nv shen you li	100
 女神娱乐	nv shen yu le	100
-女神张柏芝	nv shen zhang bo zhi	100
 女神之泪	nv shen zhi lei	100
 女生长发	nv sheng chang fa	100
 女生长期	nv sheng chang qi	100
@@ -191949,6 +191938,12 @@ sort: by_weight
 前期英雄	qian qi ying xiong	100
 搴旗斩将	qian qi zhan jiang	100
 欠钱不还	qian qian bu huan	100
+浅浅淡淡	qian qian dan dan	100
+浅浅的爱	qian qian de ai	100
+浅浅的酒窝	qian qian de jiu wo	100
+浅浅的微笑	qian qian de wei xiao	100
+浅浅的笑	qian qian de xiao	100
+浅浅的笑容	qian qian de xiao rong	100
 浅浅的一笑	qian qian de yi xiao	100
 浅浅的指痕	qian qian de zhi hen	100
 千千动听	qian qian dong ting	100
@@ -191958,6 +191953,7 @@ sort: by_weight
 欠钱未还	qian qian wei huan	100
 浅浅微笑	qian qian wei xiao	100
 浅浅笑	qian qian xiao	100
+浅浅一笑	qian qian yi xiao	100
 牵强附合	qian qiang fu he	100
 迁乔出谷	qian qiao chu gu	100
 前倾后入	qian qing hou ru	100
@@ -195097,6 +195093,8 @@ sort: by_weight
 轻轻摸	qing qing mo	100
 轻轻摸着	qing qing mo zhe	100
 轻轻呢喃	qing qing ni nan	100
+清清浅浅	qing qing qian qian	100
+轻轻浅浅	qing qing qian qian	100
 请请请	qing qing qing	100
 卿卿日常	qing qing ri chang	100
 轻轻伸手	qing qing shen shou	100
@@ -215330,6 +215328,7 @@ sort: by_weight
 省部共建大学	sheng bu gong jian da xue	100
 省部共建高校	sheng bu gong jian gao xiao	100
 胜部冠军	sheng bu guan jun	100
+省部级副职	sheng bu ji fu zhi	100
 省部级干部	sheng bu ji gan bu	100
 省部级高官	sheng bu ji gao guan	100
 省部级官员	sheng bu ji guan yuan	100
@@ -215340,6 +215339,7 @@ sort: by_weight
 省部级科研项目	sheng bu ji ke yan xiang mu	100
 省部级领导	sheng bu ji ling dao	100
 省部级项目	sheng bu ji xiang mu	100
+省部级正职	sheng bu ji zheng zhi	100
 省部级重点	sheng bu ji zhong dian	100
 省部级重点实验室	sheng bu ji zhong dian shi yan shi	100
 生不了孩子	sheng bu liao hai zi	100
@@ -229075,7 +229075,6 @@ sort: by_weight
 四川普通话	si chuan pu tong hua	100
 四川轻化工	si chuan qing hua gong	100
 四川全省	si chuan quan sheng	100
-四川三省	si chuan san sheng	100
 四川省阿坝州	si chuan sheng a ba zhou	100
 四川省巴中市	si chuan sheng ba zhong shi	100
 四川省博物馆	si chuan sheng bo wu guan	100
@@ -237956,6 +237955,7 @@ sort: by_weight
 蹚他的浑水	tang ta de hun shui	100
 唐太宗李卫公问对	tang tai zong li wei gong wen dui	100
 唐探系列	tang tan xi lie	100
+汤汤水水	tang tang shui shui	100
 堂堂一表	tang tang yi biao	100
 堂堂一貌	tang tang yi mao	100
 堂堂正正地	tang tang zheng zheng de	100
@@ -238323,6 +238323,7 @@ sort: by_weight
 叨您的光了	tao nin de guang le	100
 套牛仔	tao niu zai	100
 陶帕村	tao pa cun	100
+叨陪鲤对	tao pei li dui	100
 淘票票	tao piao piao	100
 套票区	tao piao qu	100
 淘气堡儿童乐园	tao qi bao er tong le yuan	100
@@ -264296,6 +264297,7 @@ sort: by_weight
 西兰公国	xi lan gong guo	100
 西蓝花和胡萝卜	xi lan hua he hu luo bo	100
 锡兰人	xi lan ren	100
+西塱站	xi lang zhan	100
 喜乐安好	xi le an hao	100
 喜乐安康	xi le an kang	100
 喜乐安宁	xi le an ning	100
@@ -278982,6 +278984,7 @@ sort: by_weight
 行政执法文书	xing zheng zhi fa wen shu	100
 行政执法信息	xing zheng zhi fa xin xi	100
 行政执法行为	xing zheng zhi fa xing wei	100
+行政执法员	xing zheng zhi fa yuan	100
 行政执法责任制	xing zheng zhi fa ze ren zhi	100
 行政执法证	xing zheng zhi fa zheng	100
 行政执法职能	xing zheng zhi fa zhi neng	100
