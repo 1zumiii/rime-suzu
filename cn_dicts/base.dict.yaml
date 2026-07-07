@@ -3248,7 +3248,7 @@
 #///
 ---
 name: base
-version: "2026-07-01"
+version: "2026-07-03"
 sort: by_weight
 ...
 # +_+
@@ -170896,6 +170896,7 @@ sort: by_weight
 互赠	hu zeng	5055
 忽增忽减	hu zeng hu jian	30
 互赠礼物	hu zeng li wu	1095
+胡渣	hu zha	2
 忽窄忽宽	hu zhai hu kuan	15
 # 胡占	hu zhan	0
 胡瞻尔庭有县貆兮	hu zhan er ting you xian huan xi	1
@@ -188598,6 +188599,7 @@ sort: by_weight
 极天罔地	ji tian wang di	1
 几条	ji tiao	80560
 急跳	ji tiao	740
+季调	ji tiao	2
 几条街	ji tiao jie	9999
 极眺金陵城	ji tiao jin ling cheng	1
 几条路	ji tiao lu	64
@@ -198560,6 +198562,7 @@ sort: by_weight
 江水绿如蓝	jiang shui lv ru lan	3
 浆水面	jiang shui mian	617
 浆水汤	jiang shui tang	21
+降水线	jiang shui xian	2
 浆水鱼鱼	jiang shui yu yu	59
 将顺匡救	jiang shun kuang jiu	1
 将顺其美	jiang shun qi mei	6
@@ -201266,6 +201269,7 @@ sort: by_weight
 交完货	jiao wan huo	70
 脚腕子	jiao wan zi	220
 交往	jiao wang	316400
+焦亡	jiao wang	2
 交往多年	jiao wang duo nian	460
 矫枉过当	jiao wang guo dang	1
 矫枉过正	jiao wang guo zheng	4700
@@ -302216,6 +302220,7 @@ sort: by_weight
 平铺直叙	ping pu zhi xu	3120
 平埔族	ping pu zu	510
 平起	ping qi	3460
+平齐	ping qi	5
 平砌	ping qi	3
 平起平坐	ping qi ping zuo	7585
 平齐铁路	ping qi tie lu	4
@@ -349174,6 +349179,7 @@ sort: by_weight
 沈小婷	shen xiao ting	108
 肾小盏	shen xiao zhan	1
 申谢	shen xie	165
+渗血	shen xie	2
 身心	shen xin	196135
 深信	shen xin	46365
 深心	shen xin	4700
@@ -349233,6 +349239,7 @@ sort: by_weight
 神选者	shen xuan zhe	106
 神学	shen xue	36285
 神雪	shen xue	666
+渗血	shen xue	2
 # 深雪	shen xue	0
 # 申雪	shen xue	0
 神学博士	shen xue bo shi	240
