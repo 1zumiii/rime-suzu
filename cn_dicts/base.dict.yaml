@@ -3261,7 +3261,7 @@
 #///
 ---
 name: base
-version: "2026-07-25"
+version: "2026-08-12"
 sort: by_weight
 ...
 # +_+
@@ -233035,6 +233035,7 @@ sort: by_weight
 扩建工程	kuo jian gong cheng	19910
 扩建项目	kuo jian xiang mu	8860
 阔筋膜张肌	kuo jin mo zhang ji	3
+扩句	kuo ju	100
 扩军	kuo jun	4525
 扩军备战	kuo jun bei zhan	1030
 廓开大计	kuo kai da ji	1
@@ -380300,6 +380301,7 @@ sort: by_weight
 所居	suo ju	18015
 所举	suo ju	15515
 索具	suo ju	6240
+缩句	suo ju	2500
 缩聚	suo ju	1915
 索居	suo ju	640
 缩聚反应	suo ju fan ying	765
