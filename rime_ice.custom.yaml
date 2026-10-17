@@ -67,6 +67,9 @@ patch:
   # 默认开（reset: 1）：鼠须管的开关状态是每个应用/输入框各管各的，新输入框会回到默认状态，
   # 所以默认值必须是开；Control+Shift+5 只在当前输入框里临时开/关。
   "switches/@next": { name: ai_rerank, reset: 1, states: [ "AI 关", "AI 开" ], abbrev: [ "AI关", "AI开" ] }
+  # 四字以上输入的第二阶段推理（上屏第一段后，对剩余拼音再打分）。单独成开关，手机上现场解码较慢，默认关闭（部署脚本改 reset）；
+  # 桌面默认开。需要 llm_rerank/stage2 同时为 true。
+  "switches/@next": { name: ai_stage2, reset: 1, states: [ "单段", "两段" ], abbrev: [ "单", "两" ] }
   # 快捷键切换 AI（不用进方案菜单）。Control+Shift+3/4 已被默认配置占用（中英标点、简繁）
   key_binder/bindings:
     - { when: always, toggle: ai_rerank, accept: "Control+Shift+5" }
