@@ -19,4 +19,16 @@ if ($abbrev -lt 2 -or $n -lt $official) {
   Write-Host "Check rime_ice.custom.yaml: never use __patch with a '/+' key; use '__include' instead."
   exit 1
 }
+# AI switches: when the LLM filter is enabled, ai_rerank and ai_stage2 must both be in the compiled schema.
+# (Two lines with the same key such as "switches/@next" collapse into one in YAML; use a single "switches/+" list.)
+$text = $lines -join "`n"
+if ($text -match 'llm_filter|ai_rerank_filter') {
+  foreach ($sw in @("ai_rerank", "ai_stage2")) {
+    if ($text -notmatch "(?m)^\s+name: $sw\s*$") {
+      Write-Host "FAIL: switch $sw is missing from the compiled schema (use one 'switches/+' list in rime_ice.custom.yaml)"
+      exit 1
+    }
+  }
+  Write-Host "OK: switches ai_rerank and ai_stage2 present"
+}
 Write-Host "OK: algebra=$n (official $official), abbrev=$abbrev"
