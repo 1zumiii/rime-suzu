@@ -25,6 +25,15 @@ if [[ -n "$DEFER_LN" && ( -z "$EMOJI_LN" || "$DEFER_LN" -lt "$EMOJI_LN" ) ]]; th
   exit 1
 fi
 
+# 方案开关：ai_rerank 与 ai_stage2 必须同时出现在编译后的方案里。
+# （曾因 rime_ice.custom.yaml 里写了两行同名的 "switches/@next"，YAML 重复键只留一个，把 ai_rerank 开关挤掉了）
+for SW in ai_rerank ai_stage2; do
+  if ! grep -q "name: $SW\$" "$SCHEMA"; then
+    echo "自检失败：编译后的方案里没有开关 $SW（rime_ice.custom.yaml 里的 switches 写法有问题？同一个键不能出现两次，要用 \"switches/+\" 一次追加）"
+    exit 1
+  fi
+done
+
 if [[ "$ABBREV" -lt 2 || "$BUILT" -lt "$OFFICIAL" ]]; then
   echo "自检失败：官方拼写规则被覆盖（官方 $OFFICIAL 条，编译后 $BUILT 条，abbrev $ABBREV 条）"
   exit 1
