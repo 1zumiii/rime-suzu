@@ -28,7 +28,7 @@
 
 依据本次输入会话中刚上屏的内容，对候选词重新排序。例如上屏“我最近没有太多”后输入 `jingli`，首选由“经理”变为“精力”。输入 `jingliguolai` 时，两阶段重排可得到“经理过来”。macOS 和 Android 使用 Suzu，Windows 目前仍用 Qwen3.5-0.8B。
 
-模型方面，使用输入法专用的小模型 [Suzu](https://github.com/1zumiii/Suzu)，权重发布在 [Hugging Face](https://huggingface.co/IzumiThe3rd/Suzu-2)。Suzu 由 Qwen3.5 蒸馏而来，字符级词表，Q8_0 量化后约 44 MB。在公开评测集上，Suzu-2 的混合口径准确率为 92.8%，与 Qwen3.5-0.8B 的 92.7% 持平，难例为 72.4%，高于后者的 70.7%。Mac 的 CPU 上单次打分约 3.3 ms，手机上约 20 ms（含进程间通信），手机端守护进程常驻内存约 115 MB。未放入 Suzu 时，回退到原有的 Qwen3.5-0.8B（Q4_K_M，约 508 MB）。
+模型方面，使用输入法专用的小模型 [Suzu](https://github.com/1zumiii/Suzu)，权重发布在 [Hugging Face](https://huggingface.co/IzumiThe3rd/Suzu-2)。Suzu 由 Qwen3.5 蒸馏而来，字符级词表，Q8_0 量化后约 44 MB。在公开评测集上，Suzu-2 的混合口径准确率为 92.8%，与 Qwen3.5-0.8B 的 92.7% 持平，难例为 72.4%，高于后者的 70.7%。Mac 的 CPU 上单次打分约 3.3 ms，手机上约 20 ms（含进程间通信）。常驻内存方面，Mac 进程内约 130 MB（独立进程加载后实测 131 MB，打分 600 次后 132 MB），手机端守护进程约 115 MB。未放入 Suzu 时，回退到原有的 Qwen3.5-0.8B（Q4_K_M，约 508 MB）。
 
 - 启用：将 `suzu.gguf` 和 `suzu.vocab.txt` 放入用户目录（macOS 为 `~/Library/Rime`，Android 为 Trime 的用户目录）即自动使用，删除即回到 Qwen。macOS 须先自行编译 `rime_llm.so`（Xcode、CMake），步骤见 [llm-mac/README.md](llm-mac/README.md)。
 - 来源：推理核心移植自 [zhanghaozhecn/rime-llm-rerank](https://github.com/zhanghaozhecn/rime-llm-rerank)（署名许可，原版仅支持 Windows）。C++ 推理核心基本未改动，移除了 Windows 的光标上文读取，新增了 Suzu 的字符级打分；Lua 层按雾凇拼音的候选结构和 Squirrel 重写了一部分。
