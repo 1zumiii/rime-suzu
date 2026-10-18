@@ -1,8 +1,8 @@
 # Windows(小狼毫) 专用的雾凇拼音补丁。安装时会覆盖用户目录里的 rime_ice.custom.yaml。
 # 与根目录(Mac)版的区别：
-#   - 去掉 recent_boost_filter（它也在调顺序，和 LLM 重排叠加会打架，先不开）
+#   - recent_boost_filter 保留（记录个人词对与纠错记忆，AI 重排读取它们；AI 重排放在过滤器最后，会按融合分重排）
 #   - 去掉 model_badge_filter（LLM 插件自己有 AI· 标记，且两者会争用 @after last）
-#   - cn_en_spacer 的下标因此要改成 @before 5
+#   - cn_en_spacer 的下标因 recent_boost_filter 插在第 4 位而改成 @before 6
 #   - cold_word_drop 的 processor 改用 @after 0，把 @before 0 留给 LLM 的 processor
 # 注意：补丁键按字典序依次生效，改过滤器/处理器列表时要一起检查下标。
 
@@ -12,13 +12,25 @@ patch:
   "speller/algebra/+":
     __include: algebra_extra:/rules
 
+  # 最近使用优先 + 个人词对（lua/recent_boost_filter.lua、lua/personal_pairs.lua）：插在 pin_cand_filter 之前（第 4 位）
+  "engine/filters/@before 4": lua_filter@*recent_boost_filter
+  recent_boost_filter:
+    window_hours: 72
+    idx: 2
+    max_boost: 2
+    scan: 40
+    min_count: 1
+    max_records: 3000
+    pairs: true
+    min_pair: 1.5
+
   # 冷词降频/屏蔽：Control+j 降频，Control+x 隐藏，Control+d 强制删词
   # LLM 只能重排不能删候选，所以这个是互补的
   "engine/processors/@after 0": lua_processor@*cold_word_drop.processor
   "engine/filters/@before last": lua_filter@*cold_word_drop.filter
 
-  # 中英混输词条自动空格，插在 pin_cand_filter 之后（这里 pin 是第 4 位，所以 @before 5）
-  "engine/filters/@before 5": lua_filter@*cn_en_spacer
+  # 中英混输词条自动空格，插在 pin_cand_filter 之后（recent_boost_filter 插入后 pin 是第 5 位，所以 @before 6）
+  "engine/filters/@before 6": lua_filter@*cn_en_spacer
 
   # 英文、自定义短语也随使用调频
   melt_eng/enable_user_dict: true
@@ -44,6 +56,13 @@ patch:
   # LLM 的 processor 要放在 processors 最前，filter 要放在 filters 最后（uniquifier 之后）
   # "engine/processors/@before 0": lua_processor@*llm_processor
   # "engine/filters/@after last": lua_filter@*llm_filter
+  # 方案开关（启用 LLM 时一起打开）：同一个键只能出现一次，两个开关用 "switches/+" 一次追加；key_binder 用 "/+" 追加，不要整体替换官方绑定
+  # "switches/+":
+  #   - { name: ai_rerank, reset: 1, states: [ "AI 关", "AI 开" ], abbrev: [ "AI关", "AI开" ] }
+  #   - { name: ai_stage2, reset: 1, states: [ "单段", "两段" ], abbrev: [ "单", "两" ] }
+  # "key_binder/bindings/+":
+  #   - { when: always, toggle: ai_rerank, accept: "Control+Shift+5" }
+  #   - { when: always, toggle: ai_rerank, accept: "Control+Shift+percent" }
   # llm_rerank:
   #   enabled: true
   #   code_pattern: '.+'
