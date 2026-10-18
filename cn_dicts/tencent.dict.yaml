@@ -22,7 +22,7 @@
 # 需要注音的字词设定在 others/script/rime/需要注音.txt
 ---
 name: tencent
-version: "2026-09-20"
+version: "2026-10-19"
 sort: by_weight
 columns:
   - text
@@ -121488,7 +121488,6 @@ columns:
 何思雨	100
 何惕守	100
 何惧一战	100
-何意味	100
 何意思	100
 何成浚	100
 何所有	100

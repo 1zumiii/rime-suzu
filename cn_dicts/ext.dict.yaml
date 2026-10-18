@@ -16,7 +16,7 @@
 # - 简化字八股文 https://github.com/rime/rime-essay-simp
 ---
 name: ext
-version: "2026-09-20"
+version: "2026-10-19"
 sort: by_weight
 ...
 # +_+
@@ -7403,6 +7403,7 @@ sort: by_weight
 百辟刀	bai pi dao	100
 白皮猪	bai pi zhu	100
 白嫖党	bai piao dang	100
+白嫖怪	bai piao guai	100
 白嫖券	bai piao quan	100
 白苹果	bai ping guo	100
 摆平了	bai ping le	100
@@ -10287,6 +10288,7 @@ sort: by_weight
 抱子甘蓝	bao zi gan lan	100
 保自己人	bao zi ji ren	100
 包子脸	bao zi lian	100
+宝子们	bao zi men	100
 抱子弄孙	bao zi nong sun	100
 豹子窝	bao zi wo	100
 孢子叶	bao zi ye	100
@@ -12881,6 +12883,7 @@ sort: by_weight
 毕了业	bi le ye	100
 毕了业了	bi le ye le	100
 闭了嘴	bi le zui	100
+避雷贴	bi lei tie	100
 避雷线	bi lei xian	100
 壁垒一新	bi lei yi xin	100
 碧冷冷	bi leng leng	100
@@ -27796,6 +27799,7 @@ sort: by_weight
 产品调整	chan pin tiao zheng	100
 产品同质化严重	chan pin tong zhi hua yan zhong	100
 产品拓展	chan pin tuo zhan	100
+产品汪	chan pin wang	100
 产品维度	chan pin wei du	100
 产品温度	chan pin wen du	100
 产品系	chan pin xi	100
@@ -35234,6 +35238,7 @@ sort: by_weight
 吃大亏了	chi da kui le	100
 痴呆懵懂	chi dai meng dong	100
 持刀闯卡	chi dao chuang qia	100
+吃到大瓜	chi dao da gua	100
 迟到的祝福	chi dao de zhu fu	100
 赤道地区	chi dao di qu	100
 持刀动杖	chi dao dong zhang	100
@@ -38532,6 +38537,8 @@ sort: by_weight
 丑媳妇	chou xi fu	100
 丑媳妇总得要见公婆	chou xi fu zong dei yao jian gong po	100
 抽象词	chou xiang ci	100
+抽象带师	chou xiang dai shi	100
+抽象话	chou xiang hua	100
 抽象名词	chou xiang ming ci	100
 抽象域	chou xiang yu	100
 抽宵宫	chou xiao gong	100
@@ -47679,6 +47686,7 @@ sort: by_weight
 大脑比喻	da nao bi yu	100
 大脑边缘系统	da nao bian yuan xi tong	100
 大脑不会	da nao bu hui	100
+大脑宕机	da nao dang ji	100
 大脑的	da nao de	100
 大闹地府	da nao di fu	100
 大脑沟回	da nao gou hui	100
@@ -49844,6 +49852,8 @@ sort: by_weight
 代谢下降	dai xie xia jiang	100
 代谢作用	dai xie zuo yong	100
 带薪分流	dai xin fen liu	100
+带薪拉屎	dai xin la shi	100
+带薪摸鱼	dai xin mo yu	100
 戴辛尉	dai xin wei	100
 带薪休假制度	dai xin xiu jia zhi du	100
 带星号了	dai xing hao le	100
@@ -66212,11 +66222,13 @@ sort: by_weight
 敦风厉俗	dun feng li su	100
 墩个地	dun ge di	100
 蹲个坑	dun ge keng	100
+蹲更新	dun geng xin	100
 顿汉布什	dun han bu shi	100
 敦豪快递	dun hao kuai di	100
 敦豪快递公司	dun hao kuai di gong si	100
 敦厚方实	dun hou fang shi	100
 敦厚朴实	dun hou pu shi	100
+蹲后续	dun hou xu	100
 敦化国小	dun hua guo xiao	100
 敦化国中	dun hua guo zhong	100
 敦煌藏经洞	dun huang cang jing dong	100
@@ -116974,6 +116986,7 @@ sort: by_weight
 既准又狠	ji zhun you hen	100
 集资参与人	ji zi can yu ren	100
 箕子朝鲜	ji zi chao xian	100
+集资打投	ji zi da tou	100
 集资房	ji zi fang	100
 机子贵	ji zi gui	100
 集资合建	ji zi he jian	100
@@ -137828,6 +137841,7 @@ sort: by_weight
 考个好学校	kao ge hao xue xiao	100
 烤个火	kao ge huo	100
 考公考编	kao gong kao bian	100
+考公人	kao gong ren	100
 考公务员	kao gong wu yuan	100
 考古调查	kao gu diao cha	100
 考古家	kao gu jia	100
@@ -150130,6 +150144,7 @@ sort: by_weight
 梁孝王	liang xiao wang	100
 良心厂商	liang xin chang shang	100
 良心犯	liang xin fan	100
+良心番	liang xin fan	100
 良心何在	liang xin he zai	100
 良心商家	liang xin shang jia	100
 两心相悦	liang xin xiang yue	100
@@ -153069,6 +153084,7 @@ sort: by_weight
 流量计费	liu liang ji fei	100
 流量计系列	liu liang ji xi lie	100
 流量降低	liu liang jiang di	100
+流量咖	liu liang ka	100
 流量来了	liu liang lai le	100
 流量密码	liu liang mi ma	100
 流量模式	liu liang mo shi	100
@@ -164161,6 +164177,7 @@ sort: by_weight
 没日没夜的加班	mei ri mei ye de jia ban	100
 每日任务	mei ri ren wu	100
 每日三省吾身	mei ri san xing wu shen	100
+每日委托	mei ri wei tuo	100
 每日限价	mei ri xian jia	100
 每日行程	mei ri xing cheng	100
 每日一遍	mei ri yi bian	100
@@ -171038,6 +171055,7 @@ sort: by_weight
 末影箱	mo ying xiang	100
 莫予毒也	mo yu du ye	100
 莫余毒也	mo yu du ye	100
+摸鱼局	mo yu ju	100
 魔域来了	mo yu lai le	100
 摸鱼呢	mo yu ne	100
 摸鱼网站	mo yu wang zhan	100
@@ -181058,6 +181076,7 @@ sort: by_weight
 浓缩剂	nong suo ji	100
 浓缩咖啡	nong suo ka fei	100
 浓缩品	nong suo pin	100
+浓缩树脂	nong suo shu zhi	100
 浓缩铀丰度	nong suo you feng du	100
 秾桃艳李	nong tao yan li	100
 农田生态系统	nong tian sheng tai xi tong	100
@@ -195058,6 +195077,7 @@ sort: by_weight
 情人眼里有西施	qing ren yan li you xi shi	100
 情人装	qing ren zhuang	100
 清仁宗颙琰	qing ren zong yong yan	100
+清日常	qing ri chang	100
 请融化我	qing rong hua wo	100
 轻柔的	qing rou de	100
 轻柔地抚摸	qing rou de fu mo	100
@@ -195259,6 +195279,7 @@ sort: by_weight
 清谈雅论	qing tan ya lun	100
 青堂瓦舍	qing tang wa she	100
 青藤蛇	qing teng she	100
+清体力	qing ti li	100
 请提前预约	qing ti qian yu yue	100
 青天白日满地红	qing tian bai ri man di hong	100
 青天白日满地红旗	qing tian bai ri man di hong qi	100
@@ -196075,6 +196096,7 @@ sort: by_weight
 秋日祭	qiu ri ji	100
 秋日私语	qiu ri si yu	100
 求三拜四	qiu san bai si	100
+求三连	qiu san lian	100
 秋色平分	qiu se ping fen	100
 秋扇见捐	qiu shan jian juan	100
 秋山燿平	qiu shan yao ping	100
@@ -196119,6 +196141,7 @@ sort: by_weight
 求同克异	qiu tong ke yi	100
 求同求异	qiu tong qiu yi	100
 求同行	qiu tong xing	100
+求投币	qiu tou bi	100
 秋荼密网	qiu tu mi wang	100
 囚徒效应	qiu tu xiao ying	100
 球团矿	qiu tuan kuang	100
@@ -198322,6 +198345,7 @@ sort: by_weight
 拳头号	quan tou hao	100
 拳头账号	quan tou zhang hao	100
 全图大蜡烛	quan tu da la zhu	100
+全团灭	quan tuan mie	100
 全完蛋	quan wan dan	100
 全网传播	quan wang chuan bo	100
 全网发行	quan wang fa xing	100
@@ -226213,6 +226237,8 @@ sort: by_weight
 唰唰唰	shua shua shua	100
 耍私情	shua si qing	100
 刷题本	shua ti ben	100
+刷题党	shua ti dang	100
+刷题人	shua ti ren	100
 刷图点	shua tu dian	100
 刷完牙	shua wan ya	100
 耍我呢	shua wo ne	100
@@ -232462,6 +232488,7 @@ sort: by_weight
 私自行动	si zi xing dong	100
 四紫炎阵	si zi yan zhen	100
 私自印制	si zi yin zhi	100
+撕资源	si zi yuan	100
 私自制作	si zi zhi zuo	100
 四宗地块	si zong di kuai	100
 似醉方醒	si zui fang xing	100
@@ -237778,6 +237805,7 @@ sort: by_weight
 躺平几天	tang ping ji tian	100
 躺平了	tang ping le	100
 躺平派	tang ping pai	100
+躺平学	tang ping xue	100
 躺平与开放	tang ping yu kai fang	100
 汤泼瑞雪	tang po rui xue	100
 糖槭树	tang qi shu	100
@@ -244061,6 +244089,7 @@ sort: by_weight
 通枪条	tong qiang tiao	100
 同衾帱	tong qin chou	100
 通勤出行	tong qin chu xing	100
+通勤地狱	tong qin di yu	100
 同衾共枕	tong qin gong zhen	100
 通勤时间	tong qin shi jian	100
 通勤效率	tong qin xiao lv	100
@@ -261949,6 +261978,7 @@ sort: by_weight
 无所不作	wu suo bu zuo	100
 无所措手	wu suo cuo shou	100
 无所得	wu suo de	100
+无所吊谓	wu suo diao wei	100
 无所顾惮	wu suo gu dan	100
 无所归依	wu suo gui yi	100
 无所回避	wu suo hui bi	100
@@ -263064,6 +263094,7 @@ sort: by_weight
 无与为比	wu yu wei bi	100
 无语问苍天	wu yu wen cang tian	100
 物语系列	wu yu xi lie	100
+无语子	wu yu zi	100
 无远不届	wu yuan bu jie	100
 无缘参加	wu yuan can jia	100
 无冤魂	wu yuan hun	100
@@ -267661,6 +267692,7 @@ sort: by_weight
 显低调	xian di diao	100
 限地价	xian di jia	100
 先帝之志	xian di zhi zhi	100
+限定池	xian ding chi	100
 限定传说	xian ding chuan shuo	100
 限定角色	xian ding jue se	100
 限定系列	xian ding xi lie	100
@@ -281840,6 +281872,7 @@ sort: by_weight
 学术奖	xue shu jiang	100
 学术界人士	xue shu jie ren shi	100
 学术科	xue shu ke	100
+学术垃圾	xue shu la ji	100
 学术评价体系	xue shu ping jia ti xi	100
 学术盛宴	xue shu sheng yan	100
 学术态度	xue shu tai du	100
@@ -285883,6 +285916,7 @@ sort: by_weight
 养身之道	yang shen zhi dao	100
 养生保健行业	yang sheng bao jian hang ye	100
 养生长寿	yang sheng chang shou	100
+养生党	yang sheng dang	100
 养生度假	yang sheng du jia	100
 养生度假区	yang sheng du jia qu	100
 杨胜帆	yang sheng fan	100
@@ -300783,6 +300817,7 @@ sort: by_weight
 营业地址	ying ye di zhi	100
 营业额增长	ying ye e zeng zhang	100
 营业房	ying ye fang	100
+营业感	ying ye gan	100
 营业规模	ying ye gui mo	100
 营业款	ying ye kuan	100
 营业利润率	ying ye li run lv	100
@@ -309498,6 +309533,7 @@ sort: by_weight
 运营调度	yun ying diao du	100
 云鹰飞将	yun ying fei jiang	100
 运营服务体系	yun ying fu wu ti xi	100
+运营狗	yun ying gou	100
 运营管理模式	yun ying guan li mo shi	100
 运营管理体系	yun ying guan li ti xi	100
 运营管理系统	yun ying guan li xi tong	100
