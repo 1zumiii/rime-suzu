@@ -9,6 +9,8 @@
   llm_rerank/max_tokens: 6
   # 选词语料里“重排没改动的普通选词”的记录比例，默认 0.1；调到 1.0 让语料积累更快（文件只在手机本机）
   llm_rerank/select_anchor_rate: 1.0
+  # 统一排序（总分 = Rime 原名次先验 + λ(上文)·模型分 + 个人习惯）；去掉旧的门控与分散的融合项。改回 legacy 即恢复旧排序
+  llm_rerank/ranker: unified
   # 手动启停（点工具栏的 AI 徽标）：不自动卸载，开着就一直在线；关闭时模型立刻卸载、推理进程只剩待命。
   llm_rerank/idle_unload_minutes: 0
   # 简拼和短输入（2 个字母起）也参与重排；学生模型打分只要十几毫秒
