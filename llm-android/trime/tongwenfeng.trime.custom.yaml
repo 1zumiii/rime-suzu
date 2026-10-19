@@ -3,6 +3,20 @@
 patch:
   style/keyboard_height: 225
   style/keyboard_height_land: 180
+  tool_bar/buttons:
+  - foreground: {style: ic@keyboard_close, normal: candidate_text_color}
+    action: Hide
+  - foreground: {style: ic@emoticon}
+    action: liquid_keyboard_emoji
+  - foreground: {style: ic@clipboard}
+    action: clipboard_window
+  - foreground: {style: ic@cursor_text}
+    action: Keyboard_editor
+  - foreground:
+      option_styles: [中, En]
+      font_size: 18
+      padding: 10
+    action: Mode_switch
   style/enter_labels/default: ic@keyboard_return
   preset_keys/Shift_L/label: ic@arrow_up_bold_outline
   preset_keys/BackSpace/label: ic@backspace_outline

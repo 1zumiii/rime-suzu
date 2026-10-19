@@ -109,6 +109,9 @@ def numpad():
 patch = {}
 patch["style/keyboard_height"] = 225          # 键盘整体矮约 1/10
 patch["style/keyboard_height_land"] = 180
+# 工具栏去掉全角/半角（月亮图标）按钮：三个点的面板里已有这个开关。补丁里不能写别名，按钮定义从主题源文件里取
+tb = theme["tool_bar"]
+patch["tool_bar/buttons"] = [tb[n] for n in ("hide_button", "emoji_button", "clipboard_button", "edit_button", "ascii_mode_button")]
 patch["style/enter_labels/default"] = ICON_ENTER
 # 预设按键：图标/标签/跳转。放在预设里（而不是按键上的 label），英文模式下也生效
 patch["preset_keys/Shift_L/label"] = ICON_SHIFT
