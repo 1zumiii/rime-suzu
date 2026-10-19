@@ -52,7 +52,7 @@ patch:
   # 官方调整过滤器列表后这个下标要跟着改；tools/verify_build.sh 会检查顺序。
   "engine/filters/@after 10": lua_filter@*emoji_defer_filter
 
-  # ---------- LLM 重排（rime-llm-rerank，Windows 补丁见 llm-windows/）：默认注释掉 ----------
+  # ---------- LLM 重排（rime-llm-rerank，Windows 补丁见 suzu-ime 仓库的 windows/）：默认注释掉 ----------
   # 模型：用户目录放 suzu.gguf 与 suzu.vocab.txt 就自动用 Suzu（字符级学生模型）；model_path 只在想用其他模型时才写。
   # LLM 的 processor 要放在 processors 最前，filter 要放在 filters 最后（uniquifier 之后）
   # "engine/processors/@before 0": lua_processor@*llm_processor
