@@ -209,10 +209,10 @@ git checkout main && git merge --ff-only upstream/main && git push origin main
 git checkout custom && git merge main
 ```
 
-本仓库已删除用不到的双拼和九宫格方案（`double_pinyin*.schema.yaml`、`t9.schema.yaml`）。上游修改这些文件时，合并会报“上游已修改、本仓库已删除”的冲突，直接删除即可：
+本仓库已删除用不到的双拼和九宫格方案（`double_pinyin*.schema.yaml`、`t9.schema.yaml`），以及上游给编程助手的约定 `AGENTS.md`。上游修改这些文件时，合并会报“上游已修改、本仓库已删除”的冲突，直接删除即可：
 
 ```bash
-git rm double_pinyin*.schema.yaml t9.schema.yaml
+git rm double_pinyin*.schema.yaml t9.schema.yaml AGENTS.md
 git commit
 ```
 
