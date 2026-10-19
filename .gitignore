@@ -33,3 +33,5 @@ select_corpus.part-*
 recent_words.archive*
 recent_pairs.archive*
 *.enabled
+select_replay.jsonl*
+select_replay.part-*
