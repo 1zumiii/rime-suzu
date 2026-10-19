@@ -26,9 +26,9 @@
 
 ### AI 重排
 
-依据本次输入会话中刚上屏的内容，对候选词重新排序。例如上屏“我最近没有太多”后输入 `jingli`，首选由“经理”变为“精力”。输入 `jingliguolai` 时，两阶段重排可得到“经理过来”。macOS 和 Android 使用 Suzu，Windows 目前仍用 Qwen3.5-0.8B。
+依据本次输入会话中刚上屏的内容，对候选词重新排序。例如上屏“我最近没有太多”后输入 `jingli`，首选由“经理”变为“精力”。输入 `jingliguolai` 时，两阶段重排可得到“经理过来”。macOS、Android 和 Windows 均使用 Suzu。
 
-模型方面，使用输入法专用的小模型 [Suzu](https://github.com/1zumiii/Suzu)，权重发布在 [Hugging Face](https://huggingface.co/IzumiThe3rd/Suzu-2)。Suzu 由 Qwen3.5 蒸馏而来，字符级词表，Q8_0 量化后约 44 MB。在公开评测集上，Suzu-2 的混合口径准确率为 92.8%，与 Qwen3.5-0.8B 的 92.7% 持平，难例为 72.4%，高于后者的 70.7%。Mac 的 CPU 上单次打分约 3.3 ms，手机上约 20 ms（含进程间通信）。常驻内存方面，Mac 进程内约 130 MB（独立进程加载后实测 131 MB，打分 600 次后 132 MB），手机端守护进程约 115 MB。未放入 Suzu 时，回退到原有的 Qwen3.5-0.8B（Q4_K_M，约 508 MB）。
+模型方面，使用输入法专用的小模型 [Suzu](https://github.com/1zumiii/Suzu)，当前版本为 Suzu-2.1，权重发布在 [Hugging Face](https://huggingface.co/IzumiThe3rd/Suzu-2.1)（上一版 [Suzu-2](https://huggingface.co/IzumiThe3rd/Suzu-2) 仍可用）。Suzu 由 Qwen3.5 蒸馏而来，字符级词表，Q8_0 量化后约 44 MB。在公开评测集上，Suzu-2 的混合口径准确率为 92.8%，与 Qwen3.5-0.8B 的 92.7% 持平，难例为 72.4%，高于后者的 70.7%。Suzu-2.1 在 Suzu-2 的权重上续训，补充了日常口语、技术和二次元语料，结构、词表和体积不变：在新留出的领域题上混合准确率提升 12 到 14.5 个百分点，维基评测提升 0.5 个百分点。领域题为合成句子，每题集约 200 题，区间约 ±5 个百分点，只能判断量级，详见 Suzu 仓库的 README。Mac 的 CPU 上单次打分约 3.3 ms，手机上约 20 ms（含进程间通信）。常驻内存方面，Mac 进程内约 130 MB（独立进程加载后实测 131 MB，打分 600 次后 132 MB），手机端守护进程约 115 MB。未放入 Suzu 时，回退到原有的 Qwen3.5-0.8B（Q4_K_M，约 508 MB）。
 
 - 启用：将 `suzu.gguf` 和 `suzu.vocab.txt` 放入用户目录（macOS 为 `~/Library/Rime`，Android 为 Trime 的用户目录）即自动使用，删除即回到 Qwen。macOS 须先自行编译 `rime_llm.so`（Xcode、CMake），步骤见 [llm-mac/README.md](llm-mac/README.md)。
 - 来源：推理核心移植自 [zhanghaozhecn/rime-llm-rerank](https://github.com/zhanghaozhecn/rime-llm-rerank)（署名许可，原版仅支持 Windows）。C++ 推理核心基本未改动，移除了 Windows 的光标上文读取，新增了 Suzu 的字符级打分；Lua 层按雾凇拼音的候选结构和 Squirrel 重写了一部分。
@@ -52,7 +52,7 @@ Qwen 回退时的 Metal GPU 推理、内存和延迟数据见 [llm-mac/README.md
 - 手动启停：点按工具栏的 `● AI` 徽标即可开关 AI。绿色为在线，黄色为加载或重启中，灰色为已关闭，红色为离线（点按后经 Shizuku 启动）。长按可查看内存、延迟、重启次数和上次退出原因。关闭时立即卸载模型，进程仅保持待命；开启时立即加载。不自动卸载，新安装默认关闭，用户的选择会被保留。
 - 孤儿保护：Trime 被卸载后，其数据目录随之消失。守护进程检测到该目录连续 10 分钟不存在时自行退出，监督进程随之结束，避免模型无人管理而持续占用内存。重新安装 Trime 后，点按红色徽标即可再次启动。
 - 配置更新：左侧三个点打开的面板里的“从仓库更新”进入更新界面，从指定的 GitHub 仓库下载最新配置并覆盖到输入法，推送后无需连接电脑。仓库地址和分支可修改，fork 本仓库的用户填入自己的地址即可。覆盖前自动备份上一个版本（只保留一份），更新后连续崩溃两次会自动回退；也可手动回退。词频、用户词、最近使用记录、语法模型和推理模型不会被改动。
-- 模型文件：Suzu 的 `suzu.gguf` 和 `suzu.vocab.txt` 放入 Trime 用户目录后重启守护进程即启用，可选的 `suzu.name`（一行文字，如 `Suzu-2`）用于在长按徽标的详情里显示模型名。删除这些文件，则回到 Qwen3.5-0.8B，此时候选自动限制为 3 个。
+- 模型文件：Suzu 的 `suzu.gguf` 和 `suzu.vocab.txt` 放入 Trime 用户目录后重启守护进程即启用，可选的 `suzu.name`（一行文字，如 `Suzu-2.1`）用于在长按徽标的详情里显示模型名。删除这些文件，则回到 Qwen3.5-0.8B，此时候选自动限制为 3 个。
 - 手机端设置（骁龙 8 Gen 2）：2 个推理线程（4 个线程会因忙等出现偶发的数秒卡顿）、8 个候选、上文 6 个 token，四字词的第二阶段做成方案开关 `ai_stage2`，默认「两段」，可在三个点的开关面板里切到「单段」。这些设置仅写在 `llm-android/trime/*.overlay.yaml` 中，部署时才追加，不影响 Mac 和 Windows。
 - GBoard 风格布局：同文风主题改为 GBoard 的主页面和 `?123` 数字符号页，符号页每页 4 行 × 7 列，按键使用线条图标。空格键在中文模式下显示“拼音”，英文模式下显示“English”。补丁由 [gen_tongwenfeng_patch.py](llm-android/trime/gen_tongwenfeng_patch.py) 依据主题源文件生成。
 - 适用范围：仅在这一台手机上验证过，其他机型和 Trime 版本未测试。手机重启后，须先启动 Shizuku，才能启动守护进程。
@@ -171,7 +171,7 @@ AI 重排的二进制和模型另行安装：`llm-mac/install_llm.sh`，步骤�
 
 脚本不会复制 `weasel.yaml`，因此用户自己的小狼毫样式会保留。样式覆盖应写在 `weasel.custom.yaml` 中。
 
-Windows 上的 AI 重排使用自行从源码编译的上游插件，带有一些本地补丁，补丁不在本仓库中，并非此处的 macOS 移植。
+Windows 上的 AI 重排使用从源码编译的上游插件，加上本仓库 `llm-windows/rime-llm-rerank-windows.patch` 的补丁（基于上游提交 21503e5，含 Suzu 学生模式、模型选择与词表校验）。它不是此处的 macOS 移植，Lua 文件是另一套实现。
 
 ### Android（Trime）
 
