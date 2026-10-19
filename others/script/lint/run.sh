@@ -35,8 +35,6 @@ find_business_yaml_files() {
         \( -path "./.git" -o -path "./.git/*" -o -path "./.github" -o -path "./.github/*" -o -path "./others" -o -path "./others/*" \) -prune \
         -o \
         \( -maxdepth 1 -type f \( -name "*.yaml" -o -name "*.yml" \) ! -name "*.dict.yaml" -print \)
-      find ./others/no_lua_schema \
-        -maxdepth 1 -type f \( -name "*.yaml" -o -name "*.yml" \) ! -name "*.dict.yaml" -print
     }
   ) | sort -u
 }
