@@ -4,7 +4,6 @@
 
 ## Rules
 
-- 禁止删除任何文件。
 - 禁止修改 README.md。
 - 修改或添加内容对文件时，按「主要文件和作用」部分的说明放置到对应文件。如果仍有不清楚，阅读文件头的注释做确认。
 - 修改配置、词典后，按「测试和构建命令」部分的说明校验，确保没有错误。
@@ -32,7 +31,7 @@
 - `config`：修改配置项或输入方案。例如 config(schema) 修改输入方案文件，config(weasel) 修改 `weasel.yaml`。
 - 作用域：`lua`，修改 `lua/*.lua` 时使用，例如 `feat(lua)`
 
-破坏性更新在类型或作用域后添加 `!`，例如 `refactor(lua)!: 修改农历输出`，并同步更新 `others/docs/Changelog.md`。
+破坏性更新在类型或作用域后添加 `!`，例如 `refactor(lua)!: 修改农历输出`。
 
 提交前确认工作区只包含本次任务相关文件，不要混入无关格式化或生成结果。
 
@@ -67,10 +66,8 @@ make -C others/script/ lint
 - `opencc/`：OpenCC 映射文件，控制 Emoji 和部分特殊词输出，由 `others/emoji-map.txt` 派生。
 - `lua/`：Lua 扩展脚本，使用 `librime-lua` API。
 - `others/script/`：构建、检查和测试脚本。
-- `others/recipes/`：plum 配方文件。
 - `*.schema.yaml`：输入方案文件，定义拼写、翻译器、过滤器和词库引用。
 - `*.dict.yaml`：主词库文件，在文件头引用具体词库文件。此类文件的具体格式请参考既有文件的写法，和标准 yaml 有所不同。
-- `recipe.yaml`：plum 默认配方。
 - `symbols*`：控制 `v`/`V` 模式下的符号输入。
 - `weasel.yaml`：小狼毫前端配置。
 - `squirrel.yaml`：鼠须管前端配置。

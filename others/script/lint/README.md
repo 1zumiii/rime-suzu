@@ -34,7 +34,7 @@ make -C others/script smoke
 
 - The current implementation enables YAML linting and Lua linting.
 - The first stage checks repository-root business YAML files, root
-  `*.schema.yaml` files, and `others/no_lua_schema/*.yaml` files.
+  and `*.schema.yaml` files.
 - `*.schema.yaml` files are preprocessed before linting so the `pin_cand_filter`
   tab-separated list does not break generic YAML parsing.
 - `lua-lint` first runs `luac -p` to check Lua syntax, then runs `luacheck`

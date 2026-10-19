@@ -2,7 +2,7 @@
 
 <p align="center">
   基于 <a href="https://github.com/iDvel/rime-ice">雾凇拼音（rime-ice）</a> 的个人定制版本，增加最近使用优先、本地小模型 AI 重排、语法模型和模糊音，并提供鼠须管（macOS）、小狼毫（Windows）和同文输入法 Trime（Android）的配置。<br>
-  上游原版的说明见 <a href="README.upstream.md">README.upstream.md</a>。
+  上游原版的说明见 <a href="https://github.com/iDvel/rime-ice">iDvel/rime-ice</a>。
 </p>
 
 <p align="center">
