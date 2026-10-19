@@ -216,7 +216,8 @@ end
 -- 二、select_corpus.tsv（明文）：为将来微调积累“模型排错”的样本。开关：用户目录里存在空文件 select_corpus.enabled（独立于上一个）。
 --     只记两类：难例（所选候选不是最终顺序的第一位，即模型排错或用户有意选了别的）全记；锚点（选了第一位）按 select_anchor_rate
 --     （默认 0.1）随机抽样，用来防止训练时学成“别选第一位”。每行：id、时间戳（分钟）、输入字母数、上文最后 6 个字、所选词、
---     最终顺序第一位的词、原顺序第一位的词、类型（hard|anchor）、距上一次上屏的秒数（越大，上文越可能已经不对）、模型。
+--     最终顺序第一位的词、原顺序第一位的词、类型（hard|anchor）、距上一次上屏的秒数（越大，上文越可能已经不对）、模型、
+--     锚点抽样率（分析时按它还原；早期的记录没有这一列）。
 --     选词后 3 秒内按退格，会追加一行 revise<Tab>id，表示这条可能选错了。只记含中文的候选，不记英文和数字。
 -- 三、select_replay.jsonl（明文，与 select_corpus 同一个开关、同一批样本、同一个 id）：离线回放用。每行一个 JSON：
 --     拼音、模型看到的上文（最多 30 个字）、所选词、打分组里每个候选的原位次、类型、Rime quality、模型分、模型名次、
@@ -225,37 +226,8 @@ end
 -- 删除对应的 .enabled 文件即停止记录，删除 tsv 即清空。文件只在本机，不会同步，也不会进入仓库。
 local revise_hook = nil
 
--- 最小的 JSON 编码：只处理本文件写出的数据（字符串、数字、布尔、表；表按是否为连续数组区分）
-local function json_encode(v)
-    local tv = type(v)
-    if tv == "string" then
-        return '"' .. v:gsub('[%c"\\]', function(ch)
-            local map = { ['"'] = '\\"', ['\\'] = '\\\\', ['\n'] = '\\n', ['\r'] = '\\r', ['\t'] = '\\t' }
-            return map[ch] or string.format("\\u%04x", ch:byte())
-        end) .. '"'
-    elseif tv == "number" then
-        if v ~= v or v == math.huge or v == -math.huge then return "null" end
-        if math.type(v) == "integer" then return tostring(v) end
-        return string.format("%.6g", v)
-    elseif tv == "boolean" then
-        return tostring(v)
-    elseif tv == "table" then
-        local n = #v
-        local is_arr = n > 0 or next(v) == nil
-        if is_arr then for k in pairs(v) do if type(k) ~= "number" then is_arr = false; break end end end
-        local parts = {}
-        if is_arr then
-            for i = 1, n do parts[i] = json_encode(v[i]) end
-            return "[" .. table.concat(parts, ",") .. "]"
-        end
-        local keys = {}
-        for k in pairs(v) do keys[#keys + 1] = tostring(k) end
-        table.sort(keys)
-        for _, k in ipairs(keys) do parts[#parts + 1] = json_encode(k) .. ":" .. json_encode(v[k]) end
-        return "{" .. table.concat(parts, ",") .. "}"
-    end
-    return "null"
-end
+local json_encode = require("rerank_json").encode
+local okilog, input_log = pcall(require, "input_log")
 local function last_chars(str, n)
     local len = utf8.len(str)
     if not len or len == 0 then return "" end
@@ -351,13 +323,13 @@ local function setup_select_stats(env)
                     local id = string.format("%d-%d", now, seq)
                     local ft = (fresh and info.ft) or text
                     local of = (fresh and info.of) or text
-                    append(cpath, string.format("%s\t%d\t%d\t%s\t%s\t%s\t%s\t%s\t%d\t%s\n",
+                    append(cpath, string.format("%s\t%d\t%d\t%s\t%s\t%s\t%s\t%s\t%d\t%s\t%g\n",
                         id, now - now % 60, #input, last_chars(ctx_all, 6), text, ft, of, kind,
-                        math.min(now - prev_commit_t, 9999), model_kind()), 2 * 1024 * 1024)
+                        math.min(now - prev_commit_t, 9999), model_kind(), anchor_rate), 2 * 1024 * 1024)
                     last_corpus_id, last_corpus_t = id, now
                     if fresh and info.rp and info.rp.nat then   -- 没有打分（跳过、上文不足）的也记，用来统计覆盖率
                         append(rpath, json_encode({
-                            v = 1, id = id, ts = now - now % 60, kind = kind, model = model_kind(),
+                            v = 1, id = id, ts = now - now % 60, kind = kind, model = model_kind(), ar = anchor_rate,
                             input = input, sel = sel, chosen = text, ft = info.ft, of = info.of,
                             s1 = info.s1, gated = info.gated, dt = math.min(now - prev_commit_t, 9999),
                             rp = info.rp,
@@ -418,6 +390,7 @@ end
 
 local function processor(key, env)
     if key:release() then return 2 end
+    if okilog and env.input_log then input_log.key(env, key) end   -- 输入事件流（默认关闭，与 AI 开关无关）
 
     local ctx = env.engine.context
     -- 开关关闭：不加载模型、不记录
@@ -501,6 +474,7 @@ return setmetatable({
         pcall(load_llm, env); pcall(setup_ctx_reset, env); pcall(setup_choice_memory, env)
         -- 选词统计的初始化出错时记入诊断文件，不再静默失败
         xpcall(setup_select_stats, function(e) diag_line("setup_select_stats error: " .. tostring(e)) end, env)
+        if okilog then xpcall(input_log.attach, function(e) diag_line("input_log error: " .. tostring(e)) end, env) end
     end,
     func = processor,
 }, { __call = function(_, key, env) return processor(key, env) end })   -- 仍可当函数直接调用（测试脚本这样用）

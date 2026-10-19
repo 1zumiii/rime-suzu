@@ -5,7 +5,7 @@ set -euo pipefail
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="${1:-${SUZU_IME:-$HERE/../suzu-ime}}"
 [[ -d "$SRC/rime/lua" ]] || { echo "找不到 $SRC/rime/lua：请指定 suzu-ime 仓库路径"; exit 1; }
-FILES="ai_rerank_filter.lua ai_rerank_processor.lua personal_pairs.lua corpus_archive.lua recent_boost_filter.lua"
+FILES="ai_rerank_filter.lua ai_rerank_processor.lua personal_pairs.lua corpus_archive.lua recent_boost_filter.lua rerank_json.lua input_log.lua rank_unified.lua"
 for f in $FILES; do
   [[ -f "$SRC/rime/lua/$f" ]] || { echo "缺少 $SRC/rime/lua/$f"; exit 1; }
   cp "$SRC/rime/lua/$f" "$HERE/lua/$f"
