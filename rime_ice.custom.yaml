@@ -78,7 +78,7 @@ patch:
     - { when: always, toggle: ai_rerank, accept: "Control+Shift+percent" }
   llm_rerank:
     code_pattern: '[a-z]{3,}'   # 只在 3 个字母及以上的输入触发，避开置顶的单字/简拼
-    max_candidates: 5
+    max_candidates: 10          # 单字等同音词多的输入，正确的字常排在词库第 6 到 8 位；候选少了就根本进不了重排（实测 5 个时单字约 77% 进得来，8 个约 95%）
     max_tokens: 10
     expected_length_weight: 0   # 全拼保持 0
     freq_beta: 1.5
