@@ -88,7 +88,7 @@ patch:
     idle_unload_minutes: 20     # 空闲这么多分钟没打字就卸载模型（还回约 320 MB 内存），下次打字自动加载（约 1 秒）；0 = 不卸载
     badge: "◇"                  # AI 按上文重排后的首选（单字符省空间）
     badge2: "◈"                 # 两阶段拼出来的首选（四字 = 两个两字词）
-    # ranker: unified          # 统一排序（实验）：总分 = Rime 原名次先验 + λ(上文)·模型分 + 个人习惯；关 AI 时也排序（不用模型），最近使用不再单独提升。默认 legacy
+    ranker: unified             # 统一排序（实验）：总分 = Rime 原名次先验 + λ(上文)·模型分 + 个人习惯；关 AI 时也排序（不用模型），最近使用不再单独提升。默认 legacy
     # unified:                 # 统一排序的参数（默认值见 suzu-ime rime/lua/rank_unified.lua，未经实机校准）
     #   alpha: 1.0             # 名次先验的系数
     #   lam_max: 1.0           # 模型分的最大权重
