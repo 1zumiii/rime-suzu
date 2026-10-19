@@ -7,6 +7,8 @@
   # 上文 token 10→6 缩短上屏后的后台预解码（耗电发热的大头）。
   llm_rerank/max_candidates: 9      # 守护进程 n-seq-max 为 10，候选最多 9 个
   llm_rerank/max_tokens: 6
+  # 选词语料里“重排没改动的普通选词”的记录比例，默认 0.1；调到 1.0 让语料积累更快（文件只在手机本机）
+  llm_rerank/select_anchor_rate: 1.0
   # 手动启停（点工具栏的 AI 徽标）：不自动卸载，开着就一直在线；关闭时模型立刻卸载、推理进程只剩待命。
   llm_rerank/idle_unload_minutes: 0
   # 简拼和短输入（2 个字母起）也参与重排；学生模型打分只要十几毫秒
