@@ -30,7 +30,7 @@
 
 模型方面，使用输入法专用的小模型 [Suzu](https://github.com/1zumiii/Suzu)，当前版本为 Suzu-2.1，权重发布在 [Hugging Face](https://huggingface.co/IzumiThe3rd/Suzu-2.1)（上一版 [Suzu-2](https://huggingface.co/IzumiThe3rd/Suzu-2) 仍可用）。Suzu 由 Qwen3.5 蒸馏而来，字符级词表，Q8_0 量化后约 44 MB。在公开评测集上，Suzu-2 的混合口径准确率为 92.8%，与 Qwen3.5-0.8B 的 92.7% 持平，难例为 72.4%，高于后者的 70.7%。Suzu-2.1 在 Suzu-2 的权重上续训，补充了日常口语、技术和二次元语料，结构、词表和体积不变：在新留出的领域题上混合准确率提升 12 到 14.5 个百分点，维基评测提升 0.5 个百分点。领域题为合成句子，每题集约 200 题，区间约 ±5 个百分点，只能判断量级，详见 Suzu 仓库的 README。Mac 的 CPU 上单次打分约 3.3 ms，手机上约 20 ms（含进程间通信）。常驻内存方面，Mac 进程内约 130 MB（独立进程加载后实测 131 MB，打分 600 次后 132 MB），手机端守护进程约 115 MB。未放入 Suzu 时，回退到原有的 Qwen3.5-0.8B（Q4_K_M，约 508 MB）。
 
-- 启用：将 `suzu.gguf` 和 `suzu.vocab.txt` 放入用户目录（macOS 为 `~/Library/Rime`，Android 为 Trime 的用户目录）即自动使用，删除即回到 Qwen。macOS 须先自行编译 `rime_llm.so`（Xcode、CMake），步骤见 [llm-mac/README.md](llm-mac/README.md)。
+- 启用：将 `suzu.gguf` 和 `suzu.vocab.txt` 放入用户目录（macOS 为 `~/Library/Rime`，Android 为 Trime 的用户目录）即自动使用，删除即回到 Qwen。macOS 须先自行编译 `rime_llm.so`（Xcode、CMake），步骤见 [suzu-ime 的 macOS 说明](https://github.com/1zumiii/suzu-ime/blob/main/macos/README.md)。
 - 来源：推理核心移植自 [zhanghaozhecn/rime-llm-rerank](https://github.com/zhanghaozhecn/rime-llm-rerank)（署名许可，原版仅支持 Windows）。C++ 推理核心基本未改动，移除了 Windows 的光标上文读取，新增了 Suzu 的字符级打分；Lua 层按雾凇拼音的候选结构和 Squirrel 重写了一部分。
 - 标记：重排后的首选候选带 `◇`，四字两阶段得出的首选带 `◈`。
 - 开关：AI 开关默认开启，按输入框独立生效（鼠须管的每个输入框为独立会话），`Control+Shift+5` 可在当前输入框临时开关。需要默认关闭时，将 `rime_ice.custom.yaml` 中 `ai_rerank` 开关的 `reset` 改为 `0`。四字以上输入的第二阶段由另一个开关 `ai_stage2`（单段 / 两段）控制，默认「两段」。
@@ -41,13 +41,13 @@
 - 内存：Suzu 默认常驻，不空闲卸载（`idle_unload_minutes_student`）。使用 Qwen 时，20 分钟无输入即释放模型，下次输入时自动重新加载。
 - 局限：评测集来自维基百科，偏书面语，不代表真实输入的准确率。该功能只重排 Rime 已生成的候选，不会产生新候选。
 
-Qwen 回退时的 Metal GPU 推理、内存和延迟数据见 [llm-mac/README.md](llm-mac/README.md)。
+Qwen 回退时的 Metal GPU 推理、内存和延迟数据见 [suzu-ime 的 macOS 说明](https://github.com/1zumiii/suzu-ime/blob/main/macos/README.md)。
 
 ### Android（同文输入法 Trime）
 
-同一套配置和 AI 重排也适用于手机端，模型为 Suzu。推理运行在独立的常驻进程中，Trime 内仅保留一个轻量客户端，因此输入法进程被终止或崩溃时，模型不会随之丢失。设计、实测数据和文件清单见 [llm-android/README.md](llm-android/README.md)。
+同一套配置和 AI 重排也适用于手机端，模型为 Suzu。推理运行在独立的常驻进程中，Trime 内仅保留一个轻量客户端，因此输入法进程被终止或崩溃时，模型不会随之丢失。设计、实测数据和文件清单见 [suzu-ime 的 Android 说明](https://github.com/1zumiii/suzu-ime/blob/main/android/README.md)。
 
-- 改版 Trime：在上游固定提交上应用[一个补丁](llm-android/trime/patches/0001-ai-rerank-daemon.patch)，新增 `INTERNET` 权限（仅连接本机 127.0.0.1）、亮灭屏通知、工具栏 `● AI` 状态徽标，以及经 Shizuku 启动守护进程的入口。**仓库不含 APK**，须自行编译，并使用自己的密钥签名（`llm-android/trime/build_apk.sh`）。
+- 改版 Trime：在上游固定提交上应用[一个补丁](https://github.com/1zumiii/suzu-ime/blob/main/android/trime/patches/0001-ai-rerank-daemon.patch)，新增 `INTERNET` 权限（仅连接本机 127.0.0.1）、亮灭屏通知、工具栏 `● AI` 状态徽标，以及经 Shizuku 启动守护进程的入口。**仓库不含 APK**，须自行编译，并使用自己的密钥签名（`llm-android/trime/build_apk.sh`）。
 - 常驻推理进程 `rimellmd`：独立二进制，由 adb 或 Shizuku 以 shell 身份启动。监督进程负责看护工作进程，工作进程被终止、崩溃或无响应时，按退避时间自动重启并记录原因。与 Trime 之间通过 127.0.0.1 通信，使用随机令牌认证。所有 I/O 均有时限，无法连接时当次不重排，输入不受影响。推理引擎与 Mac 端为同一份。
 - 手动启停：点按工具栏的 `● AI` 徽标即可开关 AI。绿色为在线，黄色为加载或重启中，灰色为已关闭，红色为离线（点按后经 Shizuku 启动）。长按可查看内存、延迟、重启次数和上次退出原因。关闭时立即卸载模型，进程仅保持待命；开启时立即加载。不自动卸载，新安装默认关闭，用户的选择会被保留。
 - 孤儿保护：Trime 被卸载后，其数据目录随之消失。守护进程检测到该目录连续 10 分钟不存在时自行退出，监督进程随之结束，避免模型无人管理而持续占用内存。重新安装 Trime 后，点按红色徽标即可再次启动。
@@ -94,14 +94,14 @@ Qwen 回退时的 Metal GPU 推理、内存和延迟数据见 [llm-mac/README.md
 
 ### 隐私与个人化的约定
 
-本仓库不包含任何个人语料或个人权重，也不会发布用个人数据训练的模型。个人化微调的方法见 [docs/personalization.md](docs/personalization.md)，可在自己的设备上复现；微调出的权重只应留在本机。
+本仓库不包含任何个人语料或个人权重，也不会发布用个人数据训练的模型。个人化微调的方法见 [个人化说明](https://github.com/1zumiii/suzu-ime/blob/main/docs/personalization.md)，可在自己的设备上复现；微调出的权重只应留在本机。
 
 ### 选词统计（可选，默认关闭）
 
 用自己的真实输入评估重排有没有帮助。每次选词记一行纯数字到 `select_stats.tsv`：时间戳、AI 开关、模型、输入字母数、参与重排的候选数、所选候选在原顺序和最终顺序里的位次、上文长度档、候选字数、候选类型。不含任何输入的文字、拼音和候选文字。
 
 - 开启：在用户目录（Mac 为 `~/Library/Rime`，手机为 Trime 的 `files/rime`）新建空文件 `select_stats.enabled`，新开的输入会话生效。删除该文件即停止，删除 `select_stats.tsv` 即清空。数据只在本机，不会同步，也不会进入仓库。
-- 汇总：`python3 tools/select_stats_report.py select_stats.tsv`，给出原顺序第一位被选中的比例与重排后的比例、重排救回与帮倒忙的次数，并按模型、输入长度、上文长度分组。
+- 汇总：`python3 tools/select_stats_report.py select_stats.tsv`（脚本在 [suzu-ime](https://github.com/1zumiii/suzu-ime/blob/main/tools/select_stats_report.py)），给出原顺序第一位被选中的比例与重排后的比例、重排救回与帮倒忙的次数，并按模型、输入长度、上文长度分组。
 
 ### 语法模型
 
@@ -155,7 +155,7 @@ cd rime-ice-Custom
 
 `install.sh` 不会覆盖：`*.userdb`（词频库）、`installation.yaml`、`user.yaml`、`recent_words.tsv`、`recent_pairs.tsv`、冷词记录和已存在的 `custom_phrase.txt`。安装后须重启输入法（`Squirrel --quit`，下次输入时由系统重新启动）。
 
-AI 重排的二进制和模型另行安装：`llm-mac/install_llm.sh`，步骤见 [llm-mac/README.md](llm-mac/README.md)。
+AI 重排的二进制和模型另行安装：suzu-ime 仓库的 `macos/install_llm.sh`，步骤见 [llm-mac/README.md](llm-mac/README.md)。
 
 ### Windows（小狼毫）
 
@@ -171,20 +171,20 @@ AI 重排的二进制和模型另行安装：`llm-mac/install_llm.sh`，步骤�
 
 脚本不会复制 `weasel.yaml`，因此用户自己的小狼毫样式会保留。样式覆盖应写在 `weasel.custom.yaml` 中。
 
-Windows 上的 AI 重排使用从源码编译的上游插件，加上本仓库 `llm-windows/rime-llm-rerank-windows.patch` 的补丁（基于上游提交 21503e5，含 Suzu 学生模式、模型选择与词表校验）。它不是此处的 macOS 移植，Lua 文件是另一套实现。
+Windows 上的 AI 重排使用从源码编译的上游插件，加上[suzu-ime 仓库](https://github.com/1zumiii/suzu-ime/blob/main/windows/rime-llm-rerank-windows.patch) 中的补丁（基于上游提交 21503e5，含 Suzu 学生模式、模型选择与词表校验）。它不是此处的 macOS 移植，Lua 文件是另一套实现。
 
 ### Android（Trime）
 
 前提：已安装改版 Trime 并完成首次引导（选择“使用应用专属存储空间”），手机通过 adb 连接，且已安装 Shizuku。
 
 ```bash
-llm-android/trime/build_apk.sh                       # 从源码编译改版 APK 并签名（首次需要 JDK 17、NDK r27d 等，见脚本开头）
+# 在 suzu-ime 仓库：android/trime/build_apk.sh        # 从源码编译改版 APK 并签名（首次需要 JDK 17、NDK r27d 等，见脚本开头）
 adb install -r <生成的 apk>
 llm-android/deploy_trime.sh --with-gram              # 推送配置和语法模型；须先让 Trime 键盘弹出，部署才会生效
-llm-android/daemon/rimellmctl.sh start               # 在电脑端启动守护进程（也可在手机上点按红色 AI 徽标，经 Shizuku 启动）
+# 在 suzu-ime 仓库：android/daemon/rimellmctl.sh start  # 在电脑端启动守护进程（也可在手机上点按红色 AI 徽标，经 Shizuku 启动）
 ```
 
-Suzu 的 `suzu.gguf` 和 `suzu.vocab.txt`（从 Hugging Face 下载）须放入 Trime 的用户目录（`/sdcard/Android/data/com.osfans.trime/files/rime/`）。完整说明、测试和基准脚本见 [llm-android/README.md](llm-android/README.md)。
+Suzu 的 `suzu.gguf` 和 `suzu.vocab.txt`（从 Hugging Face 下载）须放入 Trime 的用户目录（`/sdcard/Android/data/com.osfans.trime/files/rime/`）。完整说明、测试和基准脚本见 [suzu-ime 的 Android 说明](https://github.com/1zumiii/suzu-ime/blob/main/android/README.md)。
 
 ## 同步上游更新
 
@@ -210,9 +210,9 @@ git commit
 | `lua/recent_boost_filter.lua` | 最近使用优先 |
 | `lua/ai_rerank_filter.lua`、`lua/ai_rerank_processor.lua` | AI 重排的过滤器与处理器 |
 | `lua/model_badge_filter.lua` | 整句候选的 `❖` 标记 |
-| `llm-mac/` | AI 重排的 macOS 移植：转换脚本、构建配置、安装脚本、测试 |
 | `windows/` | 小狼毫适配 |
-| `llm-android/` | Android（Trime）：常驻推理进程、Trime 补丁与构建脚本、手机端专属配置、GBoard 风格布局补丁、基准与测试 |
+| `llm-android/` | Android（Trime）手机端：部署脚本、手机专属覆盖配置、GBoard 风格布局补丁（Trime 的“从仓库更新”按这个路径读取）。推理守护进程、Trime 补丁与构建脚本在 [suzu-ime](https://github.com/1zumiii/suzu-ime) |
+| `lua/ai_rerank_*.lua`、`personal_pairs.lua`、`corpus_archive.lua` | 由 suzu-ime 的 `rime/lua/` 同步而来，用 `tools/sync_core.sh` 更新，勿直接修改 |
 | `install.sh`、`tools/verify_build.sh` | 安装与安装前自检 |
 
 ## 致谢与许可

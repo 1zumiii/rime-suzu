@@ -58,7 +58,7 @@ patch:
   "engine/filters/@after 10": lua_filter@*emoji_defer_filter
 
   # ---------- 8. AI 重排（实验）----------
-  # 本地小模型（Qwen3.5-0.8B）按「本会话内上屏的内容」重排候选，详见 llm-mac/README.md。
+  # 本地小模型（Qwen3.5-0.8B）按「本会话内上屏的内容」重排候选，详见 suzu-ime 仓库的 macos/README.md。
   # 需要先安装 rime_llm.so 和模型；没装时这两个组件什么都不做（开关关闭时直接放行/透传）。
   # 开关：默认开；Control+Shift+5 或方案菜单（F4 / Control+`）里的「AI 关/开」可在当前输入框临时切换。
   # 位置：processor 放最前，filter 放最后（uniquifier 之后）；这两个位置各只能给一个组件用。
