@@ -77,8 +77,9 @@ patch:
     - { when: always, toggle: ai_rerank, accept: "Control+Shift+5" }
     - { when: always, toggle: ai_rerank, accept: "Control+Shift+percent" }
   llm_rerank:
-    code_pattern: '[a-z]{3,}'   # 只在 3 个字母及以上的输入触发，避开置顶的单字/简拼
+    code_pattern: '[a-z]{2,}'   # 2 个字母及以上的输入触发（简拼 zm 这类也重排；单个字母不重排，避开置顶词）
     max_candidates: 10          # 单字等同音词多的输入，正确的字常排在词库第 6 到 8 位；候选少了就根本进不了重排（实测 5 个时单字约 77% 进得来，8 个约 95%）
+    max_candidates_short: 40    # 简拼（2 到 3 个字母，且首位候选字数等于字母数）时参与重排的候选数。留出集上简拼答案常在前 10 名之外，放到 40 首选 +4 点（真实 librime 链路）、打分约 9 ms；手机吃紧，不开
     max_tokens: 10
     expected_length_weight: 0   # 全拼保持 0
     freq_beta: 1.5
