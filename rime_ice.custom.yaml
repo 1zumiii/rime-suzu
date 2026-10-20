@@ -94,6 +94,9 @@ patch:
       alpha: 0.25              # 名次先验的系数。默认 1.0；留出集对照里 1.0 比旧排序低 3.7 个点，0.25 只低约 1 个点，先取 0.25，等回放数据校准
     #   lam_max: 1.0           # 模型分的最大权重
     #   lam_ctx_full: 4        # 上文达到这么多字时模型权重到顶
+    # generate: true           # 候选生成（实验，只在 ranker: unified 下）：简拼、混合输入时由模型在雾凇词典（cn_dicts）里按上文挑出 Rime 没给的词。开启后不再放大简拼候选数（max_candidates_short）
+    # gen_beam: 20             # 生成时每层展开的节点数：两字母简拼 20 时首选 43.6%、前 5 名 69.4%（留出集）；越大越准也越慢
+    # gen_k: 10                # 每次生成的词数
     # input_log_days: 30       # 输入事件流（用户目录有 input_log.enabled 时记录）的保留天数
     # debug_latency: true      # 排查用：只记录跳过原因和耗时（llm_errors.txt / llm_latency.txt），不含任何输入文字
     # cpu_cores: 4              # 实测 4 线程最合适
