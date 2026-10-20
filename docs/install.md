@@ -28,7 +28,9 @@ Windows 上的 AI 重排使用 suzu-ime 构建的 `rime_llm.dll`，Lua 脚本是
 
 ## Android（Trime）
 
-前提：已安装改版 Trime 并完成首次引导（选择“使用应用专属存储空间”），手机经 adb 连接，且已安装 Shizuku。
+先说明一点：AI 重排的推理不在 Trime 里，而在常驻守护进程 `rimellmd` 里。守护进程须借助 adb 或 Shizuku 启动，二者选一：电脑端用 adb 执行 `rimellmctl.sh start`，或在手机上点工具栏红色的 AI 徽标，经 Shizuku 启动。手机重启后守护进程会消失，须再启动一次；没有启动时 AI 重排不生效，输入不受影响。
+
+前提：已安装改版 Trime 并完成首次引导（选择“使用应用专属存储空间”），手机经 adb 连接（部署配置与方式一启动守护进程用），并安装 Shizuku（方式二用）。
 
 ```bash
 # 在 suzu-ime 仓库：android/trime/build_apk.sh        # 从源码编译改版 APK 并签名（首次需要 JDK 17、NDK r27d 等，见脚本开头）

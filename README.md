@@ -54,7 +54,7 @@ cd rime-ice-Custom
 
 1. 从 Hugging Face 下载模型 [Suzu-2.4](https://huggingface.co/IzumiThe3rd/Suzu-2.4) 的 `suzu.gguf` 与 `suzu.vocab.txt`，放入用户目录（macOS 为 `~/Library/Rime`）。
 2. 按 [suzu-ime 的 macOS 说明](https://github.com/1zumiii/suzu-ime/blob/main/macos/README.md) 编译并安装推理核心 `rime_llm.so`。
-3. 重启输入法。Windows 与 Android 的步骤见 [安装](docs/install.md)。
+3. 重启输入法。Windows 与 Android 的步骤见 [安装](docs/install.md)。Android 须注意：推理在常驻守护进程里，守护进程须借助 adb 或 Shizuku 启动，手机重启后要重新启动一次，配置前先准备好 adb 或 Shizuku。
 
 默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时开关。
 
