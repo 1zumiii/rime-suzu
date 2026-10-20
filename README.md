@@ -44,7 +44,7 @@ AI 重排依据本次输入会话中刚上屏的内容，对候选词重新排�
 | Windows（进程内，4 线程） | 2.7 ms | 4.7 ms | 9.1～9.7 ms | 69.5 MB（工作集） |
 | Android（守护进程，2 线程） | 11.2 ms | 19.3 ms | 36.8 ms | 约 61 MB |
 
-Android 的数字经 adb 端口转发测得，含转发开销。以上延迟不含候选生成。开启候选生成后，手机的守护进程常驻内存约 80 MB，Mac 的打分中位数约 4.5 ms；Windows 上的候选生成待测。旧核心的对应数字、测试方法和尚未验证的项目见 [suzu-ime 的 README](https://github.com/1zumiii/suzu-ime)。
+Android 的数字经 adb 端口转发测得，含转发开销。以上延迟不含候选生成。开启候选生成后，手机的守护进程常驻内存约 80 MB，Mac 的打分中位数约 4.5 ms；Windows 上的候选生成待测。旧核心的对应数字、测试方法和尚未验证的项目见 [suzu-ime 的技术报告](https://github.com/1zumiii/suzu-ime/blob/main/docs/technical-report.md)。
 
 ### 使用
 
