@@ -24,7 +24,7 @@ AI 重排的推理核心 `rime_llm.so` 须自行编译，再用 suzu-ime 仓库�
 
 **安装后须点击托盘图标中的“重新部署”。** 命令行的 `WeaselDeployer.exe /deploy` 不会实际编译方案。脚本不复制 `weasel.yaml`，用户自己的小狼毫样式会保留；样式覆盖应写在 `weasel.custom.yaml` 中。
 
-Windows 上的 AI 重排使用 suzu-ime 构建的 `rime_llm.dll`，Lua 脚本是上游 rime-llm-rerank 的 `llm_filter.lua`、`llm_processor.lua` 加 suzu-ime 中的[补丁](https://github.com/1zumiii/suzu-ime/blob/main/windows/rime-llm-rerank-windows.patch)，与 macOS 和 Android 的 Lua 不是同一套。构建、部署与回滚脚本见 [suzu-ime 的 Windows 说明](https://github.com/1zumiii/suzu-ime/blob/main/windows/README.md)。
+Windows 上的 AI 重排使用 suzu-ime 构建的 `rime_llm.dll`，Lua 脚本是原项目 rime-llm-rerank 的 `llm_filter.lua`、`llm_processor.lua` 加 suzu-ime 中的[补丁](https://github.com/1zumiii/suzu-ime/blob/main/windows/rime-llm-rerank-windows.patch)，与 macOS 和 Android 的 Lua 不是同一套。构建、部署与回滚脚本见 [suzu-ime 的 Windows 说明](https://github.com/1zumiii/suzu-ime/blob/main/windows/README.md)。
 
 ## Android（Trime）
 
