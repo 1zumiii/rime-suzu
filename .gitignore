@@ -35,3 +35,4 @@ recent_pairs.archive*
 *.enabled
 select_replay.jsonl*
 select_replay.part-*
+personal_pairs_base.tsv
