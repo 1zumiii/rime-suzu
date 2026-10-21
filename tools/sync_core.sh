@@ -10,5 +10,8 @@ for f in $FILES; do
   [[ -f "$SRC/rime/lua/$f" ]] || { echo "缺少 $SRC/rime/lua/$f"; exit 1; }
   cp "$SRC/rime/lua/$f" "$HERE/lua/$f"
 done
+# Windows 专用的光标上文接入层（只在 Windows 的配置里挂载）
+[[ -f "$SRC/windows/lua/ai_rerank_win_ctx.lua" ]] || { echo "缺少 $SRC/windows/lua/ai_rerank_win_ctx.lua"; exit 1; }
+cp "$SRC/windows/lua/ai_rerank_win_ctx.lua" "$HERE/windows/lua/ai_rerank_win_ctx.lua"
 printf 'suzu-ime %s\n' "$(git -C "$SRC" rev-parse --short HEAD 2>/dev/null || echo unknown)" > "$HERE/lua/SUZU_IME_VERSION"
 echo "已同步：$FILES（$(cat "$HERE/lua/SUZU_IME_VERSION")）"

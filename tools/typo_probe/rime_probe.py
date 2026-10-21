@@ -7,7 +7,8 @@ from ctypes import c_int, c_char_p, c_void_p, c_size_t, POINTER, Structure
 
 LIB = "/Library/Input Methods/Squirrel.app/Contents/Frameworks/librime.1.dylib"
 SHARED = "/Library/Input Methods/Squirrel.app/Contents/SharedSupport"
-REPO = "/Users/izumi/Documents/RimeCustomised"
+REPO = os.environ.get("SUZU_REPO") or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+RIME_DIR = os.environ.get("RIME_DIR", os.path.expanduser("~/Library/Rime"))   # 词库（cn_dicts 等）来自已安装词库包的用户目录
 
 
 class Traits(Structure):
@@ -45,7 +46,7 @@ def prepare_dir(work, variant):
     for name in ["default.yaml", "rime_ice.schema.yaml", "rime_ice.dict.yaml", "symbols_v.yaml", "symbols_caps_v.yaml",
                  "cn_dicts", "en_dicts", "opencc", "melt_eng.schema.yaml", "melt_eng.dict.yaml", "radical_pinyin.schema.yaml",
                  "radical_pinyin.dict.yaml", "algebra_extra.yaml", "custom_phrase.txt", "symbols.yaml", "t9.schema.yaml"]:
-        src = os.path.join(REPO, name)
+        src = os.path.join(RIME_DIR if name in ("cn_dicts", "cn_dicts_cell", "rime_ice.dict.yaml") else REPO, name)
         if os.path.exists(src):
             (shutil.copytree if os.path.isdir(src) else shutil.copy)(src, os.path.join(user, name))
     # 去掉 Lua 组件和语法模型（探针不加载 Lua 插件，也不需要 gram）
