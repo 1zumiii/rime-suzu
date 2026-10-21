@@ -31,8 +31,10 @@ if (-not $adb) {
     Remove-Item $zip
   }
 }
-function Adb { & $adb @args }
-function AdbSh([string]$cmd) { (& $adb shell $cmd) -join "`n" }
+# adb 把“没有设备”“守护进程启动中”这类提示写到 stderr；Windows PowerShell 5.1 在 $ErrorActionPreference = "Stop" 下会把它当成终止错误，
+# 脚本会在给出友好提示之前崩掉，所以调用 adb 时临时改成 Continue。
+function Adb { $old = $ErrorActionPreference; $ErrorActionPreference = "Continue"; try { & $adb @args } finally { $ErrorActionPreference = $old } }
+function AdbSh([string]$cmd) { $old = $ErrorActionPreference; $ErrorActionPreference = "Continue"; try { (& $adb shell $cmd) -join "`n" } finally { $ErrorActionPreference = $old } }
 Adb start-server | Out-Null
 
 Say "1/6 检查手机"
