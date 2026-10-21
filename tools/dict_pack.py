@@ -83,7 +83,7 @@ def check_dict(path):
                 continue
             c = ln.rstrip("\n").split("\t")
             n += 1
-            # 合法写法两种：词<Tab>拼音[<Tab>权重]（音节数等于字数），或只有词、或词<Tab>权重（无注音，由 Rime 按字表自动注音，如雾凇的腾讯词库与 others）
+            # 合法写法两种：词<Tab>拼音 [<Tab>权重]（音节数等于字数），或只有词、或词<Tab>权重（无注音，由 Rime 按字表自动注音，如雾凇的腾讯词库与 others）
             ok_coded = len(c) >= 2 and len(c[1].split()) == len(c[0])
             ok_plain = len(c) == 1 or (len(c) == 2 and c[1].strip().isdigit())
             if not (ok_coded or ok_plain):
@@ -111,7 +111,7 @@ def install(a):
         die(f"词库包里没有主词典 {pack['main_dict']}")
     # 解析主词典：未注释的导入行决定拷哪些文件
     lines = open(main, encoding="utf-8").read().split("\n")
-    need = []      # (源子目录, 文件主名)
+    need = []      # (源子目录，文件主名)
     out = []
     in_imports = False
     use_extra = not a.no_extra and os.path.isfile(EXTRA)
