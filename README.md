@@ -62,7 +62,13 @@ Android（电脑用 USB 连手机，手机须为 arm64、Android 11 及以上，
 curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash -s -- android
 ```
 
-Windows（小狼毫）的安装包还在验证，暂未提供。当前是 [preview 预览版](https://github.com/1zumiii/rime-suzu/releases/tag/preview)，不是正式发布。选词统计、语料记录这类开发用的功能在安装包里全部关闭，不会记录输入。
+Windows（小狼毫 0.17，PowerShell；需要管理员权限时会弹出询问）：
+
+```powershell
+irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
+```
+
+脚本会先列出将要做的事并询问确认，备份现有配置后再安装。当前是 [preview 预览版](https://github.com/1zumiii/rime-suzu/releases/tag/preview)，不是正式发布：macOS 的包完整验证过，Windows 与 Android 验证了各个步骤，完整流程还没有在干净设备上整体跑过。选词统计、语料记录这类开发用的功能在安装包里全部关闭，不会记录输入。
 
 默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时开关。Android 的推理在常驻守护进程里，手机重启后要重新启动一次，见 [安装](docs/install.md)。
 

@@ -16,7 +16,12 @@ curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh |
 $env:SUZU_TARGET='android'; irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 ```
 
-Windows（小狼毫）的安装包还在验证，验证后用 `irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex` 安装。
+```powershell
+# Windows（小狼毫 0.17）
+irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
+```
+
+脚本会先列出将要做的事并询问确认。macOS 的包完整验证过，Windows 与 Android 验证了各个步骤，完整流程还没有在干净设备上整体跑过。想先看看会做什么而不改动任何东西，Windows 可以把包解压后运行 `powershell -File install.ps1 -DryRun`。
 
 可选环境变量：`SUZU_BUNDLE_FILE` 使用本地的安装包 zip（跳过下载），`SUZU_TAG` 指定发布标签（默认 `preview`）。macOS 可以在命令后加 `--with-gram`（写成 `| bash -s -- macos --with-gram`）另装约 380 MB 的万象语法模型，不装也能用。
 
