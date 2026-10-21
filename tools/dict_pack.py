@@ -113,7 +113,7 @@ def install(a):
     if not os.path.isfile(main):
         die(f"词库包里没有主词典 {pack['main_dict']}")
     # 解析主词典：未注释的导入行决定拷哪些文件
-    lines = open(main, encoding="utf-8").read().split("\n")
+    lines = open(main, encoding="utf-8", newline=None).read().split("\n")   # 通用换行：CRLF 读成 LF
     need = []      # (源子目录，文件主名)
     out = []
     in_imports = False
@@ -167,9 +167,9 @@ def install(a):
             total += os.path.getsize(os.path.join(d, st + ".dict.yaml"))
     text = "\n".join(out)
     target = os.path.join(a.rime_dir, a.schema + ".dict.yaml")
-    with open(target, "w", encoding="utf-8") as f:
+    with open(target, "w", encoding="utf-8", newline="\n") as f:   # Windows 上也写 LF，输出与平台无关
         f.write(text)
-    with open(os.path.join(a.rime_dir, "dict_pack.lock"), "w", encoding="utf-8") as f:
+    with open(os.path.join(a.rime_dir, "dict_pack.lock"), "w", encoding="utf-8", newline="\n") as f:
         f.write(f"pack\t{a.pack}\ncommit\t{pack['commit']}\ninto\t{a.into}\nschema\t{a.schema}\nlicense\t{pack['license']}\n")
     print(f"已安装 {a.pack}（{pack['commit'][:12]}，{pack['license']}）：{len(need)} 个词库文件{'，含补充词条' if use_extra else ''}，{total / 1e6:.1f} MB → {a.rime_dir}/{a.into}")
     print(f"主词典 {a.schema}.dict.yaml sha256 {hashlib.sha256(text.encode('utf-8')).hexdigest()[:16]}")
