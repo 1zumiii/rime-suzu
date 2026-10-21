@@ -1,0 +1,94 @@
+# Rime dictionary
+# encoding: utf-8
+#
+# 本仓库自己的补充词条（网络用语等），叠加在任何词库包之上。
+# 安装词库包时由 tools/dict_pack.py 拷到词库目录并放在导入列表最前面：有重复词条时最上面的权重生效，所以这里的权重优先。
+# 注意：权重是按雾凇的量级定的（1000、3000），换用权重量级不同的词库时需要核对。
+---
+name: extra
+version: "2026-10-19"
+sort: by_weight
+...
+白嫖怪	bai piao guai	1000
+宝子们	bao zi men	1000
+蚌埠住了	beng bu zhu le	1000
+避雷贴	bi lei tie	1000
+补班	bu ban	3000
+补番	bu fan	3000
+层主	ceng zhu	3000
+产品汪	chan pin wang	1000
+吃到大瓜	chi dao da gua	1000
+抽象带师	chou xiang dai shi	1000
+抽象话	chou xiang hua	1000
+大脑宕机	da nao dang ji	1000
+打投	da tou	3000
+带薪拉屎	dai xin la shi	1000
+带薪摸鱼	dai xin mo yu	1000
+单抽	dan chou	3000
+懂梗	dong geng	3000
+蹲草	dun cao	3000
+蹲更新	dun geng xin	1000
+蹲后续	dun hou xu	1000
+反踩	fan cai	3000
+尬笑	ga xiao	3000
+肝度	gan du	3000
+何意味	he yi wei	1000
+互关	hu guan	3000
+回关	hui guan	3000
+回坑	hui keng	3000
+集资打投	ji zi da tou	1000
+降重	jiang chong	3000
+巨瓜	ju gua	3000
+考公人	kao gong ren	1000
+氪度	ke du	3000
+拉怪	la guai	3000
+拉通	la tong	3000
+老梗	lao geng	3000
+良心番	liang xin fan	1000
+流量咖	liu liang ka	1000
+码住	ma zhu	3000
+每日委托	mei ri wei tuo	1000
+灭团	mie tuan	3000
+名梗	ming geng	3000
+摸鱼局	mo yu ju	1000
+浓缩树脂	nong suo shu zhi	1000
+弃游	qi you	3000
+清日常	qing ri chang	1000
+清体力	qing ti li	1000
+求三连	qiu san lian	1000
+求投币	qiu tou bi	1000
+全团灭	quan tuan mie	1000
+润了	run le	3000
+神番	shen fan	3000
+手幅	shou fu	3000
+刷本	shua ben	3000
+刷题党	shua ti dang	1000
+刷题人	shua ti ren	1000
+帅炸	shuai zha	3000
+撕番	si fan	3000
+撕资源	si zi yuan	1000
+躺平学	tang ping xue	1000
+躺输	tang shu	3000
+通勤地狱	tong qin di yu	1000
+痛衣	tong yi	3000
+歪卡	wai ka	3000
+唯粉	wei fen	3000
+无所吊谓	wu suo diao wei	1000
+无语子	wu yu zi	1000
+限定池	xian ding chi	1000
+小登	xiao deng	3000
+新梗	xin geng	3000
+新游	xin you	3000
+炫饭	xuan fan	3000
+学弱	xue ruo	3000
+学术垃圾	xue shu la ji	1000
+养生党	yang sheng dang	1000
+营业感	ying ye gan	1000
+运营狗	yun ying gou	1000
+早八	zao ba	3000
+站哥	zhan ge	3000
+站姐	zhan jie	3000
+终面	zhong mian	3000
+周常	zhou chang	3000
+追更	zhui geng	3000
+追评	zhui ping	3000

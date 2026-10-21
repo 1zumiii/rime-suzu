@@ -1,0 +1,4 @@
+# 词库包登记：名字、来源仓库、固定提交、许可证、主词典文件（在包仓库根目录）、备注。提交须是完整 40 位。
+name	repo	commit	license	main_dict	note
+ice	https://github.com/iDvel/rime-ice.git	da1fbe602e38f26db846fa10120ee64c2b0324c0	GPL-3.0	rime_ice.dict.yaml	雾凇拼音词库（原项目默认）
+frost	https://github.com/gaboolic/rime-frost.git	c34bbd820db0a2887aa3f75f4b67d85a01b6a0e1	GPL-3.0	rime_frost.dict.yaml	白霜词库：雾凇派生，用 7.45 亿字语料重新统计词频并删冷僻词，含细胞词库
