@@ -1,9 +1,9 @@
-import random, re, json, sys
+import random, re, json, sys, os   # 词库来自 tools/dict_pack.py 装进用户目录的 cn_dicts
 random.seed(7)
 REPO="/Users/izumi/Documents/RimeCustomised"
 words=[]
 for f in ["cn_dicts/base.dict.yaml","cn_dicts/8105.dict.yaml"]:
-    for line in open(f"{REPO}/{f}",encoding="utf-8"):
+    for line in open(os.path.expanduser("~/Library/Rime/") + f, encoding="utf-8"):
         p=line.rstrip("\n").split("\t")
         if len(p)>=3 and re.fullmatch(r"[a-z ]+",p[1]) and p[2].isdigit():
             w,py,wt=p[0],p[1].split(" "),int(p[2])

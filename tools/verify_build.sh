@@ -9,6 +9,7 @@ TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
 rsync -a --exclude='.git/' --exclude='others/' --exclude='build/' --exclude='*.userdb/' "$SRC"/ "$TMP"/
+python3 -I "$SRC/tools/dict_pack.py" install ${PACK:+"$PACK"} --rime-dir "$TMP" >/dev/null || { echo "自检失败：词库包安装出错（首次需要联网下载，见 packs/packs.tsv）"; exit 1; }
 "$DEPLOYER" --build "$TMP" "$SHARED" "$TMP/build" >/dev/null 2>&1 || { echo "自检失败：编译出错"; exit 1; }
 
 SCHEMA="$TMP/build/rime_ice.schema.yaml"

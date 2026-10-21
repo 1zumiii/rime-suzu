@@ -6,7 +6,8 @@
 # invisible -DryRun listing, overwritten weasel.yaml). Still run with -DryRun first.
 param(
   [string]$RimeDir = (Join-Path $env:APPDATA "Rime"),
-  [switch]$DryRun
+  [switch]$DryRun,
+  [string]$Pack = ""   # 词库包名（packs\packs.tsv），省略时用 packs\DEFAULT；首次安装需要联网
 )
 $ErrorActionPreference = "Stop"
 $Src = Split-Path -Parent $PSScriptRoot
@@ -48,6 +49,16 @@ $flags = @("/E","/R:1","/W:1","/NJH","/NJS")
 if ($DryRun) { $flags += "/L" }
 robocopy $Src $RimeDir @flags /XD @xd /XF @xf
 if ($LASTEXITCODE -ge 8) { throw "copy failed (robocopy exit $LASTEXITCODE). A destination file may be locked: quit WeaselServer and retry." }
+
+# 词库包：词库不在仓库里，按 packs\packs.tsv 的固定提交下载并装进用户目录（含本仓库的补充词条 extras\）
+if (-not $DryRun) {
+  $dp = Join-Path $Src "tools\dict_pack.py"
+  $packArgs = @("-I", $dp, "install")
+  if ($Pack) { $packArgs += $Pack }
+  $packArgs += @("--rime-dir", $RimeDir)
+  & python @packArgs
+  if ($LASTEXITCODE -ne 0) { throw "dict pack install failed (needs python and git on PATH, and network on first install)" }
+} else { Write-Host "DryRun: dictionary pack install skipped (real run executes tools\dict_pack.py install)." }
 
 # 3. Windows-specific overlay + files copied only when missing
 if (-not $DryRun) {
