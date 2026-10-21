@@ -1,4 +1,4 @@
-﻿# Suzu 一行安装（Windows）：下载安装包、校验、解压并运行里面的安装脚本。
+# Suzu 一行安装（Windows）：下载安装包、校验、解压并运行里面的安装脚本。
 #   小狼毫（Windows 输入法）：  irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 #   Android（在 Windows 电脑上，手机用 USB 连接）：
 #     $env:SUZU_TARGET='android'; irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
@@ -27,7 +27,8 @@ if ($env:SUZU_BUNDLE_FILE) {
 } else {
   Write-Host "下载 $asset ……"
   try { Invoke-WebRequest -Uri "$base/$asset" -OutFile "$zip.part" -UseBasicParsing } catch { Write-Host "下载失败：$base/$asset`n安装包可能还没有发布，或网络不通。" -ForegroundColor Red; return }
-  try { $want = ((Invoke-WebRequest -Uri "$base/$asset.sha256" -UseBasicParsing).Content.Trim() -split '\s+')[0] } catch { Write-Host "没有找到校验文件 $base/$asset.sha256" -ForegroundColor Red; return }
+  # .sha256 按二进制发布时，Windows PowerShell 5.1 的 .Content 是字节数组，先转成文本
+  try { $r = Invoke-WebRequest -Uri "$base/$asset.sha256" -UseBasicParsing; $txt = if ($r.Content -is [byte[]]) { [Text.Encoding]::UTF8.GetString($r.Content) } else { [string]$r.Content }; $want = ($txt.Trim() -split '\s+')[0] } catch { Write-Host "没有找到校验文件 $base/$asset.sha256" -ForegroundColor Red; return }
   $got = (Get-FileHash "$zip.part" -Algorithm SHA256).Hash.ToLower()
   if ($want.ToLower() -ne $got) { Remove-Item "$zip.part" -Force; Write-Host "校验失败：下载的文件与发布的 sha256 不一致，已停止。" -ForegroundColor Red; return }
   Move-Item "$zip.part" $zip -Force
