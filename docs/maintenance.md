@@ -43,4 +43,5 @@ AI 重排的 Lua 脚本以 suzu-ime 的 `rime/lua/` 为唯一来源，用 `tools
 | `windows/` | 小狼毫适配 |
 | `llm-android/` | Android（Trime）手机端：部署脚本、手机专属覆盖配置、GBoard 风格布局补丁。Trime 的“从仓库更新”按这个路径读取，不能改名 |
 | `packs/`、`extras/`、`tools/dict_pack.py` | 词库包登记与默认包、本仓库自己的补充词条、词库包安装脚本 |
-| `install.sh`、`tools/verify_build.sh` | 安装与安装前自检 |
+| `install.sh`、`install.ps1`、`install/`、`tools/make_bundle.py` | 一行命令安装的入口、各平台的安装脚本、安装包的打包脚本 |
+| `tools/install-dev.sh`、`tools/verify_build.sh` | 开发用的安装与安装前自检 |

@@ -46,18 +46,38 @@ AI 重排的推理核心、守护进程和 Trime 补丁在 [suzu-ime](https://gi
 
 ## 快速开始
 
+### 一行命令安装
+
+安装包里已有编译好的推理核心、模型、配置和词库，不需要 git，也不需要自己编译。脚本会先下载并核对 sha256，再备份现有配置，然后安装并部署。
+
+macOS（Apple 芯片，macOS 13 及以上，需先装好[鼠须管](https://github.com/rime/squirrel/releases)）：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash
+```
+
+Android（电脑用 USB 连手机，手机须为 arm64、Android 11 及以上，电脑为 macOS 或 Linux；Windows 电脑见 [安装](docs/install.md)）：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash -s -- android
+```
+
+Windows（小狼毫）的安装包还在验证，暂未提供。当前是 [preview 预览版](https://github.com/1zumiii/rime-suzu/releases/tag/preview)，不是正式发布。选词统计、语料记录这类开发用的功能在安装包里全部关闭，不会记录输入。
+
+默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时开关。Android 的推理在常驻守护进程里，手机重启后要重新启动一次，见 [安装](docs/install.md)。
+
+### 从源码安装
+
+给开发者用，需要自己编译推理核心：
+
 ```bash
 git clone https://github.com/1zumiii/rime-suzu.git
 cd rime-suzu
-./install.sh        # macOS：先自检，再备份到 ~/Library/Rime.backup-时间，然后安装配置和词库包（首次需要联网下载词库）
-./install.sh --pack frost   # 换用其他词库包，见下文
+tools/install-dev.sh                 # 安装配置和词库包（首次需要联网下载词库）
+tools/install-dev.sh --pack frost    # 换用其他词库包，见下文
 ```
 
-1. 从 Hugging Face 下载模型 [Suzu-2.4](https://huggingface.co/IzumiThe3rd/Suzu-2.4) 的 `suzu.gguf` 与 `suzu.vocab.txt`，放入用户目录（macOS 为 `~/Library/Rime`）。
-2. 按 [suzu-ime 的 macOS 说明](https://github.com/1zumiii/suzu-ime/blob/main/macos/README.md) 编译并安装推理核心 `rime_llm.so`。
-3. 重启输入法。Windows 与 Android 的步骤见 [安装](docs/install.md)。Android 须注意：推理在常驻守护进程里，守护进程须借助 adb 或 Shizuku 启动，手机重启后要重新启动一次，配置前先准备好 adb 或 Shizuku。
-
-默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时开关。
+之后从 Hugging Face 下载模型 [Suzu-2.4](https://huggingface.co/IzumiThe3rd/Suzu-2.4) 的 `suzu.gguf` 与 `suzu.vocab.txt`，按 [suzu-ime 的 macOS 说明](https://github.com/1zumiii/suzu-ime/blob/main/macos/README.md) 编译并安装推理核心 `rime_llm.so`，重启输入法。Windows 与 Android 的步骤见 [安装](docs/install.md)。
 
 ## 文档
 

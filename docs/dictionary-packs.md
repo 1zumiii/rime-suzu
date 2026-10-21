@@ -10,7 +10,7 @@ tools/dict_pack.py install frost --rime-dir ~/Library/Rime   # 安装白霜，�
 tools/dict_pack.py status --rime-dir ~/Library/Rime         # 查看装的是哪个包、哪个提交
 ```
 
-`install.sh`、`windows/install.ps1` 和 `llm-android/deploy_trime.sh` 安装配置时会自动调用它，包名用 `--pack`（macOS）、`-Pack`（Windows）或环境变量 `PACK`（Android）指定，省略时用 `packs/DEFAULT`。首次安装需要联网，并要求已安装 git 与 Python 3，下载的内容缓存在 `~/.cache/suzu-dict-packs`。
+`tools/install-dev.sh`、`windows/install.ps1` 和 `llm-android/deploy_trime.sh` 安装配置时会自动调用它，包名用 `--pack`（`tools/install-dev.sh`）、`-Pack`（Windows）或环境变量 `PACK`（Android）指定，省略时用 `packs/DEFAULT`。首次安装需要联网，并要求已安装 git 与 Python 3，下载的内容缓存在 `~/.cache/suzu-dict-packs`。
 
 安装后须重新部署输入法，Rime 才会重新编译词库。换包之后，个人词对基础表（`personal_pairs_base.tsv`）建议用新词库重建，因为它是按词库切词建的。
 
