@@ -26,7 +26,7 @@ AI 重排的推理核心 `rime_llm.so` 须自行编译，再用 suzu-ime 仓库�
 
 **安装后须重新部署。** 最稳妥的办法是点击托盘图标中的“重新部署”。从自己的命令行直接运行 `WeaselDeployer.exe /deploy` 通常不会编译，反而会弹出“方案选单设定”窗口并一直挂着，因为它从当前进程里无法与服务端正常通信；要无人值守，须在小狼毫服务运行时通过交互式计划任务启动部署器，suzu-ime 的 `windows/deploy_airerank.ps1` 就是这样做的。脚本不复制 `weasel.yaml`，用户自己的小狼毫样式会保留；样式覆盖应写在 `weasel.custom.yaml` 中。
 
-Windows 上的 AI 重排与 macOS、Android 共用同一套 `ai_rerank_*` Lua 脚本，另加 Windows 专用的 `ai_rerank_win_ctx.lua`。推理核心 `rime_llm.dll` 由 suzu-ime 构建；构建、部署与回滚脚本见 [suzu-ime 的 Windows 说明](https://github.com/1zumiii/suzu-ime/blob/main/windows/README.md)。模型 `suzu.gguf` 与 `suzu.vocab.txt` 须放入用户目录。
+Windows 上的 AI 重排与 macOS、Android 共用同一套 `ai_rerank_*` Lua 脚本，另加 Windows 专用的 `ai_rerank_win_ctx.lua`。推理核心 `rime_llm.dll` 由 suzu-ime 构建；构建、部署与回滚脚本见 [suzu-ime 的 Windows 说明](https://github.com/1zumiii/suzu-ime/blob/main/windows/README.md)。模型 `suzu.gguf` 与 `suzu.vocab.txt` 须放入用户目录。suzu-ime 的 `deploy_airerank.ps1` 用于把旧的 `llm_*` 配置切换到共用 Lua，用本仓库的模板新装的不需要它。
 
 ## Android（Trime）
 
