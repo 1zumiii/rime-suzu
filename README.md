@@ -2,7 +2,7 @@
 
 <p align="center">
   带本地小模型 AI 的 Rime 拼音配置：按上文重排候选、补出简拼里缺的词，覆盖鼠须管（macOS）、小狼毫（Windows）和同文输入法 Trime（Android）。<br>
-  方案基于 <a href="https://github.com/iDvel/rime-ice">雾凇拼音（rime-ice）</a>，词库以“词库包”的形式安装，可在雾凇、白霜等之间替换。
+  方案基于 <a href="https://github.com/iDvel/rime-ice">雾凇拼音（rime-ice）</a>，词库以“词库包”的形式安装，可在雾凇、白霜等之间替换，其余标准 Rime 格式的词库理论上也兼容（只验证过雾凇和白霜）。
 </p>
 
 <p align="center">
