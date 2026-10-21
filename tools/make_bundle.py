@@ -9,7 +9,7 @@
 可选：--pack <词库包名>（默认 packs/DEFAULT）、--repo-url（词库包来源仓库的本地路径，省去联网）。
 
 包里不含任何统计开关文件（*.enabled）：选词统计、语料、输入事件流都是用户目录里有对应的空文件才开启，安装脚本不创建它们，所以默认全部关闭。
-输出：<out>/suzu-<平台>-<版本>.zip 与同名 .sha256。
+输出：<out>/suzu-<平台>.zip 与同名 .sha256（文件名不带版本，版本在包内的 VERSION 里）。
 """
 import argparse, datetime, hashlib, os, re, shutil, stat, subprocess, sys, tempfile, zipfile
 
@@ -17,7 +17,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, ".."))
 
 COMMON_EXCLUDE_DIRS = {"docs", "tools", "packs", "extras", "others", "tests", ".github", "build", "windows", "llm-android"}
-COMMON_EXCLUDE_FILES = {".gitignore", "README.md", "install.sh", "squirrel.yaml", "squirrel.custom.yaml", "weasel.yaml", "LICENSE"}
+COMMON_EXCLUDE_FILES = {".gitignore", "README.md", "install.sh", "install.ps1", "squirrel.yaml", "squirrel.custom.yaml", "weasel.yaml", "LICENSE"}
 
 
 def die(msg):
@@ -201,7 +201,7 @@ def main():
     with open(os.path.join(root, "NOTICE.txt"), "w", encoding="utf-8", newline="\n") as f:
         f.write(NOTICE)
 
-    zip_path = os.path.join(a.out, top + ".zip")
+    zip_path = os.path.join(a.out, f"suzu-{arch}.zip")   # 文件名不带版本，一行安装用固定地址下载；版本写在包内的 VERSION 和顶层目录名里
     zip_dir(root, zip_path, top, exec_names)
     digest = sha256(zip_path)
     with open(zip_path + ".sha256", "w", encoding="utf-8", newline="\n") as f:
