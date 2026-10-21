@@ -41,7 +41,7 @@ if [[ -z "$TESTING" ]]; then
       die "请先安装鼠须管：https://github.com/rime/squirrel/releases ，装好后再运行本脚本。"
     fi
   fi
-  SQ_VER="$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$SQ_APP/Contents/Info.plist" 2>/dev/null || echo "?")"
+  SQ_VER="$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$SQ_APP/Contents/Info.plist" 2>/dev/null || /usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$SQ_APP/Contents/Info.plist" 2>/dev/null || echo "?")"
   note "鼠须管版本 $SQ_VER（测试过 1.1.2）"
 fi
 
