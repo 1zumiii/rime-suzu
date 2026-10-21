@@ -4,7 +4,8 @@
 
 步骤
 1. 先装好小狼毫：https://github.com/rime/weasel/releases （已装过可跳过）。
-2. 解压本压缩包，双击 install.bat。需要管理员权限时会弹出询问，点“是”。
+2. 解压本压缩包，双击 install.bat。脚本会先列出将要做的事并询问是否继续，输入 y 确认；需要管理员权限时会弹出询问，点“是”。
+   只想看看会做什么、不想改动任何东西：在 PowerShell 里运行 powershell -File install.ps1 -DryRun
 3. 等脚本跑完（首次编译词库约 1 到 2 分钟）。如果它提示没有确认部署完成，在任务栏托盘的小狼毫图标上右键 -> 重新部署。
 4. 在任意输入框用 Ctrl+Shift 或 Win+空格 切换到小狼毫。
 
