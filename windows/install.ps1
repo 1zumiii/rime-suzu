@@ -32,7 +32,7 @@ $xf = @("README.md","README.upstream.md","LICENSE","AGENTS.md",".gitignore","ins
         "squirrel.yaml","squirrel.custom.yaml","rime_ice.custom.yaml","installation.yaml","user.yaml",
         "weasel.yaml",
         "recent_words.tsv","recent_pairs.tsv","custom_phrase.txt","user_freq.tsv",
-        "ai_rerank_filter.lua","ai_rerank_processor.lua","drop_words.lua","hide_words.lua","reduce_freq_words.lua","turn_down_words.lua")
+        "drop_words.lua","hide_words.lua","reduce_freq_words.lua","turn_down_words.lua")
 # weasel.yaml is NOT copied: the repo's copy would overwrite Weasel's own style (horizontal layout,
 # inline preedit, font sizes ...). Put style overrides in weasel.custom.yaml instead.
 Write-Host "NOTE: weasel.yaml is not copied, so your Weasel style is kept."
@@ -63,6 +63,10 @@ if (-not $DryRun) {
 # 3. Windows-specific overlay + files copied only when missing
 if (-not $DryRun) {
   Copy-Item (Join-Path $Src "windows\rime_ice.custom.yaml") (Join-Path $RimeDir "rime_ice.custom.yaml") -Force
+  # Windows 专用的光标上文接入层（rime_ice.custom.yaml 里挂载了它）
+  $luaDir = Join-Path $RimeDir "lua"
+  New-Item -ItemType Directory -Force $luaDir | Out-Null
+  Copy-Item (Join-Path $Src "windows\lua\ai_rerank_win_ctx.lua") $luaDir -Force
   $wc = Join-Path $Src "windows\weasel.custom.yaml"
   if ((Test-Path $wc) -and -not (Test-Path (Join-Path $RimeDir "weasel.custom.yaml"))) { Copy-Item $wc $RimeDir }
   $cp = Join-Path $RimeDir "custom_phrase.txt"

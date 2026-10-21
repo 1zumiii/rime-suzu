@@ -40,3 +40,20 @@ cn_dicts_*/
 rime_*.dict.yaml
 !melt_eng.dict.yaml
 dict_pack.lock
+
+# 个人记录与运行状态：仓库目录里调试时也不要入库
+input_log.jsonl*
+input_log.part-*
+input_log.parts
+recent_words.tsv
+recent_pairs.tsv
+recent_choices.tsv
+weird_words.tsv
+select_stats_diag.txt
+llm_errors.txt
+llm_latency.txt
+ai_status.json
+llm_token
+rime_llm_log.txt
+__pycache__/
+*.pyc
