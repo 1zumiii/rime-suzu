@@ -18,7 +18,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DICTS = ["cn_dicts/8105.dict.yaml", "cn_dicts/base.dict.yaml"]
+import os
+CN = os.environ.get("CN_DICTS", os.path.expanduser("~/Library/Rime/cn_dicts"))   # 词库由 tools/dict_pack.py 装进用户目录
+DICTS = [CN + "/8105.dict.yaml", CN + "/base.dict.yaml"]
 MIN_LEN = 4
 
 # 邻键误触容错开关。放宽范围会吞掉「完整拼音夹缩写」的输入（见上），现在的范围经过实测权衡，默认开启。

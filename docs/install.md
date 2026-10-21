@@ -3,12 +3,13 @@
 ## macOS（鼠须管）
 
 ```bash
-git clone https://github.com/1zumiii/rime-ice-Custom.git
-cd rime-ice-Custom
-./install.sh            # 先自检，再备份到 ~/Library/Rime.backup-时间，然后安装（保留词频库等个人数据）
+git clone https://github.com/1zumiii/rime-suzu.git
+cd rime-suzu
+./install.sh            # 先自检，再备份到 ~/Library/Rime.backup-时间，然后安装配置与词库包（保留词频库等个人数据）
+./install.sh --pack frost   # 换用其他词库包；省略时用 packs/DEFAULT 里写的
 ```
 
-`install.sh` 不覆盖以下文件：`*.userdb`（词频库）、`installation.yaml`、`user.yaml`、`recent_words.tsv`、`recent_pairs.tsv`、冷词记录和已存在的 `custom_phrase.txt`。安装后须重启输入法（`Squirrel --quit`，下次输入时由系统重新启动）。
+词库不在仓库里，`install.sh` 会调用 `tools/dict_pack.py` 按固定提交下载并安装词库包，首次需要联网并要求已安装 git 与 Python 3，之后用本地缓存（`~/.cache/suzu-dict-packs`）。`install.sh` 不覆盖以下文件：`*.userdb`（词频库）、`installation.yaml`、`user.yaml`、`recent_words.tsv`、`recent_pairs.tsv`、冷词记录和已存在的 `custom_phrase.txt`。安装后须重启输入法（`Squirrel --quit`，下次输入时由系统重新启动）。
 
 AI 重排的推理核心 `rime_llm.so` 须自行编译，再用 suzu-ime 仓库的 `macos/install_llm.sh` 连同模型一起安装，步骤见 [suzu-ime 的 macOS 说明](https://github.com/1zumiii/suzu-ime/blob/main/macos/README.md)。
 
@@ -16,7 +17,7 @@ AI 重排的推理核心 `rime_llm.so` 须自行编译，再用 suzu-ime 仓库�
 
 `windows/` 提供一套适配：
 
-- `install.ps1`：先备份再安装，保留现有的 `default.custom.yaml` 和用户数据。
+- `install.ps1`：先备份再安装，保留现有的 `default.custom.yaml` 和用户数据；安装后调用 `tools\dict_pack.py` 安装词库包（`-Pack 名字` 指定，须有 Python 3 与 git，首次需要联网）。
 - `check_deployed.ps1`：部署后检查官方拼写规则是否被补丁覆盖。
 - `rime_ice.custom.yaml`：移除了可能与 AI 重排冲突的功能。
 
@@ -35,7 +36,7 @@ Windows 上的 AI 重排使用 suzu-ime 构建的 `rime_llm.dll`，Lua 脚本是
 ```bash
 # 在 suzu-ime 仓库：android/trime/build_apk.sh        # 从源码编译改版 APK 并签名（首次需要 JDK 17、NDK r27d 等，见脚本开头）
 adb install -r <生成的 apk>
-llm-android/deploy_trime.sh --with-gram              # 推送配置和语法模型；须先让 Trime 键盘弹出，部署才会生效
+llm-android/deploy_trime.sh --with-gram              # 推送配置、词库包和语法模型；须先让 Trime 键盘弹出，部署才会生效。PACK=frost 可换词库包
 # 在 suzu-ime 仓库：android/daemon/rimellmctl.sh start  # 在电脑端启动守护进程（也可在手机上点按红色 AI 徽标，经 Shizuku 启动）
 ```
 

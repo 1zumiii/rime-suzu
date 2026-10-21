@@ -1,7 +1,7 @@
 #!/bin/bash
 # 把本仓库的 Rime 配置推送到手机上的 Trime（同文输入法）并触发部署。
 # 前提：手机已用 adb 连接，Trime 已安装并走完首次启动引导（引导里选「使用应用专属存储空间」），部署时手机亮屏并弹出键盘（输入法服务运行时才会响应部署广播）。
-# 用法：llm-android/deploy_trime.sh [--with-gram] [--dry-run]
+# 用法：llm-android/deploy_trime.sh [--with-gram] [--dry-run]   词库包用环境变量 PACK 指定（见 packs/packs.tsv，省略时用 packs/DEFAULT），首次需要联网
 #   --with-gram  同时推送语法模型 wanxiang-lts-zh-hans.gram（约 380 MB，默认从 ~/Library/Rime 取；已存在且大小一致则跳过）
 #   --dry-run    只列出会推送的文件，不改动手机
 # 环境变量：ANDROID_SERIAL 指定设备；GRAM 指定语法模型路径。
@@ -37,6 +37,8 @@ for ov in "$REPO"/llm-android/trime/*.overlay.yaml; do
   [[ -n "$(tail -c1 "$tgt")" ]] && echo >> "$tgt"
   cat "$ov" >> "$tgt"
 done
+# 词库包：词库不在仓库里，装进暂存区一起推送
+python3 -I "$REPO/tools/dict_pack.py" install ${PACK:+"$PACK"} --rime-dir "$STAGE" || { echo "词库包安装失败"; exit 1; }
 # 新装默认关闭 AI（手机上手动启停）：改暂存文件里开关的 reset 默认值，并确认确实改到了
 if [[ -f "$STAGE/rime_ice.custom.yaml" ]]; then
   sed -i '' 's/name: ai_rerank, reset: 1,/name: ai_rerank, reset: 0,/' "$STAGE/rime_ice.custom.yaml"

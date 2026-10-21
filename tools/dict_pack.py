@@ -7,7 +7,7 @@ packs/packs.tsv 登记每个包的来源仓库、固定提交与主词典文件�
 
 用法：
   tools/dict_pack.py list
-  tools/dict_pack.py install <包名> --rime-dir <Rime 用户目录> [--into cn_dicts] [--schema rime_ice] [--repo-url URL] [--no-extra]
+  tools/dict_pack.py install [包名] --rime-dir <Rime 用户目录> [--into cn_dicts] [--schema rime_ice] [--repo-url URL] [--no-extra]
   tools/dict_pack.py status --rime-dir <Rime 用户目录>
 install 的效果：
   <rime-dir>/<into>/        主词典导入的 cn_dicts 下的文件
@@ -98,6 +98,9 @@ def check_dict(path):
 
 def install(a):
     packs = load_packs()
+    if not a.pack:
+        d = os.path.join(HERE, "..", "packs", "DEFAULT")
+        a.pack = open(d, encoding="utf-8").read().strip() if os.path.isfile(d) else ""
     if a.pack not in packs:
         die(f"没有这个词库包：{a.pack}（可用：{', '.join(packs)}）")
     pack = packs[a.pack]
@@ -185,7 +188,7 @@ def main():
     sp = ap.add_subparsers(dest="cmd", required=True)
     sp.add_parser("list")
     i = sp.add_parser("install")
-    i.add_argument("pack")
+    i.add_argument("pack", nargs="?", help="词库包名，省略时用 packs/DEFAULT 里写的")
     i.add_argument("--rime-dir", required=True)
     i.add_argument("--into", default="cn_dicts")
     i.add_argument("--schema", default="rime_ice")

@@ -1,8 +1,8 @@
-<h1 align="center">雾凇拼音 · 1zumiii Edition</h1>
+<h1 align="center">rime-suzu</h1>
 
 <p align="center">
-  基于 <a href="https://github.com/iDvel/rime-ice">雾凇拼音（rime-ice）</a> 的个人定制版本，增加本地小模型 AI 重排、最近使用优先、个人词对、语法模型和模糊音，并提供鼠须管（macOS）、小狼毫（Windows）和同文输入法 Trime（Android）的配置。<br>
-  上游原版的说明见 <a href="https://github.com/iDvel/rime-ice">iDvel/rime-ice</a>。
+  带本地小模型 AI 的 Rime 拼音配置：按上文重排候选、补出简拼里缺的词，覆盖鼠须管（macOS）、小狼毫（Windows）和同文输入法 Trime（Android）。<br>
+  方案基于 <a href="https://github.com/iDvel/rime-ice">雾凇拼音（rime-ice）</a>，词库以“词库包”的形式安装，可在雾凇、白霜等之间替换。
 </p>
 
 <p align="center">
@@ -47,9 +47,10 @@ AI 重排的推理核心、守护进程和 Trime 补丁在 [suzu-ime](https://gi
 ## 快速开始
 
 ```bash
-git clone https://github.com/1zumiii/rime-ice-Custom.git
-cd rime-ice-Custom
-./install.sh        # macOS：先自检，再备份到 ~/Library/Rime.backup-时间，然后安装
+git clone https://github.com/1zumiii/rime-suzu.git
+cd rime-suzu
+./install.sh        # macOS：先自检，再备份到 ~/Library/Rime.backup-时间，然后安装配置和词库包（首次需要联网下载词库）
+./install.sh --pack frost   # 换用其他词库包，见下文
 ```
 
 1. 从 Hugging Face 下载模型 [Suzu-2.4](https://huggingface.co/IzumiThe3rd/Suzu-2.4) 的 `suzu.gguf` 与 `suzu.vocab.txt`，放入用户目录（macOS 为 `~/Library/Rime`）。
@@ -66,15 +67,16 @@ cd rime-ice-Custom
 | [Android](docs/android.md) | 改版 Trime、守护进程、配置更新、模块状态页、手机端设置 |
 | [其他功能](docs/features.md) | 个人词对、最近使用优先、本机记录一览、选词统计、语法模型、模糊音、小改动 |
 | [安装](docs/install.md) | macOS、Windows、Android 的完整安装步骤 |
-| [维护说明](docs/maintenance.md) | 补丁与部署的注意事项、同步上游、自定义内容的位置 |
+| [词库包](docs/dictionary-packs.md) | 词库不放在仓库里：安装与替换词库、新增词库包、本仓库的补充词条 |
+| [维护说明](docs/maintenance.md) | 补丁与部署的注意事项、与雾凇上游的关系、自定义内容的位置 |
 | [误触容错](docs/typo-tolerance.md) | 相邻按键误触的数据与取舍 |
 
 ## 项目说明
 
-本仓库基于 [iDvel/rime-ice](https://github.com/iDvel/rime-ice) 的 `da1fbe6`（2026-10-05），仅供个人使用，未做成通用发行版。默认分支为 `custom`，只从上游合并更新，不向上游推送；`main` 与上游保持一致。个人改动都放在独立文件里（`*.custom.yaml` 补丁和独立的 Lua 脚本），不直接修改上游的方案、词库和 Lua，合并上游更新时基本不会冲突。
+本仓库的方案文件与配置结构来自 [iDvel/rime-ice](https://github.com/iDvel/rime-ice) 的 `da1fbe6`（2026-10-05），此后独立维护，不再定期合并上游，上游有重要的 Lua 或方案修复时按需摘取。仓库只放配置、Lua 脚本和各端的部署脚本，不含词库：词库按 `packs/packs.tsv` 登记的固定提交安装，当前登记了雾凇和白霜，新增或更换词库包见 [词库包](docs/dictionary-packs.md)。个人改动都放在独立文件里（`*.custom.yaml` 补丁和独立的 Lua 脚本），本仓库自己的补充词条放在 `extras/extra.dict.yaml`，叠加在任何词库包之上。仅供个人使用，未做成通用发行版。
 
 ## 致谢与许可
 
-感谢 [iDvel/rime-ice](https://github.com/iDvel/rime-ice) 及其贡献者；[zhanghaozhecn/rime-llm-rerank](https://github.com/zhanghaozhecn/rime-llm-rerank)（AI 重排的原项目，署名许可，个人使用无限制）；[amzxyz/RIME-LMDG](https://github.com/amzxyz/RIME-LMDG)（万象语法模型）；[llama.cpp](https://github.com/ggml-org/llama.cpp)；[osfans/trime](https://github.com/osfans/trime)（同文输入法，GPL-3.0）及同文风主题作者暖暖；[Shizuku](https://github.com/RikkaApps/Shizuku)；以及 Rime、librime-lua、librime-octagram 的作者。
+感谢 [iDvel/rime-ice](https://github.com/iDvel/rime-ice) 及其贡献者；[gaboolic/rime-frost](https://github.com/gaboolic/rime-frost)（白霜拼音词库，GPL-3.0，词库包之一）；[zhanghaozhecn/rime-llm-rerank](https://github.com/zhanghaozhecn/rime-llm-rerank)（AI 重排的原项目，署名许可，个人使用无限制）；[amzxyz/RIME-LMDG](https://github.com/amzxyz/RIME-LMDG)（万象语法模型）；[llama.cpp](https://github.com/ggml-org/llama.cpp)；[osfans/trime](https://github.com/osfans/trime)（同文输入法，GPL-3.0）及同文风主题作者暖暖；[Shizuku](https://github.com/RikkaApps/Shizuku)；以及 Rime、librime-lua、librime-octagram 的作者。
 
-本仓库沿用上游的 GPL-3.0 许可证，见 [LICENSE](LICENSE)。模型文件和语法模型各自遵循发布方的许可。
+本仓库沿用雾凇的 GPL-3.0 许可证，见 [LICENSE](LICENSE)。词库包、模型文件和语法模型各自遵循发布方的许可，来源与许可证登记在 `packs/packs.tsv`。

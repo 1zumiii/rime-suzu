@@ -12,9 +12,6 @@ user.yaml
 !others/**/*.custom.yaml
 
 custom_phrase_double.txt
-others/script/scel2txt/out/*
-others/script/scel2txt/scel/*
-cn_dicts/temp.txt
 
 *private*
 
@@ -36,3 +33,10 @@ recent_pairs.archive*
 select_replay.jsonl*
 select_replay.part-*
 personal_pairs_base.tsv
+
+# 词库由 tools/dict_pack.py 安装，不进仓库
+cn_dicts/
+cn_dicts_*/
+rime_*.dict.yaml
+!melt_eng.dict.yaml
+dict_pack.lock
