@@ -1,7 +1,7 @@
 #!/bin/bash
 # Suzu 一键安装（macOS，Apple 芯片，鼠须管 Squirrel）
 # 用法：双击本文件；若提示“无法验证开发者”，右键选“打开”，或在终端里运行 bash install.command
-# 选项：--with-gram 同时下载万象语法模型（约 380 MB，可选）
+# 选项：--with-gram 同时下载万象语法模型（约 380 MB，可选）；--yes 不再询问，直接安装
 # 环境变量：RIME_DIR 指定鼠须管用户目录（默认 ~/Library/Rime）
 # 会做的事：备份现有配置 → 安装配置、词库、Suzu 模型和推理核心 → 重新部署。
 # 不会做的事：不创建任何统计或记录开关（选词统计、语料、输入事件流都保持关闭），不联网上传任何东西。
@@ -14,7 +14,8 @@ SQ_APP="/Library/Input Methods/Squirrel.app"
 SQ_BIN="$SQ_APP/Contents/MacOS/Squirrel"
 TESTING="${SUZU_TEST:-}"        # 测试时跳过对鼠须管的检查、退出与重新部署
 WITH_GRAM=0
-for a in "$@"; do case "$a" in --with-gram) WITH_GRAM=1 ;; *) echo "未知选项 $a"; exit 2 ;; esac; done
+YES="${SUZU_ASSUME_YES:-}"
+for a in "$@"; do case "$a" in --with-gram) WITH_GRAM=1 ;; --yes) YES=1 ;; *) echo "未知选项 $a"; exit 2 ;; esac; done
 
 say() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 note() { printf '  %s\n' "$*"; }
@@ -42,6 +43,16 @@ if [[ -z "$TESTING" ]]; then
   fi
   SQ_VER="$(defaults read "$SQ_APP/Contents/Info" CFBundleShortVersionString 2>/dev/null || echo "?")"
   note "鼠须管版本 $SQ_VER（测试过 1.1.2）"
+fi
+
+say "将要做的事"
+note "1. 把 $DEST 备份到 $DEST.backup-时间"
+note "2. 退出鼠须管，安装配置、词库和 Suzu 模型到 $DEST（不覆盖你的词频库和已有的 default.custom.yaml）"
+note "3. 安装推理核心，重新部署"
+note "不会创建任何统计或记录开关，不上传任何内容。"
+if [[ -z "$YES" && -z "$TESTING" ]]; then
+  read -r -p "确认安装吗？(y/n) " yn
+  [[ "$yn" == "y" || "$yn" == "Y" ]] || { echo "已取消，没有改动任何东西。"; exit 0; }
 fi
 
 mkdir -p "$DEST"

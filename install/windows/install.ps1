@@ -5,6 +5,8 @@
 param(
   [string]$WeaselDir = "",
   [string]$UserDir = "",
+  [switch]$Yes,         # 不再询问，直接安装（环境变量 SUZU_YES=1 同效）
+  [switch]$DryRun,      # 只检查并列出将要做的事，不改动任何东西
   [switch]$SkipServer   # 测试用：不停止、不启动小狼毫服务，不重新部署
 )
 $ErrorActionPreference = "Stop"
@@ -40,27 +42,40 @@ $Deployer = Join-Path $WeaselDir 'WeaselDeployer.exe'
 Note "小狼毫目录：$WeaselDir"
 if ((Split-Path $WeaselDir -Leaf) -notmatch '0\.17') { Note "提示：测试过的是 0.17.x，当前目录名是 $(Split-Path $WeaselDir -Leaf)，其他版本未验证。" }
 
+# ---- 用户目录 ----
+if (-not $UserDir) {
+  $UserDir = (Get-ItemProperty 'HKCU:\Software\Rime\Weasel' -ErrorAction SilentlyContinue).RimeUserDir
+  if (-not $UserDir) { $UserDir = Join-Path $env:APPDATA 'Rime' }
+}
+Note "用户目录：$UserDir"
+
+# ---- 确认 ----
+Say "将要做的事"
+Note "1. 把现有用户目录整个备份到 $UserDir.backup-时间"
+Note "2. 退出小狼毫服务，安装配置、词库和 Suzu 模型到 $UserDir（不覆盖你的样式、词频库和已有的 default.custom.yaml）"
+Note "3. 把推理核心 rime_llm.dll 放进 $WeaselDir（旧的先备份），重新启动服务并部署"
+Note "不会创建任何统计或记录开关，不上传任何内容。"
+if ($DryRun) { Say "试运行结束，没有改动任何东西。"; exit 0 }
+if (-not ($Yes -or $env:SUZU_YES -eq '1' -or $SkipServer)) {
+  $ans = Read-Host "确认安装吗？(y/n)"
+  if ($ans -ne 'y' -and $ans -ne 'Y') { Write-Host "已取消，没有改动任何东西。"; exit 0 }
+}
+
 # ---- 需要管理员权限时重新以管理员运行（小狼毫通常装在 Program Files 下） ----
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 $canWrite = $false
 try { $probe = Join-Path $WeaselDir ('.suzu_write_test_' + [guid]::NewGuid().ToString('N')); New-Item -ItemType File $probe -ErrorAction Stop | Out-Null; Remove-Item $probe; $canWrite = $true } catch {}
 if (-not $canWrite -and -not $isAdmin) {
   Note "写入小狼毫目录需要管理员权限，正在请求……"
-  $argList = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', "`"$($MyInvocation.MyCommand.Path)`"", '-WeaselDir', "`"$WeaselDir`"")
-  if ($UserDir) { $argList += @('-UserDir', "`"$UserDir`"") }
+  $argList = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', "`"$($MyInvocation.MyCommand.Path)`"", '-WeaselDir', "`"$WeaselDir`"", '-Yes')
+  $argList += @('-UserDir', "`"$UserDir`"")
   if ($SkipServer) { $argList += '-SkipServer' }
   Start-Process powershell -Verb RunAs -ArgumentList $argList
   exit 0
 }
 
-# ---- 用户目录 ----
-if (-not $UserDir) {
-  $UserDir = (Get-ItemProperty 'HKCU:\Software\Rime\Weasel' -ErrorAction SilentlyContinue).RimeUserDir
-  if (-not $UserDir) { $UserDir = Join-Path $env:APPDATA 'Rime' }
-}
-New-Item -ItemType Directory -Force $UserDir | Out-Null
-Note "用户目录：$UserDir"
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
+New-Item -ItemType Directory -Force $UserDir | Out-Null
 
 function Server-Running { [bool](Get-Process -Name WeaselServer -ErrorAction SilentlyContinue) }
 function Stop-Server {

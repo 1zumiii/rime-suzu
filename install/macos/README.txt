@@ -4,7 +4,7 @@
 
 步骤
 1. 先装好鼠须管：https://github.com/rime/squirrel/releases （已装过可跳过；装了 Homebrew 的话，脚本会问是否替你装）。
-2. 解压本压缩包，双击 install.command。
+2. 解压本压缩包，双击 install.command。脚本会先列出将要做的事并询问是否继续，输入 y 确认（加参数 --yes 可跳过询问）。
    如果提示“无法验证开发者”，右键 install.command，选“打开”；或在终端里进入解压出来的文件夹，运行 bash install.command。
 3. 等脚本跑完（首次编译词库约 1 到 2 分钟）。
 4. 系统设置 -> 键盘 -> 输入法 -> 编辑 -> 加号 -> 中文 -> 鼠须管，添加后用 Control+空格 切换。
