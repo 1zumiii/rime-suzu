@@ -1,6 +1,6 @@
 # Windows(小狼毫) 专用的雾凇拼音补丁。安装时会覆盖用户目录里的 rime_ice.custom.yaml。
 # 与根目录(Mac)版的区别：
-#   - AI 重排多挂一个 Windows 专用的 ai_rerank_win_ctx（processors 的第 2 位），读应用里光标前的文字
+#   - AI 重排多挂一个 ai_rerank_app_ctx（processors 的第 2 位），读应用里光标前的文字
 #   - recent_boost_filter 保留（记录个人词对与纠错记忆，AI 重排读取它们；AI 重排放在过滤器最后，会按融合分重排）
 #   - 去掉 model_badge_filter（LLM 插件自己有 AI· 标记，且两者会争用 @after last）
 #   - cn_en_spacer 的下标因 recent_boost_filter 插在第 4 位而改成 @before 6
@@ -55,10 +55,10 @@ patch:
 
   # ---------- AI 重排（共用的 ai_rerank_*.lua，推理核心 rime_llm.dll 由 suzu-ime 的 windows/ 构建部署） ----------
   # 模型：用户目录放 suzu.gguf 与 suzu.vocab.txt 就自动使用。
-  # processors 里 ai_rerank_processor 放最前，Windows 专用的 ai_rerank_win_ctx（读应用里光标前的文字作上文）紧随其后；
+  # processors 里 ai_rerank_processor 放最前，ai_rerank_app_ctx（读应用里光标前的文字作上文）紧随其后；
   # filter 放在 filters 最后（uniquifier 之后）。
   "engine/processors/@before 0": lua_processor@*ai_rerank_processor
-  "engine/processors/@before 1": lua_processor@*ai_rerank_win_ctx
+  "engine/processors/@before 1": lua_processor@*ai_rerank_app_ctx
   "engine/filters/@after last": lua_filter@*ai_rerank_filter
   # 方案开关：同一个键只能出现一次，两个开关用 "switches/+" 一次追加；key_binder 用 "/+" 追加，不要整体替换官方绑定
   "switches/+":

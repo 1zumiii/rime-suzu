@@ -150,9 +150,8 @@ def main():
             die("windows 需要 --core rime_llm.dll")
         os.makedirs(os.path.join(root, "core"))
         shutil.copy2(a.core, os.path.join(root, "core", "rime_llm.dll"))
-        # Windows 专用的配置补丁与光标上文接入层
+        # Windows 专用的配置补丁（光标上文接入层 ai_rerank_app_ctx.lua 是共用的，已在 lua/ 里）
         shutil.copy2(os.path.join(src, "windows", "rime_ice.custom.yaml"), os.path.join(payload, "rime_ice.custom.yaml"))
-        shutil.copy2(os.path.join(src, "windows", "lua", "ai_rerank_win_ctx.lua"), os.path.join(payload, "lua", "ai_rerank_win_ctx.lua"))
     else:
         if not (a.apk and a.daemon):
             die("android 需要 --apk 与 --daemon")

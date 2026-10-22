@@ -48,14 +48,14 @@ AI 重排的推理核心 `rime_llm.so` 须自行编译，再用 suzu-ime 仓库�
 
 - `install.ps1`：先备份再安装，保留现有的 `default.custom.yaml` 和用户数据；安装后调用 `tools\dict_pack.py` 安装词库包（`-Pack 名字` 指定，须有 Python 3 与 git，首次需要联网）。
 - `check_deployed.ps1`：部署后检查官方拼写规则是否被补丁覆盖。
-- `rime_ice.custom.yaml`：已挂载 AI 重排（`ai_rerank_processor`、`ai_rerank_win_ctx`、`ai_rerank_filter`），移除了可能与它冲突的功能。
-- `lua/ai_rerank_win_ctx.lua`：Windows 专用，读应用里光标前的文字作上文，安装时拷进用户目录的 `lua/`。
+- `rime_ice.custom.yaml`：已挂载 AI 重排（`ai_rerank_processor`、`ai_rerank_app_ctx`、`ai_rerank_filter`），移除了可能与它冲突的功能。
+- `lua/ai_rerank_app_ctx.lua`：与 macOS、Android 共用，读应用里光标前的文字作上文（Windows 经 UIA 与 COM），随 `lua/` 一起拷进用户目录。
 
-`install.ps1` 的 `robocopy` 部分已在 Windows 上运行过，并修复了几个问题：`robocopy` 遇到被占用的文件会无限等待，预览不显示文件列表，会覆盖用户自己的 `weasel.yaml` 样式。覆盖面仍然有限，首次使用先用 `-DryRun` 预览。AI 重排的挂载模板、`ai_rerank_win_ctx.lua` 的拷贝与词库包安装是近期改动，尚未在 Windows 上实测。
+`install.ps1` 的 `robocopy` 部分已在 Windows 上运行过，并修复了几个问题：`robocopy` 遇到被占用的文件会无限等待，预览不显示文件列表，会覆盖用户自己的 `weasel.yaml` 样式。覆盖面仍然有限，首次使用先用 `-DryRun` 预览。AI 重排的挂载模板、光标上文接入层的拷贝与词库包安装是近期改动，尚未在 Windows 上实测。
 
 **安装后须重新部署。** 最稳妥的办法是点击托盘图标中的“重新部署”。从自己的命令行直接运行 `WeaselDeployer.exe /deploy` 通常不会编译，反而会弹出“方案选单设定”窗口并一直挂着，因为它从当前进程里无法与服务端正常通信；要无人值守，须在小狼毫服务运行时通过交互式计划任务启动部署器，suzu-ime 的 `windows/deploy_airerank.ps1` 就是这样做的。脚本不复制 `weasel.yaml`，用户自己的小狼毫样式会保留；样式覆盖应写在 `weasel.custom.yaml` 中。
 
-Windows 上的 AI 重排与 macOS、Android 共用同一套 `ai_rerank_*` Lua 脚本，另加 Windows 专用的 `ai_rerank_win_ctx.lua`。推理核心 `rime_llm.dll` 由 suzu-ime 构建；构建、部署与回滚脚本见 [suzu-ime 的 Windows 说明](https://github.com/1zumiii/suzu-ime/blob/main/windows/README.md)。模型 `suzu.gguf` 与 `suzu.vocab.txt` 须放入用户目录。suzu-ime 的 `deploy_airerank.ps1` 用于把旧的 `llm_*` 配置切换到共用 Lua，用本仓库的模板新装的不需要它。
+Windows 上的 AI 重排与 macOS、Android 共用同一套 `ai_rerank_*` Lua 脚本，光标上文接入层 `ai_rerank_app_ctx.lua` 也是共用的。推理核心 `rime_llm.dll` 由 suzu-ime 构建；构建、部署与回滚脚本见 [suzu-ime 的 Windows 说明](https://github.com/1zumiii/suzu-ime/blob/main/windows/README.md)。模型 `suzu.gguf` 与 `suzu.vocab.txt` 须放入用户目录。suzu-ime 的 `deploy_airerank.ps1` 用于把旧的 `llm_*` 配置切换到共用 Lua，用本仓库的模板新装的不需要它。
 
 ## 从源码安装：Android（Trime）
 
