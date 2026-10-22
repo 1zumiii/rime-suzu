@@ -58,11 +58,15 @@ patch:
   "engine/filters/@after 10": lua_filter@*emoji_defer_filter
 
   # ---------- 8. AI 重排（实验）----------
-  # 本地小模型（Qwen3.5-0.8B）按「本会话内上屏的内容」重排候选，详见 suzu-ime 仓库的 macos/README.md。
+  # 本地小模型按上文（应用里光标前的文字，读不到时用本会话上屏的内容）重排候选，详见 suzu-ime 仓库的 macos/README.md。
   # 需要先安装 rime_llm.so 和模型；没装时这两个组件什么都不做（开关关闭时直接放行/透传）。
   # 开关：默认开；Control+Shift+5 或方案菜单（F4 / Control+`）里的「AI 关/开」可在当前输入框临时切换。
   # 位置：processor 放最前，filter 放最后（uniquifier 之后）；这两个位置各只能给一个组件用。
   "engine/processors/@before 0": lua_processor@*ai_rerank_processor
+  # 光标上文：读应用里光标前的文字作上文（macOS 经辅助功能接口，须给鼠须管授权；Android 由改版 Trime 提供），
+  # 读不到退回上屏历史；紧跟在 ai_rerank_processor 之后，见 lua/ai_rerank_app_ctx.lua。
+  # llm_rerank/context_source: history 可临时只用上屏历史。
+  "engine/processors/@before 1": lua_processor@*ai_rerank_app_ctx
   "engine/filters/@after last": lua_filter@*ai_rerank_filter
   # 默认开（reset: 1）：鼠须管的开关状态是每个应用/输入框各管各的，新输入框会回到默认状态，
   # 所以默认值必须是开；Control+Shift+5 只在当前输入框里临时开/关。
