@@ -12,6 +12,7 @@
 - Windows：解压后双击 install-android.bat
 脚本会：下载 adb（没有的话）、安装改版同文输入法、让你在手机上走一遍首次引导（“存储”一步选“使用应用专属存储空间”）、推送配置和词库、编译词库、启动 AI 推理进程。
 先加参数 --dry-run（Windows 用 -DryRun）可以只检查手机，不安装不部署。
+推送配置前会询问是否下载万象语法模型（约 400 MB，先下到电脑、核对后推到手机），装了整句候选更好，不装也能用。加 --with-gram 直接下载、--no-gram 不下载也不询问（Windows 用 -Grammar download 或 -Grammar skip）。
 
 用法
 - 输入法切换到同文，打 zm、jingli。候选后面带 ◇ 表示 Suzu 参与了排序，工具栏的“AI”徽标可以点一下开关。

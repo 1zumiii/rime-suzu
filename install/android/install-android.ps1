@@ -1,9 +1,12 @@
 ﻿# Suzu 一键安装（Android，改版同文输入法 Trime），在 Windows 电脑上运行，手机用 USB 连接。
 # 前提：手机上打开“开发者选项”里的“USB 调试”，连上电脑后在手机上点“允许此电脑调试”。
-# 用法：双击 install-android.bat（或 powershell -File install-android.ps1 [-DryRun]）
+# 用法：双击 install-android.bat（或 powershell -File install-android.ps1 [-DryRun] [-Grammar ask|download|skip]）
 # 会做的事：安装改版 Trime -> 推送配置、词库 -> 启动 AI 推理进程。
 # 不会做的事：不创建任何统计或记录开关，不联网上传任何东西。
-param([switch]$DryRun)
+param(
+  [switch]$DryRun,
+  [ValidateSet('ask', 'download', 'skip')][string]$Grammar = 'ask'   # 万象语法模型（约 400 MB）：询问 / 直接下载 / 不下载
+)
 $ErrorActionPreference = "Stop"
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Payload = Join-Path $Here "payload"
@@ -15,6 +18,21 @@ function Say($m) { Write-Host ""; Write-Host $m -ForegroundColor Cyan }
 function Note($m) { Write-Host "  $m" }
 function Fail($m) { Write-Host ""; Write-Host "出错：$m" -ForegroundColor Red; Read-Host "按回车关闭"; exit 1 }
 function Pause-Msg($m) { Read-Host "  $m（做完按回车）" | Out-Null }
+# 万象语法模型：改善整句输入的同音字选择，改版同文自带 octagram 插件。文件太大不放进安装包，安装时按用户选择从作者的发布页下载到电脑，
+# 核对作者公布的 sha256 后推到手机。来源 amzxyz/rime-wanxiang-data（CC BY 4.0）；作者更新文件后要同步更新这里的哈希。
+$GramName = 'wanxiang-lts-zh-hans.gram'
+$GramUrl = 'https://github.com/amzxyz/rime-wanxiang-data/releases/download/LTS/wanxiang-lts-zh-hans.gram'
+$GramSha256 = '9eedac1d836f3fdafb61b162035c8937253aedc106be40b2b957d9ab64e9ed89'
+# 没有语法模型时去掉配置里的 grammar 块与依赖它的 contextual_suggestions，免得每次部署都报错（与 Windows 安装脚本相同的规则）
+function Remove-GrammarConfig($yaml) {
+  if (-not (Test-Path $yaml)) { return }
+  $t = [IO.File]::ReadAllText($yaml, [Text.Encoding]::UTF8)
+  $t = [regex]::Replace($t, '(?m)^[ \t]*#[^\n]*wanxiang[^\n]*\r?\n', '')
+  $t = [regex]::Replace($t, '(?m)^([ \t]*)grammar:[ \t]*\r?\n(?:\1[ \t]+[^\n]*\r?\n)*', '')
+  $t = [regex]::Replace($t, '(?m)^[ \t]*translator/contextual_suggestions:[^\n]*\r?\n', '')
+  [IO.File]::WriteAllText($yaml, $t, (New-Object Text.UTF8Encoding($false)))
+}
+function Sha256Of($f) { (Get-FileHash $f -Algorithm SHA256).Hash.ToLower() }
 if (-not ((Test-Path (Join-Path $Here 'android\trime.apk')) -and (Test-Path $Payload))) { Fail "安装包不完整，请重新解压。" }
 
 Say "Suzu 一键安装（Android）"
@@ -87,7 +105,46 @@ if ($LASTEXITCODE -ge 8) { Fail "整理文件失败（robocopy $LASTEXITCODE）"
 if ((AdbSh "grep -q 'schema: rime_ice' $Rime/default.custom.yaml 2>/dev/null && echo yes") -match 'yes') {
   Remove-Item (Join-Path $stage 'default.custom.yaml') -ErrorAction SilentlyContinue; Note "保留手机上现有的 default.custom.yaml"
 }
+# 语法模型：手机上已有就用；选了下载就先下到电脑（安装包目录里，下次运行不用重下）、核对 sha256 再推到手机；否则去掉配置里的 grammar
+$gramOk = $false
+$localGram = Join-Path $Here $GramName
+if ((AdbSh "test -f $Rime/$GramName && echo yes") -match 'yes') { $gramOk = $true; Note "语法模型：手机上已有 $GramName，直接使用" }
+else {
+  if ($Grammar -eq 'ask') {
+    $Grammar = 'skip'
+    if (-not $DryRun) {
+      Note "语法模型（可选，约 400 MB）：改善整句输入的同音字选择；不下载也能正常使用，只是整句质量差一点"
+      $g = Read-Host "  要下载万象语法模型吗？来自 github.com/amzxyz/rime-wanxiang-data（y/n）"
+      if ($g -eq 'y' -or $g -eq 'Y') { $Grammar = 'download' }
+    }
+  }
+  if ($Grammar -eq 'download' -and -not $DryRun) {
+    if ((Test-Path $localGram) -and (Sha256Of $localGram) -eq $GramSha256) { Note "使用安装包目录里已下载的语法模型" }
+    else {
+      Note "正在下载语法模型（约 400 MB，视网速需要几分钟）……"
+      $tmp = "$localGram.part"
+      Remove-Item $localGram, $tmp -ErrorAction SilentlyContinue
+      try {
+        $curl = Join-Path $env:SystemRoot 'System32\curl.exe'
+        if (Test-Path $curl) { & $curl -L --fail --retry 2 -o $tmp $GramUrl; if ($LASTEXITCODE -ne 0) { throw "curl 返回 $LASTEXITCODE" } }
+        else { $ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri $GramUrl -OutFile $tmp -UseBasicParsing }
+        if ((Sha256Of $tmp) -ne $GramSha256) { throw "文件校验不一致（可能是作者更新了文件）" }
+        Move-Item $tmp $localGram -Force
+        Note "语法模型已下载并校验"
+      } catch {
+        Remove-Item $tmp -ErrorAction SilentlyContinue
+        Note "语法模型下载失败：$($_.Exception.Message)。先不用它，之后重新运行安装并选 y 即可。"
+      }
+    }
+    if (Test-Path $localGram) { $gramOk = $true }
+  }
+}
+if (-not $gramOk) { Remove-GrammarConfig (Join-Path $stage 'rime_ice.custom.yaml'); Note "未安装语法模型：已从配置里去掉 grammar（不影响使用）" }
 Adb push "$stage\." "$Rime/" | Select-Object -Last 1
+if ($gramOk -and (Test-Path $localGram) -and (AdbSh "test -f $Rime/$GramName && echo yes") -notmatch 'yes') {
+  Adb push $localGram "$Rime/$GramName.part" | Select-Object -Last 1
+  Adb shell "mv $Rime/$GramName.part $Rime/$GramName" | Out-Null
+}
 Remove-Item $stage -Recurse -Force -ErrorAction SilentlyContinue
 if ($DryRun) { Say "试运行结束"; Note "已把配置推到 $Rime（临时目录，可删除）。设备检查与文件推送正常。"; exit 0 }
 

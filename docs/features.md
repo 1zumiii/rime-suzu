@@ -41,7 +41,7 @@
 
 ## 语法模型
 
-本仓库配置了万象语法模型 `wanxiang-lts-zh-hans.gram`（约 379 MB），用于改善整句输入时的同音字选择，鼠须管自带 octagram 插件。模型文件不在仓库中，须自行从 [amzxyz/RIME-LMDG](https://github.com/amzxyz/RIME-LMDG/releases) 下载，放入 `~/Library/Rime/`。缺少该文件时，相关配置会被忽略，不影响使用。整句候选带 `❖` 标记（`model_badge_filter.lua`）。
+本仓库配置了万象语法模型 `wanxiang-lts-zh-hans.gram`（约 400 MB），用于改善整句输入时的同音字选择，鼠须管、小狼毫和改版同文都自带 octagram 插件。模型文件不在仓库中，来源是 [amzxyz/rime-wanxiang-data](https://github.com/amzxyz/rime-wanxiang-data/releases)（CC BY 4.0）。一键安装时会询问是否下载，下载后核对作者公布的 sha256 再放进用户目录。不下载、下载失败或校验不一致时，安装脚本从配置里去掉 `grammar` 与 `translator/contextual_suggestions`，部署时不再报找不到文件。以后想加上，重新运行安装并选择下载即可。手动安装时自行下载放入用户目录。整句候选带 `❖` 标记（`model_badge_filter.lua`）。
 
 ## 模糊音与误触容错
 
