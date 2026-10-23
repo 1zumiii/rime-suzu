@@ -216,6 +216,7 @@ NOTICE = """本安装包的组成与许可：
 - 模型：Suzu-2.4（CC BY-SA 4.0），https://huggingface.co/IzumiThe3rd/Suzu-2.4 ；训练数据与许可见该页面。
 - 推理核心：suzu-ime（GPL-3.0），https://github.com/1zumiii/suzu-ime ；使用 llama.cpp（MIT）。
 - 同文输入法 Trime（Android 包，GPL-3.0）：https://github.com/osfans/trime ，改版补丁在 suzu-ime 仓库。
+- 万象语法模型 wanxiang-lts-zh-hans.gram（CC BY 4.0，作者 amzxyz）：不在安装包里，Windows 安装时可选从 https://github.com/amzxyz/rime-wanxiang-data 下载。
 完整的署名与许可见各仓库的 NOTICE 与 LICENSE。
 """
 
