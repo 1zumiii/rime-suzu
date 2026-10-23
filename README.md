@@ -42,7 +42,7 @@
 | Windows | 小狼毫 0.17 | AI 重排已在 Windows 11 上部署使用，其余功能验证较少 |
 | Android | 改版同文输入法（Trime） | 在一台 ASUS Zenfone 10 上日常使用 |
 
-AI 重排的推理核心、守护进程和 Trime 补丁在 [suzu-ime](https://github.com/1zumiii/suzu-ime) 仓库，本仓库只放配置和同步过来的 Lua 脚本。没有模型文件时不重排，输入不受影响。
+AI 重排的推理核心、守护进程和 Trime 补丁在 [suzu-ime](https://github.com/1zumiii/suzu-ime) 仓库，本仓库只放配置和同步过来的 Lua 脚本。没有模型文件时不重排，输入不受影响。已有自己的 Rime 配置、只想加上 AI 重排时，不必换成本仓库：用 suzu-ime 的方案补丁接入即可，调好的参数已是默认值，见 [接入已有的 Rime 配置](https://github.com/1zumiii/suzu-ime#接入已有的-rime-配置)。
 
 ## 快速开始
 
