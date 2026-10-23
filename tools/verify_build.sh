@@ -30,7 +30,7 @@ fi
 # （曾因 rime_ice.custom.yaml 里写了两行同名的 "switches/@next"，YAML 重复键只留一个，把 ai_rerank 开关挤掉了）
 for SW in ai_rerank ai_stage2; do
   if ! grep -q "name: $SW\$" "$SCHEMA"; then
-    echo "自检失败：编译后的方案里没有开关 $SW（rime_ice.custom.yaml 里的 switches 写法有问题？同一个键不能出现两次，要用 \"switches/+\" 一次追加）"
+    echo "自检失败：编译后的方案里没有开关 ${SW}（rime_ice.custom.yaml 里的 switches 写法有问题？同一个键不能出现两次，要用 \"switches/+\" 一次追加）"
     exit 1
   fi
 done

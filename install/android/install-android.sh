@@ -53,8 +53,8 @@ fi
 sh_() { "$ADB" shell "$@" | tr -d '\r'; }
 ABI="$(sh_ getprop ro.product.cpu.abi)"
 SDK="$(sh_ getprop ro.build.version.sdk)"
-note "设备：$(sh_ getprop ro.product.model)，Android $(sh_ getprop ro.build.version.release)（API $SDK），$ABI"
-[[ "$ABI" == "arm64-v8a" ]] || die "只支持 arm64 手机（当前 $ABI）。"
+note "设备：$(sh_ getprop ro.product.model)，Android $(sh_ getprop ro.build.version.release)（API ${SDK}），$ABI"
+[[ "$ABI" == "arm64-v8a" ]] || die "只支持 arm64 手机（当前 ${ABI}）。"
 [[ "$SDK" -ge 30 ]] || die "需要 Android 11（API 30）或更新。"
 
 # ---- 安装 APK ----
@@ -87,7 +87,7 @@ if ! sh_ "test -d $RIME && echo yes" | grep -q yes; then
 MSG
   pause "完成上面的引导"
   for _ in $(seq 1 60); do sh_ "test -d $RIME && echo yes" | grep -q yes && break; sleep 2; done
-  sh_ "test -d $RIME && echo yes" | grep -q yes || die "没有找到同文的用户目录 $RIME。请确认引导已走完且选了“使用应用专属存储空间”。"
+  sh_ "test -d $RIME && echo yes" | grep -q yes || die "没有找到同文的用户目录 ${RIME}。请确认引导已走完且选了“使用应用专属存储空间”。"
 fi
 note "同文用户目录已就绪"
 
@@ -106,7 +106,7 @@ fi
 
 if [[ "$DRY" == 1 ]]; then
   say "试运行结束"
-  note "已把配置推到 $RIME（临时目录，可删除）。设备检查与文件推送正常。"
+  note "已把配置推到 ${RIME}（临时目录，可删除）。设备检查与文件推送正常。"
   "$ADB" shell "ls $RIME | head -30" | tr '\n' ' '; echo
   exit 0
 fi
