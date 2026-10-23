@@ -56,7 +56,7 @@ dir="$WORK/bundle"
 rm -rf "$dir"; mkdir -p "$dir"
 unzip -q "$zip" -d "$dir"
 inner="$(find "$dir" -maxdepth 1 -mindepth 1 -type d | head -1)"
-[[ -f "$inner/$entry" ]] || { echo "安装包里没有 $entry，包不完整。"; exit 1; }
+[[ -f "$inner/$entry" ]] || { echo "安装包里没有 ${entry}，包不完整。"; exit 1; }
 xattr -dr com.apple.quarantine "$inner" 2>/dev/null || true
 cd "$inner"
 # 通过管道运行时标准输入是脚本本身，安装脚本里的提问要从终端读

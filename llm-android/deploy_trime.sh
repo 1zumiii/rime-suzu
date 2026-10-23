@@ -33,7 +33,7 @@ rsync -a --exclude='.git/' --exclude='.github/' --exclude='.gitignore' --exclude
 for ov in "$REPO"/llm-android/trime/*.overlay.yaml; do
   [[ -f "$ov" ]] || continue
   base="$(basename "$ov" .overlay.yaml)"; tgt="$STAGE/$base.custom.yaml"
-  [[ -f "$tgt" ]] || { echo "跳过 $ov：没有对应的 $base.custom.yaml"; continue; }
+  [[ -f "$tgt" ]] || { echo "跳过 ${ov}：没有对应的 $base.custom.yaml"; continue; }
   [[ -n "$(tail -c1 "$tgt")" ]] && echo >> "$tgt"
   cat "$ov" >> "$tgt"
 done
