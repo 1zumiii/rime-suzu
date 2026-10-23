@@ -16,7 +16,7 @@ import argparse, datetime, hashlib, os, re, shutil, stat, subprocess, sys, tempf
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, ".."))
 
-COMMON_EXCLUDE_DIRS = {"docs", "tools", "packs", "extras", "others", "tests", ".github", "build", "windows", "llm-android"}
+COMMON_EXCLUDE_DIRS = {"docs", "tools", "packs", "extras", "others", "tests", ".github", "build", "windows", "llm-android", "install"}
 COMMON_EXCLUDE_FILES = {".gitignore", "README.md", "install.sh", "install.ps1", "squirrel.yaml", "squirrel.custom.yaml", "weasel.yaml", "LICENSE"}
 
 
