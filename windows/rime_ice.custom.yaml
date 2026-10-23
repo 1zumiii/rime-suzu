@@ -74,4 +74,5 @@ patch:
     max_candidates: 5
     unified:                    # 统一排序（默认排序方式）；候选生成默认开启
       alpha: 0.05
+      top_gate: 2.5             # 首位门控：模型换首位时，新首位的模型分要比不用模型时的首位高出这么多才换（与 Mac、手机相同），见 suzu-ime rime/lua/rank_unified.lua
     # context_source: history   # 排查用：只用本会话上屏的词（默认 auto：UIA/COM 优先）
