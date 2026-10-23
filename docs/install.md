@@ -23,7 +23,7 @@ irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 
 脚本会先列出将要做的事并询问确认。macOS 的包完整验证过，Windows 与 Android 验证了各个步骤，完整流程还没有在干净设备上整体跑过。想先看看会做什么而不改动任何东西，Windows 可以把包解压后运行 `powershell -File install.ps1 -DryRun`。
 
-可选环境变量：`SUZU_BUNDLE_FILE` 使用本地的安装包 zip（跳过下载），`SUZU_TAG` 指定发布标签（默认 `preview`）。macOS 可以在命令后加 `--with-gram`（写成 `| bash -s -- macos --with-gram`）另装约 380 MB 的万象语法模型，不装也能用。
+可选环境变量：`SUZU_BUNDLE_FILE` 使用本地的安装包 zip（跳过下载），`SUZU_TAG` 指定发布标签（默认 `preview`）。安装时会询问是否下载约 400 MB 的万象语法模型，不装也能用。macOS 与 Android 可以在命令后加 `--with-gram` 直接下载、加 `--no-gram` 不下载也不询问（写成 `| bash -s -- macos --with-gram`）；Windows 对应 `-Grammar download` 与 `-Grammar skip`。
 
 安装包由 `tools/make_bundle.py` 构建，包里带的 `README.txt` 有各平台的详细步骤、还原与卸载方法。
 
