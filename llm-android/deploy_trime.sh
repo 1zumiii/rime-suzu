@@ -39,11 +39,6 @@ for ov in "$REPO"/llm-android/trime/*.overlay.yaml; do
 done
 # 词库包：词库不在仓库里，装进暂存区一起推送
 python3 -I "$REPO/tools/dict_pack.py" install ${PACK:+"$PACK"} --rime-dir "$STAGE" || { echo "词库包安装失败"; exit 1; }
-# 新装默认关闭 AI（手机上手动启停）：改暂存文件里开关的 reset 默认值，并确认确实改到了
-if [[ -f "$STAGE/rime_ice.custom.yaml" ]]; then
-  sed -i '' 's/name: ai_rerank, reset: 1,/name: ai_rerank, reset: 0,/' "$STAGE/rime_ice.custom.yaml"
-  grep -q 'name: ai_rerank, reset: 0,' "$STAGE/rime_ice.custom.yaml" || { echo "错误：没能把 ai_rerank 的默认值改成关闭（rime_ice.custom.yaml 里的写法变了？）"; exit 1; }
-fi
 echo "将推送 $(find "$STAGE" -type f | wc -l | tr -d ' ') 个文件，$(du -sh "$STAGE" | cut -f1) → $DEST"
 [[ $DRY -eq 1 ]] && { find "$STAGE" -maxdepth 1 | sed "s#$STAGE/#  #" | sort | head -40; exit 0; }
 
