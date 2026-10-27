@@ -40,7 +40,7 @@ def set_packs(commit):
     dp.PACKS = tmp + "/packs/packs.tsv"
 
 class A:  # 命令行参数的替身
-    def __init__(s, **k): s.__dict__.update(dict(pack="fake", into="cn_dicts", schema="rime_ice", repo_url=None, no_extra=True), **k)
+    def __init__(s, **k): s.__dict__.update(dict(pack="fake", into="cn_dicts", schema="rime_ice", repo_url=None, no_extra=True, big_tables=False), **k)
 
 rime = tmp + "/rime"; os.makedirs(rime)
 c1 = mkpack(tmp + "/pack", "经理\tjing li\t100\n精力\tjing li\t90\n"); set_packs(c1)
@@ -66,6 +66,21 @@ dp.install(A(rime_dir=rime, into="cn_dicts_x", schema="rime_x"))
 d2 = open(rime + "/rime_x.dict.yaml", encoding="utf-8").read()
 check("换目录与方案名", "  - cn_dicts_x/base" in d2 and "  - cn_dicts_x_cell/food" in d2 and "\nname: rime_x\n" in d2
       and os.path.exists(rime + "/cn_dicts_x/base.dict.yaml") and os.path.exists(rime + "/cn_dicts/base.dict.yaml"))
+
+# 大字表默认不导入：导入行改成注释，文件不拷；--big-tables 时照常导入
+big = "  - cn_dicts/41448  # 大字表\n  - cn_dicts/GB18030-2022\n"
+cb = mkpack(tmp + "/pack", "经理\tjing li\t100\n", main_extra=big); set_packs(cb)
+for st in ("41448", "GB18030-2022"):
+    open(f"{tmp}/pack/cn_dicts/{st}.dict.yaml", "w", encoding="utf-8").write("---\nname: x\nversion: \"1\"\nsort: by_weight\n...\n\U0002139b\tbun\t0\n")
+sh(tmp + "/pack", "git", "add", "-A"); sh(tmp + "/pack", "git", "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "-m", "big")
+set_packs(sh(tmp + "/pack", "git", "rev-parse", "HEAD"))
+dp.install(A(rime_dir=rime))
+db = open(rime + "/rime_ice.dict.yaml", encoding="utf-8").read()
+check("大字表默认注释掉、不拷贝", "  # - cn_dicts/41448  # 大字表" in db and "  # - cn_dicts/GB18030-2022" in db
+      and not os.path.exists(rime + "/cn_dicts/41448.dict.yaml") and not os.path.exists(rime + "/cn_dicts/GB18030-2022.dict.yaml"))
+dp.install(A(rime_dir=rime, big_tables=True))
+db = open(rime + "/rime_ice.dict.yaml", encoding="utf-8").read()
+check("--big-tables 照常导入", "\n  - cn_dicts/41448  # 大字表" in db and os.path.exists(rime + "/cn_dicts/GB18030-2022.dict.yaml"))
 
 # 整份替换：新提交里少了文件，旧文件不留
 c2 = mkpack(tmp + "/pack", "教练\tjiao lian\t50\n"); set_packs(c2)

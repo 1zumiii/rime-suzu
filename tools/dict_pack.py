@@ -7,7 +7,7 @@ packs/packs.tsv 登记每个包的来源仓库、固定提交与主词典文件�
 
 用法：
   tools/dict_pack.py list
-  tools/dict_pack.py install [包名] --rime-dir <Rime 用户目录> [--into cn_dicts] [--schema rime_ice] [--repo-url URL] [--no-extra]
+  tools/dict_pack.py install [包名] --rime-dir <Rime 用户目录> [--into cn_dicts] [--schema rime_ice] [--repo-url URL] [--no-extra] [--big-tables]
   tools/dict_pack.py status --rime-dir <Rime 用户目录>
 install 的效果：
   <rime-dir>/<into>/        主词典导入的 cn_dicts 下的文件
@@ -15,6 +15,8 @@ install 的效果：
   <rime-dir>/<schema>.dict.yaml   改写后的主词典（词典名为 schema，使方案里的 dictionary 设置不用改）
   <rime-dir>/<into>/extra.dict.yaml   本仓库自己的补充词条（extras/extra.dict.yaml），放在导入列表最前面，重复词条以它的权重为准
   <rime-dir>/dict_pack.lock       记录装了哪个包、哪个提交
+大字表（41448、GB18030-2022）默认不导入，导入行改成注释：其中大量是扩展 B 区以后的字，手机与多数系统字体没有字形，
+显示成方块，而且在非标准音节（如 bun）上会成为唯一的精确匹配排到首位。需要时加 --big-tables。
 候选生成的词典目录（llm_rerank/lexicon_dir）指向 <into>，须含 base.dict.yaml。
 """
 import argparse, hashlib, os, re, shutil, subprocess, sys
@@ -23,6 +25,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PACKS = os.path.join(HERE, "..", "packs", "packs.tsv")
 EXTRA = os.path.join(HERE, "..", "extras", "extra.dict.yaml")
 CACHE = os.environ.get("SUZU_PACK_CACHE") or os.path.join(os.path.expanduser("~"), ".cache", "suzu-dict-packs")
+BIG_TABLES = {"41448", "GB18030-2022"}   # 生僻字大字表，默认不导入
 IMPORT_RE = re.compile(r"^(\s*-\s*)(cn_dicts|cn_dicts_cell)/([^\s#]+)(.*)$")
 
 
@@ -130,9 +133,12 @@ def install(a):
             extra_done = True
         if m:
             sub, stem = m.group(2), m.group(3)
-            need.append((sub, stem))
             dst = a.into if sub == "cn_dicts" else a.into + "_cell"
             ln = f"{m.group(1)}{dst}/{stem}{m.group(4)}"
+            if stem in BIG_TABLES and not a.big_tables:
+                out.append(re.sub(r"^(\s*)", r"\1# ", ln, count=1))
+                continue
+            need.append((sub, stem))
         elif re.match(r"^name:\s", ln):
             ln = f"name: {a.schema}"
         out.append(ln)
@@ -194,6 +200,7 @@ def main():
     i.add_argument("--schema", default="rime_ice")
     i.add_argument("--repo-url")
     i.add_argument("--no-extra", action="store_true", help="不带本仓库的补充词条")
+    i.add_argument("--big-tables", action="store_true", help="照主词典导入大字表（41448、GB18030-2022），默认不导入")
     s = sp.add_parser("status")
     s.add_argument("--rime-dir", required=True)
     a = ap.parse_args()
