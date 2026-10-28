@@ -45,6 +45,7 @@ engine:
     - ascii_composer
     - recognizer
     - key_binder
+    - lua_processor@*digit_sep_cn     # 数字后的 , . : 接拼音时恢复中文标点
     - speller
     - punctuator
     - selector
