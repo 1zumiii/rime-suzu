@@ -2,7 +2,7 @@
 
 ## 注意事项
 
-修改补丁和部署时须注意以下各项，均为实际遇到过的问题：
+以下事项来自补丁修改与部署中遇到的实际问题：
 
 1. 不要用 `__patch` 引用带 `/+` 的文件。这样 `/+` 不会按“追加”处理，而会整段替换官方的 `speller/algebra`，导致所有简拼（`zm`、`zuijd`）失效。应使用 `"speller/algebra/+": { __include: algebra_extra:/rules }`。`tools/verify_build.sh` 会在安装前检查这一点。
 2. 不要用 `@last`。它表示“替换最后一项”，会挤掉官方末尾的 `uniquifier`。追加应使用 `@before last` 或 `@after last`。
@@ -26,7 +26,7 @@ git log --oneline da1fbe6..upstream/main -- lua rime_ice.schema.yaml default.yam
 git cherry-pick <提交>                                                              # 需要的按需摘取
 ```
 
-词库的更新不走合并：在 `packs/packs.tsv` 里改固定提交，再重新安装词库包，见 [词库包](dictionary-packs.md)。
+词库通过更新 `packs/packs.tsv` 中的固定提交并重新安装词库包来升级，无需合并上游提交，见 [词库包](dictionary-packs.md)。
 
 本仓库已删除用不到的双拼和九宫格方案（`double_pinyin*.schema.yaml`、`t9.schema.yaml`）、上游给编程助手的约定 `AGENTS.md`，以及上游的词库维护脚本 `others/`。摘取上游提交时，涉及这些文件的改动直接丢弃即可。
 

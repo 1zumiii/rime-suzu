@@ -34,10 +34,12 @@
 
 ## 选词统计
 
-选词统计默认关闭，用来以真实输入评估重排是否有帮助。每次选词在 `select_stats.tsv` 里记一行纯数字：时间戳、AI 开关、模型、输入字母数、参与重排的候选数、所选候选在原顺序和最终顺序里的位次、上文长度档、候选字数、候选类型，最后一列是方案名。`tools/select_stats_report.py` 可按方案与 AI 开关对比首选率、平均位次和翻页率。不含任何输入的文字、拼音和候选文字。
+选词统计默认关闭，用于根据真实输入评估重排效果。每次选词在 `select_stats.tsv` 中记录一行纯数字：时间戳、AI 开关、模型、输入字母数、参与重排的候选数、所选候选在原顺序和最终顺序中的位次、上文长度档、候选字数和候选类型，最后一列为方案名。
+
+`tools/select_stats_report.py` 可按方案与 AI 开关对比首选率、平均位次和翻页率。记录不含输入文字、拼音或候选文字。
 
 - 开启：在用户目录新建空文件 `select_stats.enabled`，新开的输入会话生效。删除该文件即停止，删除 `select_stats.tsv` 即清空。
-- 汇总：`python3 tools/select_stats_report.py select_stats.tsv`（脚本在 [suzu-ime](https://github.com/1zumiii/suzu-ime/blob/main/tools/select_stats_report.py)），给出原顺序第一位被选中的比例与重排后的比例、重排救回与帮倒忙的次数，并按模型、输入长度、上文长度分组。
+- 汇总：`python3 tools/select_stats_report.py select_stats.tsv`（脚本在 [suzu-ime](https://github.com/1zumiii/suzu-ime/blob/main/tools/select_stats_report.py)），给出原顺序与重排后的首位选中比例，以及重排“救回”与“帮倒忙”的次数，按模型、输入长度和上文长度分组。
 
 ## 语法模型
 
