@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """生成 tongwenfeng.trime.custom.yaml：把同文风主题改成 GBoard 的习惯布局。
 用法：<带 PyYAML 的 python> gen_tongwenfeng_patch.py [同文风主题源文件]
-  默认读 ~/Documents/rime-android-port/theme/tongwenfeng.trime.yaml（从手机 shared/ 拉下来的原文件），
+  默认读仓库旁边的 rime-android-port/theme/tongwenfeng.trime.yaml（从手机 shared/ 拉下来的原文件），
   从里面取出符号页的符号，重新排成每页 4 行 × 7 列；其余按键手写。输出到本目录。
   PyYAML：brew 装的 yamllint 自带，例如 `head -1 /opt/homebrew/bin/yamllint` 里就是它的 python。"""
 import os, sys, yaml
 
-SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser("~/Documents/rime-android-port/theme/tongwenfeng.trime.yaml")
+SRC = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../rime-android-port/theme/tongwenfeng.trime.yaml")
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tongwenfeng.trime.custom.yaml")
 theme = yaml.safe_load(open(SRC, encoding="utf-8"))
 pk = theme["preset_keyboards"]
