@@ -2,7 +2,7 @@
 
 ## 一行命令安装
 
-最省事的办法。安装包（preview 预览版）里是编译好的推理核心、Suzu-2.4 模型、配置、雾凇词库和补充词条，不需要 git 或 Python，也不需要编译。脚本先下载并核对 sha256，再备份现有配置，然后安装、部署。选词统计、语料记录、输入事件流这类开发用的功能全部保持关闭，脚本不会创建它们的开关文件。
+安装包（preview 预览版）包含编译好的推理核心、Suzu-2.4 模型、配置、雾凇词库和补充词条，无需 git、Python 或自行编译。脚本先下载并核对 sha256，再备份现有配置，然后安装、部署。选词统计、语料记录和输入事件流等开发功能保持关闭，脚本不会创建对应的开关文件。
 
 ```bash
 # macOS（Apple 芯片，macOS 13 及以上，需先装好鼠须管）
@@ -21,7 +21,7 @@ $env:SUZU_TARGET='android'; irm https://raw.githubusercontent.com/1zumiii/rime-s
 irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 ```
 
-脚本会先列出将要做的事并询问确认。macOS 的包完整验证过，Windows 与 Android 验证了各个步骤，完整流程还没有在干净设备上整体跑过。想先看看会做什么而不改动任何东西，Windows 可以把包解压后运行 `powershell -File install.ps1 -DryRun`。
+脚本会先列出操作并请求确认。macOS 安装包已完成完整验证；Windows 与 Android 已验证各个步骤，尚未在干净设备上验证完整流程。Windows 支持仅预览、不执行修改：解压安装包后运行 `powershell -File install.ps1 -DryRun`。
 
 可选环境变量：`SUZU_BUNDLE_FILE` 使用本地的安装包 zip（跳过下载），`SUZU_TAG` 指定发布标签（默认 `preview`）。安装时会询问是否下载约 400 MB 的万象语法模型，不装也能用。macOS 与 Android 可以在命令后加 `--with-gram` 直接下载、加 `--no-gram` 不下载也不询问（写成 `| bash -s -- macos --with-gram`）；Windows 对应 `-Grammar download` 与 `-Grammar skip`。
 
@@ -59,7 +59,7 @@ Windows 上的 AI 重排与 macOS、Android 共用同一套 `ai_rerank_*` Lua �
 
 ## 从源码安装：Android（Trime）
 
-先说明一点：AI 重排的推理不在 Trime 里，而在常驻守护进程 `rimellmd` 里。守护进程须借助 adb 或 Shizuku 启动，二者选一：电脑端用 adb 执行 `rimellmctl.sh start`，或在手机上点工具栏红色的 AI 徽标，经 Shizuku 启动。手机重启后守护进程会消失，须再启动一次；没有启动时 AI 重排不生效，输入不受影响。
+AI 重排的推理在独立的常驻守护进程 `rimellmd` 中运行，须借助 adb 或 Shizuku 启动。可在电脑端通过 adb 执行 `rimellmctl.sh start`，也可在手机上点按工具栏红色 AI 徽标，经 Shizuku 启动。手机重启后须重新启动守护进程；未启动时 AI 重排不生效，输入不受影响。
 
 前提：已安装改版 Trime 并完成首次引导（选择“使用应用专属存储空间”），手机经 adb 连接（部署配置与方式一启动守护进程用），并安装 Shizuku（方式二用）。
 
