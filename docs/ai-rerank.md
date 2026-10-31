@@ -32,7 +32,9 @@ Suzu-2.4 在 Suzu-2.1 权重上用 6 万道简拼题续训，结构、词表和�
 
 ## 上文、隐私与时限
 
-macOS 和 Android 的上文只取自 Rime 的 `commit_history`，即本次会话中经输入法上屏的内容，不读取任何应用内的文字。切换输入框后的第一个词因此不会重排。Windows 默认经 UIA 和 COM 读取光标前的文字，读不到时使用上屏历史；设置 `llm_rerank/context_source: history` 可改为与 macOS 相同的做法。
+三端默认读取应用里光标前的文字作为上文，读不到时使用 Rime 的 `commit_history`，即本次会话中经输入法上屏的内容。macOS 经辅助功能接口读取，须给鼠须管授权；Android 由改版 Trime 经 `getTextBeforeCursor` 读取；Windows 经 UIA 和 COM 读取。
+
+读到的文字只保存在内存里。macOS 不读密码框；Android 不读密码框、数字框、电话框和无痕模式下的内容。设置 `llm_rerank/context_source: history` 可只用上屏历史，此时切换输入框后的第一个词不会重排。
 
 AI 重排本身不联网，也不写入任何包含输入内容的文件。最近使用和个人词对的记录见 [本机记录一览](features.md#本机记录一览)，均为本机文件。上游原有的训练语料、事件日志和词频落盘已删除。
 
