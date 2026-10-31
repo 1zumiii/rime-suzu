@@ -20,8 +20,8 @@
   # 初值是估计，等选词统计攒够数据后按 select_stats_report 里的 margin 分桶结果调整
   llm_rerank/gate_margin: 0.5
   llm_rerank/gate_margin_short: 1.5
-  # AI 开关与其他平台一样默认开启（reset: 1）。点工具栏 AI 徽标切换的开关不会写进 save_options，
-  # Trime 重启或重新部署后回到默认值；默认值若为关，熄屏后进程被回收再拉起时 AI 会被关掉。
+  # AI 开关的实际状态以守护进程为准：它把最后一次手动选择记在 ai_enabled.state，新装时为关；
+  # Lua 在会话启动时按它对齐方案开关，所以 Trime 重启或重新部署后保持不变。
   # 中英标点每次加载方案都回到中文标点（ascii_punct 是雾凇 switches 的第 2 项）。英文模式本身就出半角标点，手机上用不到这个开关；
   # 它被误开并记进 save_options 后，中文模式也出半角标点，Trime 还会因此忽略键上的标签（空格显示 English，逗号句号显示半角）。
   switches/@1/reset: 0
