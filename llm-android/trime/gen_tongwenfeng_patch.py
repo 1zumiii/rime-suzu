@@ -44,16 +44,18 @@ def letters():
 # ---------------------------------------------------------------- 数字/符号页（GBoard 的 ?123 页）
 def number_page():
     keys = [K(click=d) for d in "1234567890"]
-    keys += [K(click=c) for c in ["@", "#", "$", "_", "&", "-", "+", "(", ")", "/"]]
+    # 这一页跟随当前语言（ascii_mode: 2）：label 是中文模式下实际打出的标点，英文模式下 Trime 显示半角
+    zh = {"$": "¥", "_": "——", "(": "（", ")": "）", ":": "：", ";": "；", "!": "！", "?": "？"}
+    def P(c, **kw): return K(click=c, **({"label": zh[c]} if c in zh else {}), **kw)
+    keys += [P(c) for c in ["@", "#", "$", "_", "&", "-", "+", "(", ")", "/"]]
     keys.append(K(click="Keyboard_fh", width=15, key_back_color="bgn", key_text_color="tgn"))     # =\<：进符号页
-    keys += [K(click=c) for c in ["、", "“", "”", ":", ";", "!", "?"]]
+    keys += [P(c) for c in ["、", "“", "”", ":", ";", "!", "?"]]
     keys.append(K(click="BackSpace2", width=15, key_back_color="bbs", key_text_color="tbs"))
     keys.append(K(click="Keyboard_default", width=15, key_back_color="bgn", key_text_color="tgn"))  # 返回
-    keys.append(K(click=",", long_click="<", width=10, key_back_color="bgn", key_text_color="tgn"))
+    keys.append(K(click=",", label="，", long_click="<", width=10, key_back_color="bgn", key_text_color="tgn"))
     keys.append(K(click="Keyboard_numpad", width=10, key_back_color="bgn", key_text_color="tgn"))   # 1234
-    # 这一页被设成英文模式（为了输出半角符号），而 space 的预设标签在英文模式下是 English；GBoard 这页显示键盘语言「拼音」，所以用固定标签的 space_py
-    keys.append(K(click="space_py", long_click="Mode_switch", width=40, key_text_size="16", key_back_color="bkg", key_text_color="tkg"))
-    keys.append(K(click=".", long_click=">", width=10, key_back_color="bgn", key_text_color="tgn"))
+    keys.append(K(click="space", label="拼音", long_click="Mode_switch", width=40, key_text_size="16", key_back_color="bkg", key_text_color="tkg"))
+    keys.append(K(click=".", label="。", long_click=">", width=10, key_back_color="bgn", key_text_color="tgn"))
     keys.append(K(click="Return", long_click="Menu", width=15, key_back_color="benter", key_text_color="tenter"))
     return keys
 
@@ -148,8 +150,8 @@ patch["liquid_keyboard/key_height"] = 36
 patch["preset_keys/BackSpace3"] = {"label": "退格", "repeatable": True, "functional": False, "send": "BackSpace"}
 patch["liquid_keyboard/fixed_key_bar/keys"] = ["liquid_keyboard_exit", "space1", "BackSpace3", "Return2", "clipboard_window", "liquid_keyboard_tabs"]
 patch["preset_keyboards/default/keys"] = letters()
-patch["preset_keyboards/number"] = {"author": "GBoard 风格", "name": "数字符号页", "width": 10, "ascii_mode": 1, "keys": number_page()}
-patch["preset_keyboards/numpad"] = {"author": "暖暖", "name": "数字+", "width": 16.6, "ascii_mode": 1, "keys": numpad()}
+patch["preset_keyboards/number"] = {"author": "GBoard 风格", "name": "数字符号页", "width": 10, "ascii_mode": 2, "keys": number_page()}
+patch["preset_keyboards/numpad"] = {"author": "暖暖", "name": "数字+", "width": 16.6, "ascii_mode": 2, "keys": numpad()}
 for kid, name, keys in zh_pages() + [en_page()]:
     patch[f"preset_keyboards/{kid}"] = {"author": "GBoard 风格（符号取自 风花絮 的原键盘）", "name": name, "ascii_mode": 0, "width": W7, "height": 30, "keys": keys}
 
