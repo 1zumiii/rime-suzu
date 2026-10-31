@@ -149,7 +149,7 @@ patch:
     author: GBoard 风格
     name: 数字符号页
     width: 10
-    ascii_mode: 1
+    ascii_mode: 2
     keys:
     - {click: '1'}
     - {click: '2'}
@@ -163,32 +163,37 @@ patch:
     - {click: '0'}
     - click: '@'
     - click: '#'
-    - {click: $}
-    - {click: _}
+    - {click: $, label: ¥}
+    - {click: _, label: ——}
     - click: '&'
     - click: '-'
     - {click: +}
-    - {click: (}
-    - {click: )}
+    - {click: (, label: （}
+    - {click: ), label: ）}
     - {click: /}
     - {click: Keyboard_fh, width: 15, key_back_color: bgn, key_text_color: tgn}
     - {click: 、}
     - {click: “}
     - {click: ”}
     - click: ':'
-    - {click: ;}
+      label: ：
+    - {click: ;, label: ；}
     - click: '!'
+      label: ！
     - click: '?'
+      label: ？
     - {click: BackSpace2, width: 15, key_back_color: bbs, key_text_color: tbs}
     - {click: Keyboard_default, width: 15, key_back_color: bgn, key_text_color: tgn}
     - click: ','
+      label: ，
       long_click: <
       width: 10
       key_back_color: bgn
       key_text_color: tgn
     - {click: Keyboard_numpad, width: 10, key_back_color: bgn, key_text_color: tgn}
-    - {click: space_py, long_click: Mode_switch, width: 40, key_text_size: '16', key_back_color: bkg, key_text_color: tkg}
+    - {click: space, label: 拼音, long_click: Mode_switch, width: 40, key_text_size: '16', key_back_color: bkg, key_text_color: tkg}
     - click: .
+      label: 。
       long_click: '>'
       width: 10
       key_back_color: bgn
@@ -198,7 +203,7 @@ patch:
     author: 暖暖
     name: 数字+
     width: 16.6
-    ascii_mode: 1
+    ascii_mode: 2
     keys:
     - click: '{}{Left}'
       long_click: 【】{Left}
