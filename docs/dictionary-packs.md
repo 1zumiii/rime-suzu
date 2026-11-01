@@ -10,7 +10,9 @@ tools/dict_pack.py install frost --rime-dir ~/Library/Rime   # 安装白霜，�
 tools/dict_pack.py status --rime-dir ~/Library/Rime         # 查看装的是哪个包、哪个提交
 ```
 
-Android 的词库包在 App 的设置页切换，不用这个脚本。`tools/install-dev.sh` 和 `windows/install.ps1` 安装配置时会自动调用它，包名用 `--pack`（`tools/install-dev.sh`）、`-Pack`（Windows）或环境变量 `PACK`（Android）指定，省略时用 `packs/DEFAULT`。首次安装需要联网，并要求已安装 git 与 Python 3，下载的内容缓存在 `~/.cache/suzu-dict-packs`。
+Android 在应用的“设置 → 词库”中下载和切换词库包，下载后校验并重新编译，切换时保留已学习的词。已下载的包保留在手机上，无需重复下载。
+
+以下脚本用于桌面端。`tools/install-dev.sh` 和 `windows/install.ps1` 安装配置时会自动调用词库安装工具，包名分别用 `--pack`（`tools/install-dev.sh`）和 `-Pack`（Windows）指定，省略时用 `packs/DEFAULT`。首次安装须联网，并安装 git 与 Python 3；下载内容缓存在 `~/.cache/suzu-dict-packs`。
 
 安装后须重新部署输入法，Rime 才会重新编译词库。换包之后，个人词对基础表（`personal_pairs_base.tsv`）建议用新词库重建，因为它是按词库切词建的。
 
