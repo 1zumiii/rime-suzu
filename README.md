@@ -32,7 +32,7 @@
 - 统一排序：总分 = Rime 名次先验 + 上文权重 × 模型分 + 个人习惯，关闭 AI 时上文权重为 0。
 - 个人词对与最近使用优先：同样的搭配再次出现时优先，最近上屏过的词提升到第 2 位。记录只保存在本机。
 - 语法模型、模糊音与误触容错：配置万象语法模型，开启平翘舌与前后鼻音模糊音；相邻按键误触仅处理 4 个字母及以上的音节。
-- Android 手机端：改版 Trime 采用 GBoard 风格布局，推理在常驻进程 `rimellmd` 中运行，工具栏提供 AI 状态徽标和模块状态页。
+- Android 手机端：改版 Trime 采用 GBoard 风格布局，推理在常驻进程 `rimellmd` 中运行，工具栏提供 AI 状态徽标和功能状态页。
 
 ## 平台
 
@@ -50,18 +50,12 @@ AI 重排的推理核心、守护进程和改版 Trime 的源码位于 [suzu-ime
 
 ### 一行命令安装
 
-安装包包含编译好的推理核心、模型、配置和词库，无需 git 或自行编译。脚本先下载并核对 sha256，再备份现有配置，然后安装并部署。
+macOS 与 Windows 的安装包包含编译好的推理核心、模型、配置和词库，无需 git 或自行编译。脚本先下载并核对 sha256，再备份现有配置，然后安装并部署。
 
 macOS（Apple 芯片，macOS 13 及以上，需先装好[鼠须管](https://github.com/rime/squirrel/releases)）：
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash
-```
-
-Android（电脑用 USB 连手机，手机须为 arm64、Android 11 及以上，电脑为 macOS 或 Linux；Windows 电脑见 [安装](docs/install.md)）：
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash -s -- android
 ```
 
 Windows（小狼毫 0.17，PowerShell；需要管理员权限时会弹出询问）：
@@ -70,9 +64,11 @@ Windows（小狼毫 0.17，PowerShell；需要管理员权限时会弹出询问�
 irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 ```
 
-脚本会先列出操作并请求确认，备份现有配置后再安装。当前发布的是 [preview 预览版](https://github.com/1zumiii/rime-suzu/releases/tag/preview)：macOS 安装包已完成完整验证；Windows 与 Android 已验证各个步骤，尚未在干净设备上验证完整流程。安装包关闭了选词统计、语料记录等开发功能，不会记录输入。
+脚本会先列出操作并请求确认，备份现有配置后再安装。当前发布的是 [preview 预览版](https://github.com/1zumiii/rime-suzu/releases/tag/preview)：macOS 安装包已完成完整验证；Windows 已验证各个步骤，尚未在干净设备上验证完整流程。安装包关闭了选词统计、语料记录等开发功能，不会记录输入。
 
-默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时开关。Android 的推理在常驻守护进程里，手机重启后要重新启动一次，见 [安装](docs/install.md)。
+桌面端默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时切换。
+
+Android 不再使用上述安装脚本，须从源码构建改版 Trime APK，支持 arm64、Android 11 及以上。方案、Lua 和默认词库随 APK 提供，安装后可在引导页下载模型并通过 Shizuku 启动 AI 服务。手机重启后须重新启动服务，详见 [安装](docs/install.md)。
 
 ### 从源码安装
 
@@ -92,7 +88,7 @@ tools/install-dev.sh --pack frost    # 换用其他词库包，见下文
 | 文档 | 内容 |
 |---|---|
 | [AI 重排](docs/ai-rerank.md) | 模型与性能、使用方法、上文与隐私、候选生成与统一排序、置信度门控 |
-| [Android](docs/android.md) | 改版 Trime、守护进程、配置更新、模块状态页、手机端设置 |
+| [Android](docs/android.md) | 改版 Trime、AI 服务、配置更新、功能状态页、手机端设置 |
 | [其他功能](docs/features.md) | 个人词对、最近使用优先、本机记录一览、选词统计、语法模型、模糊音、小改动 |
 | [安装](docs/install.md) | macOS、Windows、Android 的完整安装步骤 |
 | [词库包](docs/dictionary-packs.md) | 词库不放在仓库里：安装与替换词库、新增词库包、本仓库的补充词条 |
