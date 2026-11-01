@@ -39,6 +39,9 @@ for ov in "$REPO"/llm-android/trime/*.overlay.yaml; do
 done
 # 词库包：词库不在仓库里，装进暂存区一起推送
 python3 -I "$REPO/tools/dict_pack.py" install ${PACK:+"$PACK"} --rime-dir "$STAGE" || { echo "词库包安装失败"; exit 1; }
+# 手机上选定的方案不变；修复写在 rime_ice 里，其他方案从它生成
+SCHEMA="$(ADB="$ADB" python3 -I "$REPO/llm-android/phone_schemas.py" "$STAGE" "$DEST")"
+echo "当前方案：$SCHEMA"
 echo "将推送 $(find "$STAGE" -type f | wc -l | tr -d ' ') 个文件，$(du -sh "$STAGE" | cut -f1) → $DEST"
 [[ $DRY -eq 1 ]] && { find "$STAGE" -maxdepth 1 | sed "s#$STAGE/#  #" | sort | head -40; exit 0; }
 
@@ -63,11 +66,11 @@ fi
 if ! "$ADB" shell "pidof $PKG" | grep -q '[0-9]'; then
   echo ">>> 手机上 Trime 进程没有在运行：请在手机上打开任意输入框，把键盘弹出来，部署才会开始"
 fi
-"$ADB" shell "rm -f $DEST/build/rime_ice.table.bin"   # 强制重新编译词库
+"$ADB" shell "rm -f $DEST/build/$SCHEMA.table.bin"   # 强制重新编译词库
 "$ADB" shell "am broadcast -a $PKG.action.DEPLOY -p $PKG" | tail -1
 for i in $(seq 1 90); do
   sleep 2
   [[ $i -eq 8 ]] && echo ">>> 还没开始部署：请确认手机亮屏，并在任意输入框里弹出键盘（输入法服务运行时才会响应）"
-  "$ADB" shell "test -f $DEST/build/rime_ice.table.bin && test -f $DEST/build/rime_ice.prism.bin" && { echo "部署完成（约 $((i*2)) 秒）"; exit 0; }
+  "$ADB" shell "test -f $DEST/build/$SCHEMA.table.bin && test -f $DEST/build/$SCHEMA.prism.bin" && { echo "部署完成（约 $((i*2)) 秒）"; exit 0; }
 done
 echo "等了 3 分钟还没有编译产物，请看 adb logcat | grep rime.trime"; exit 1
