@@ -5,7 +5,6 @@
 用法：
   tools/make_bundle.py macos   --core <rime_llm.so> --model <suzu.gguf> --vocab <suzu.vocab.txt> [--out dist] [--version X]
   tools/make_bundle.py windows --core <rime_llm.dll> --model ... --vocab ...
-  tools/make_bundle.py android --apk <trime.apk> --daemon <rimellmd> --model ... --vocab ... [--rimellmctl <rimellmctl.sh>]
 可选：--pack <词库包名>（默认 packs/DEFAULT）、--repo-url（词库包来源仓库的本地路径，省去联网）。
 
 包里不含任何统计开关文件（*.enabled）：选词统计、语料、输入事件流都是用户目录里有对应的空文件才开启，安装脚本不创建它们，所以默认全部关闭。
@@ -46,7 +45,7 @@ def export_config(dst):
         if os.path.isfile(p) and name in COMMON_EXCLUDE_FILES:
             continue
         (shutil.copytree if os.path.isdir(p) else shutil.copy2)(p, os.path.join(dst, name))
-    return ex   # 调用方还要从中取 windows/、llm-android/ 里的文件，用完后由系统清理临时目录
+    return ex   # 调用方还要从中取 windows/ 里的文件，用完后由系统清理临时目录
 
 
 def install_pack(payload, pack, repo_url):
@@ -105,11 +104,8 @@ def sha256(path):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("platform", choices=["macos", "windows", "android"])
+    ap.add_argument("platform", choices=["macos", "windows"])
     ap.add_argument("--core", help="推理核心：macOS 的 rime_llm.so，Windows 的 rime_llm.dll")
-    ap.add_argument("--apk", help="android：改版 Trime 的 APK")
-    ap.add_argument("--daemon", help="android：守护进程 rimellmd（arm64）")
-    ap.add_argument("--rimellmctl", help="android：rimellmctl.sh（默认取 suzu-ime 同级目录或 SUZU_IME 环境变量里的）")
     ap.add_argument("--model", required=True)
     ap.add_argument("--vocab", required=True)
     ap.add_argument("--pack", default="")
@@ -119,7 +115,7 @@ def main():
     a = ap.parse_args()
 
     ver = a.version or ("preview-" + datetime.date.today().strftime("%Y%m%d"))
-    arch = {"macos": "macos-arm64", "windows": "windows-x64", "android": "android-arm64"}[a.platform]
+    arch = {"macos": "macos-arm64", "windows": "windows-x64"}[a.platform]
     top = f"suzu-{arch}-{ver}"
     os.makedirs(a.out, exist_ok=True)
     work = tempfile.mkdtemp(prefix="suzu_bundle_")
@@ -152,36 +148,6 @@ def main():
         shutil.copy2(a.core, os.path.join(root, "core", "rime_llm.dll"))
         # Windows 专用的配置补丁（光标上文接入层 ai_rerank_app_ctx.lua 是共用的，已在 lua/ 里）
         shutil.copy2(os.path.join(src, "windows", "rime_ice.custom.yaml"), os.path.join(payload, "rime_ice.custom.yaml"))
-    else:
-        if not (a.apk and a.daemon):
-            die("android 需要 --apk 与 --daemon")
-        os.makedirs(os.path.join(root, "android"))
-        shutil.copy2(a.apk, os.path.join(root, "android", "trime.apk"))
-        shutil.copy2(a.daemon, os.path.join(root, "android", "rimellmd"))
-        ctl = a.rimellmctl or os.path.join(os.environ.get("SUZU_IME", os.path.join(REPO, "..", "suzu-ime")), "android", "daemon", "rimellmctl.sh")
-        if not os.path.isfile(ctl):
-            die(f"找不到 rimellmctl.sh：{ctl}（用 --rimellmctl 指定）")
-        shutil.copy2(ctl, os.path.join(root, "android", "rimellmctl.sh"))
-        exec_names.add("android/rimellmctl.sh")
-        # 手机专属的覆盖配置：*.overlay.yaml 追加到同名 .custom.yaml 末尾；主题补丁 *.custom.yaml 直接放入用户目录
-        tdir = os.path.join(src, "llm-android", "trime")
-        for fn in sorted(os.listdir(tdir)):
-            p = os.path.join(tdir, fn)
-            if fn.endswith(".overlay.yaml"):
-                base = fn[: -len(".overlay.yaml")]
-                tgt = os.path.join(payload, base + ".custom.yaml")
-                if not os.path.isfile(tgt):
-                    die(f"{fn} 没有对应的 {base}.custom.yaml")
-                with open(tgt, "a", encoding="utf-8", newline="\n") as f:
-                    t = open(tgt, encoding="utf-8").read()
-                    if not t.endswith("\n"):
-                        f.write("\n")
-                    f.write(open(p, encoding="utf-8").read())
-            elif fn.endswith(".custom.yaml"):
-                shutil.copy2(p, os.path.join(payload, fn))
-        # 手机用不到的文件
-        for n in ("symbols_caps_v.yaml",):
-            pass
 
     for fn in os.listdir(inst):
         shutil.copy2(os.path.join(inst, fn), os.path.join(root, fn))

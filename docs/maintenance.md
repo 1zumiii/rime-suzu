@@ -13,7 +13,7 @@
 7. 雾凇的 `.gitignore` 会忽略 `*.custom.yaml`，本仓库沿用了这条规则，并放行根目录、`windows/` 和 `llm-android/trime/` 下的此类文件。
 8. Trime 不可调试，数据目录又为 `noexec`，`.so` 无法从外部放入，只能打包进 APK。更换签名须先卸载原有的 Trime，这会清空其数据目录，卸载前须备份。
 9. 推理线程数不要等于 CPU 核数。任何一个线程被其他进程抢占，整批解码都要等它，会出现偶发的明显延迟。新核心已把线程数限制在核数减一以内，手机端使用 2 个线程。
-10. Trime 的主题补丁文件名须为 `<主题 id>.custom.yaml`（同文风为 `tongwenfeng.trime.custom.yaml`）。Trime 只在输入法服务启动时读取主题，修改后须重启一次 Trime。按键自带的 `label` 只在中文模式下生效，英文模式显示预设标签，因此图标应修改在 `preset_keys` 中。
+10. Android 的键盘布局、配色和工具栏写在 suzu-ime 的 Trime 源码里，不读取主题文件，改完须重新编译 APK。
 11. 覆盖安装 Trime 后，输入法服务须等到键盘弹出才会启动，此前发出的部署广播会丢失。应先打开任意输入框，再执行部署。
 
 ## 与雾凇上游的关系
@@ -41,7 +41,7 @@ AI 重排的 Lua 脚本以 suzu-ime 的 `rime/lua/` 为唯一来源，用 `tools
 | `lua/ai_rerank_filter.lua`、`lua/ai_rerank_processor.lua`、`lua/personal_pairs.lua`、`lua/corpus_archive.lua`、`lua/recent_boost_filter.lua` | AI 重排、个人词对、记录归档、最近使用优先。由 suzu-ime 的 `rime/lua/` 同步而来，用 `tools/sync_core.sh` 更新，不要直接修改 |
 | `lua/model_badge_filter.lua` | 整句候选的 `❖` 标记 |
 | `windows/` | 小狼毫适配 |
-| `llm-android/` | Android（Trime）手机端：部署脚本、手机专属覆盖配置、GBoard 风格布局补丁。Trime 的“从仓库更新”按这个路径读取，不能改名 |
+| `llm-android/` | Android（Trime）手机端：语法模型推送脚本、构建 APK 时追加的手机专属配置 |
 | `packs/`、`extras/`、`tools/dict_pack.py` | 词库包登记与默认包、本仓库自己的补充词条、词库包安装脚本 |
 | `install.sh`、`install.ps1`、`install/`、`tools/make_bundle.py` | 一行命令安装的入口、各平台的安装脚本、安装包的打包脚本 |
 | `tools/install-dev.sh`、`tools/verify_build.sh` | 开发用的安装与安装前自检 |
