@@ -14,7 +14,7 @@ curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh |
 irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 ```
 
-脚本会先列出操作并请求确认。macOS 安装包已完成完整验证；Windows 已验证各个步骤，尚未在干净设备上验证完整流程。Android 不再提供安装包，须从源码编译 APK。Windows 支持仅预览、不执行修改：解压安装包后运行 `powershell -File install.ps1 -DryRun`。
+脚本会先列出操作并请求确认。macOS 安装包已完成完整验证；Windows 已验证各个步骤，尚未在干净设备上验证完整流程。Android 不使用安装包，从 [suzu-ime 的发布页](https://github.com/1zumiii/suzu-ime/releases/tag/android-v0.1.0)下载 APK，也可按下文从源码编译。Windows 支持仅预览、不执行修改：解压安装包后运行 `powershell -File install.ps1 -DryRun`。
 
 可选环境变量：`SUZU_BUNDLE_FILE` 使用本地的安装包 zip（跳过下载），`SUZU_TAG` 指定发布标签（默认 `preview`）。安装时会询问是否下载约 400 MB 的万象语法模型，不安装也可使用。macOS 可在命令后加 `--with-gram` 直接下载，或加 `--no-gram` 跳过下载与询问（写成 `| bash -s -- macos --with-gram`）；Windows 对应 `-Grammar download` 与 `-Grammar skip`。
 
