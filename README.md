@@ -68,7 +68,7 @@ irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 
 桌面端默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时切换。
 
-Android 不再使用上述安装脚本，须从源码构建改版 Trime APK，支持 arm64、Android 11 及以上。方案、Lua 和默认词库随 APK 提供，安装后可在引导页下载模型并通过 Shizuku 启动 AI 服务。手机重启后须重新启动服务，详见 [安装](docs/install.md)。
+Android 不使用上述安装脚本，从 [suzu-ime 的发布页](https://github.com/1zumiii/suzu-ime/releases/tag/android-v0.1.0)下载 APK，也可从源码构建，支持 arm64、Android 11 及以上。方案、Lua 和默认词库随 APK 提供，安装后可在引导页下载模型并通过 Shizuku 启动 AI 服务。手机重启后须重新启动服务，详见 [安装](docs/install.md)。
 
 ### 从源码安装
 
