@@ -21,7 +21,7 @@ $env:SUZU_TARGET='android'; irm https://raw.githubusercontent.com/1zumiii/rime-s
 irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 ```
 
-脚本会先列出操作并请求确认。macOS 安装包已完成完整验证；Windows 与 Android 已验证各个步骤，尚未在干净设备上验证完整流程。Windows 支持仅预览、不执行修改：解压安装包后运行 `powershell -File install.ps1 -DryRun`。
+脚本会先列出操作并请求确认。macOS 安装包已完成完整验证；Windows 已验证各个步骤，尚未在干净设备上验证完整流程。Android 不再提供安装包，须从源码编译 APK。Windows 支持仅预览、不执行修改：解压安装包后运行 `powershell -File install.ps1 -DryRun`。
 
 可选环境变量：`SUZU_BUNDLE_FILE` 使用本地的安装包 zip（跳过下载），`SUZU_TAG` 指定发布标签（默认 `preview`）。安装时会询问是否下载约 400 MB 的万象语法模型，不装也能用。macOS 与 Android 可以在命令后加 `--with-gram` 直接下载、加 `--no-gram` 不下载也不询问（写成 `| bash -s -- macos --with-gram`）；Windows 对应 `-Grammar download` 与 `-Grammar skip`。
 
@@ -61,12 +61,12 @@ Windows 上的 AI 重排与 macOS、Android 共用同一套 `ai_rerank_*` Lua �
 
 AI 重排的推理在独立的常驻守护进程 `rimellmd` 中运行，须借助 adb 或 Shizuku 启动。可在电脑端通过 adb 执行 `rimellmctl.sh start`，也可在手机上点按工具栏红色 AI 徽标，经 Shizuku 启动。手机重启后须重新启动守护进程；未启动时 AI 重排不生效，输入不受影响。
 
-前提：已安装改版 Trime 并完成首次引导（选择“使用应用专属存储空间”），手机经 adb 连接（部署配置与方式一启动守护进程用），并安装 Shizuku（方式二用）。
+前提：手机经 adb 连接，并安装 Shizuku（方式二用）。方案、Lua 和默认词库包已打包进 APK，无须单独推送配置。
 
 ```bash
 # 在 suzu-ime 仓库：android/trime/build_apk.sh        # 从源码编译改版 APK 并签名（首次需要 JDK 17、NDK r27d 等，见脚本开头）
-adb install -r <生成的 apk>
-llm-android/deploy_trime.sh --with-gram              # 推送配置、词库包和语法模型；须先让 Trime 键盘弹出，部署才会生效。PACK=frost 可换词库包
+adb install -r --user 0 <生成的 apk>
+llm-android/deploy_trime.sh                          # 推送语法模型并触发部署；须先让 Trime 键盘弹出
 # 在 suzu-ime 仓库：android/daemon/rimellmctl.sh start  # 在电脑端启动守护进程（也可在手机上点按红色 AI 徽标，经 Shizuku 启动）
 ```
 

@@ -1,8 +1,6 @@
 #!/bin/bash
 # Suzu 一行安装：下载安装包、校验、解压并运行里面的安装脚本。
 #   macOS（Apple 芯片）：  curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash
-#   Android（在 macOS 或 Linux 电脑上，手机用 USB 连接）：
-#                          curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash -s -- android
 #   其他选项原样传给里面的安装脚本，例如 macOS 另装语法模型：... | bash -s -- macos --with-gram
 # Windows 请用 PowerShell，见 install.ps1。
 # 环境变量：SUZU_BUNDLE_FILE 使用本地的安装包 zip（跳过下载）；SUZU_BASE_URL 指定安装包所在的地址；SUZU_TAG 指定发布标签（默认 preview）。
@@ -18,7 +16,6 @@ usage() {
   cat <<MSG
 用法：
   macOS：   curl -fsSL https://raw.githubusercontent.com/$REPO/main/install.sh | bash
-  Android： curl -fsSL https://raw.githubusercontent.com/$REPO/main/install.sh | bash -s -- android
 MSG
 }
 
@@ -26,13 +23,12 @@ target="${1:-}"
 case "$(uname -s)" in
   Darwin) [[ -n "$target" ]] || target=macos ;;
   Linux)
-    [[ -n "$target" ]] || { echo "Linux 上只支持给 Android 手机安装。"; usage; exit 1; } ;;
+    [[ -n "$target" ]] || { echo "暂不支持 Linux。"; usage; exit 1; } ;;
   *) echo "这个脚本只支持 macOS 和 Linux。Windows 请用 PowerShell，见 https://github.com/$REPO"; exit 1 ;;
 esac
 [[ $# -gt 0 ]] && shift
 case "$target" in
   macos)   asset="suzu-macos-arm64.zip";   entry="install.command" ;;
-  android) asset="suzu-android-arm64.zip"; entry="install-android.sh" ;;
   *) echo "不认识的目标：$target"; usage; exit 2 ;;
 esac
 

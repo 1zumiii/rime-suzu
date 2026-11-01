@@ -1,8 +1,6 @@
 # Suzu 一行安装（Windows）：下载安装包、校验、解压并运行里面的安装脚本。
 #   小狼毫（Windows 输入法）：  irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
-#   Android（在 Windows 电脑上，手机用 USB 连接）：
-#     $env:SUZU_TARGET='android'; irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
-# 环境变量：SUZU_TARGET（windows 或 android，默认 windows）；SUZU_BUNDLE_FILE 使用本地的安装包 zip（跳过下载）；
+# 环境变量：SUZU_TARGET（目前只有 windows）；SUZU_BUNDLE_FILE 使用本地的安装包 zip（跳过下载）；
 #          SUZU_BASE_URL 指定安装包所在的地址；SUZU_TAG 指定发布标签（默认 preview）。
 # 说明：安装包里是已编译好的推理核心、模型、配置和词库，下载后会先核对 sha256 再运行；脚本不会上传任何内容。
 $ErrorActionPreference = 'Stop'
@@ -16,8 +14,7 @@ $work = if ($env:SUZU_WORK_DIR) { $env:SUZU_WORK_DIR } else { Join-Path $env:LOC
 
 switch ($target) {
   'windows' { $asset = 'suzu-windows-x64.zip';   $entry = 'install.ps1' }
-  'android' { $asset = 'suzu-android-arm64.zip'; $entry = 'install-android.ps1' }
-  default   { Write-Host "不认识的目标：$target（可用 windows 或 android）" -ForegroundColor Red; return }
+  default   { Write-Host "不认识的目标：$target（目前只有 windows）" -ForegroundColor Red; return }
 }
 New-Item -ItemType Directory -Force $work | Out-Null
 $zip = Join-Path $work $asset
