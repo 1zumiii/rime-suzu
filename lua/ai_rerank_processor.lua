@@ -1,8 +1,10 @@
 -- ai_rerank_processor.lua — AI 重排的按键处理器（rime-llm-rerank 的 macOS 移植）
 -- 原项目：zhanghaozhecn/rime-llm-rerank（署名许可，作者 zhanghaozhecn）；逻辑取自其 Windows 侧修改版。
 -- 作用：加载 rime_llm.so；维护"上文"（本会话内上屏的词）；每次按键后异步预解码；编辑键后重置上文。
--- 开关：方案开关 ai_rerank。关闭时本处理器直接放行，不加载、不记录。
--- 隐私：不写任何文件。上文只存在内存里，来自 Rime 自己的 commit_history，不读取任何应用里的文字。
+-- 开关：方案开关 ai_rerank。关闭时不加载模型、不预解码；纠错记忆等个人习惯的记录与此开关无关。
+-- 隐私：本文件维护的上文只存在内存里，来自 Rime 自己的 commit_history；应用里光标前的文字由 ai_rerank_app_ctx 另行接入。
+--       默认写入用户目录的只有纠错记忆（recent_choices.tsv，见 personal_pairs.lua）和不含输入内容的诊断信息；
+--       选词统计、训练语料与回放数据默认关闭，须在本机手动开启，说明见下文“选词统计与训练语料”。全部只留本机。
 -- 配置（llm_rerank 节点）：idle_unload_minutes 空闲多少分钟后卸载模型，默认 20，0 = 不卸载。
 -- 在 engine/processors 增加 - lua_processor@*ai_rerank_processor（放在最前面）
 
@@ -185,11 +187,15 @@ local function load_llm(env)
             if v == "true" then return true elseif v == "false" then return false end
             return nil     -- 守护进程没起来或是旧版本，拿不到状态
         end
+        -- 徽标手动切换时，Trime 先设临时选项 _ai_manual 再改 ai_rerank：这是用户的操作，不受 3 秒窗口限制，直接推送。
+        -- （键盘刚弹出时第一次点徽标会触发会话建立，点击正好落在窗口里，以前会被改回去，要点好几次才生效。）
         local settle_until = os.time() + 3
         c.option_update_notifier:connect(function(cc, name)
             if name ~= "ai_rerank" then return end
             local v = cc:get_option("ai_rerank")
-            if os.time() <= settle_until then
+            local manual = cc:get_option("_ai_manual")
+            if manual then cc:set_option("_ai_manual", false) end
+            if not manual and os.time() <= settle_until then
                 local s = daemon_enabled()
                 if s ~= nil then
                     if s ~= v then cc:set_option("ai_rerank", s) end
@@ -300,7 +306,7 @@ local function fix_lookup(env, text, cur)
     for _, c in utf8.codes(text) do chars[#chars + 1] = utf8.char(c) end
     if not env.fix_rev_tried then
         env.fix_rev_tried = true
-        local dict = env.engine.schema.config:get_string("translator/dictionary") or "rime_ice"
+        local dict = env.engine.schema.config:get_string("translator/dictionary") or "suzu"
         local ok, db = pcall(function() return ReverseDb("build/" .. dict .. ".reverse.bin") end)
         env.fix_rev = ok and db or nil
     end
@@ -515,11 +521,14 @@ local function setup_select_stats(env)
             local clen = utf8.len(ctx_all) or 0
             local bucket = clen == 0 and 0 or clen <= 2 and 1 or clen <= 9 and 2 or 3
             if stats_on then
-                -- 最后一列是方案名（rime_ice、rime_frost 等），换词库对比时按它分开统计
+                -- 最后两列是方案名与词库目录（llm_rerank/lexicon_dir，如 cn_dicts_frost；没有配置时为 -），换词库对比时按它们分开统计
                 local sid = (env.engine.schema and env.engine.schema.schema_id) or "-"
-                append(spath, string.format("%d\t%d\t%s\t%d\t%d\t%d\t%d\t%d\t%d\t%s\t%s\t%s\t%d\t%d\t%s\n",
+                local cfg = env.engine.schema and env.engine.schema.config
+                local pack = cfg and cfg:get_string("llm_rerank/lexicon_dir")
+                if not pack or pack == "" then pack = "-" end
+                append(spath, string.format("%d\t%d\t%s\t%d\t%d\t%d\t%d\t%d\t%d\t%s\t%s\t%s\t%d\t%d\t%s\t%s\n",
                     now, ai, model_kind(), #input, n, o, f, bucket, utf8.len(text) or 0, tostring(s.type), s1,
-                    tostring(mg10), gated, mtop, sid), 2 * 1024 * 1024)
+                    tostring(mg10), gated, mtop, sid, pack), 2 * 1024 * 1024)
             end
             if corpus_on and text:find("[\228-\233][\128-\191][\128-\191]") and (utf8.len(text) or 99) <= 12 then
                 local kind = nil
@@ -647,7 +656,7 @@ local function processor(key, env)
         commit_base = #ch:to_table()   -- 旧词永久忽略
         _G.llm_filter_cache = nil      -- 编辑后重打相同词必须重新推理
         trigger_prepare()              -- 上文已空 → 预解码空上文
-        return 0                       -- 放行按键，由后续处理器正常处理
+        return 0                       -- kRejected：本键不再交给后面的处理器，直接还给应用（此时没有未上屏编码，Rime 没有可处理的）
     end
 
     -- 同步 commit_history
