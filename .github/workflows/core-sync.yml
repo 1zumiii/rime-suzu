@@ -1,0 +1,22 @@
+name: core-sync
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: lua/ 的同步文件与 suzu-ime 一致
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      # 要按 lua/SUZU_IME_VERSION 里的短提交号取文件，需要完整的提交历史；文件内容按需下载
+      - name: 取 suzu-ime
+        run: git clone --filter=blob:none --no-checkout https://github.com/1zumiii/suzu-ime.git "$RUNNER_TEMP/suzu-ime"
+      - name: 逐字节比较
+        run: tools/check_core_sync.sh "$RUNNER_TEMP/suzu-ime"
