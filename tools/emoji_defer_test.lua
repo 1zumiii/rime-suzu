@@ -75,5 +75,22 @@ do
   check("lazy: first page has no emoji", (function() for _, c in ipairs(got) do if c.type == "simplified" then return false end end return true end)())
 end
 
+-- 默认按文字样式显示的单个表情补 U+FE0F
+function ShadowCandidate(c, ty, text, comment) return { text = text, type = ty, comment = comment, shadow = true } end
+function yield(c) out[#out + 1] = c end   -- 第 8 组把 yield 换成了协程版本，这里恢复
+do
+  local VS = "\u{FE0F}"
+  local up, joy, up_tone = "\u{261D}", "\u{1F602}", "\u{261D}\u{1F3FB}"
+  local s1 = run({ emoji(up), emoji(joy), emoji(up_tone), word("食指") }, 1)
+  local parts = {}
+  for x in s1:gmatch("%S+") do parts[#parts + 1] = x end
+  local set = {}
+  for _, x in ipairs(parts) do set[x] = true end
+  check("FE0F: text-default emoji gets U+FE0F", set[up .. VS] == true and not set[up])
+  check("FE0F: emoji-presentation emoji unchanged", set[joy] == true and not set[joy .. VS])
+  check("FE0F: sequence with skin tone unchanged", set[up_tone] == true)
+  check("FE0F: text candidates unchanged", set["食指"] == true)
+end
+
 print(fails == 0 and "ALL OK" or (fails .. " FAILED"))
 os.exit(fails == 0 and 0 or 1)
