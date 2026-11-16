@@ -62,25 +62,66 @@ function M.init(env)
     M.page_size = (type(size) == "number" and size >= 1) and size or 5
 end
 
+-- 自定义表情（emoji_custom.lua）：不推迟，拼音键的放在首位后面，词键的紧跟在对应的词后面；
+-- 词典给出的同一个表情（不计 U+FE0F）不再重复出现
+local okec, ec = pcall(require, "emoji_custom")
+local function norm(t) return (t:gsub("\u{FE0F}", "")) end
+
+local function custom_cand(ref, e)
+    local ok, c = pcall(Candidate, "emoji_custom", ref._start, ref._end, e, "")
+    if not ok or not c then return nil end
+    return present(c)
+end
+
 function M.func(input, env)
     local quota = M.page_size or 5
     local held, normal, released = {}, 0, false
+    local custom_on = okec and pcall(ec.refresh) and ec.count() > 0
+    local code_list = nil
+    if custom_on then
+        local ok, inp = pcall(function() return env.engine.context.input end)
+        code_list = ok and ec.for_code(inp) or nil
+    end
+    local shown, first = {}, true
+
+    local function emit(cand)   -- 放出一个候选；是文字候选时，后面跟上它关联的自定义表情
+        yield(cand)
+        if not custom_on or cand.type == "simplified" then return end
+        local list = {}
+        if first and code_list then for _, e in ipairs(code_list) do list[#list + 1] = e end end
+        first = false
+        local w = ec.for_word(cand.text)
+        if w then for _, e in ipairs(w) do list[#list + 1] = e end end
+        for _, e in ipairs(list) do
+            local k = norm(e)
+            if not shown[k] then
+                local c = custom_cand(cand, e)
+                if c then shown[k] = true; yield(c) end
+            end
+        end
+    end
+    local function release()
+        for _, e in ipairs(held) do if not shown[norm(e.text)] then yield(e) end end
+        held = {}
+    end
+
     for cand in input:iter() do
         local emoji = cand.type == "simplified" and is_emoji_text(cand.text)
         if emoji then cand = present(cand) end
-        if not released and emoji then
+        if emoji and shown[norm(cand.text)] then
+            -- 已作为自定义表情放出过
+        elseif not released and emoji then
             held[#held + 1] = cand
         else
-            yield(cand)
+            emit(cand)
             normal = normal + 1
             if not released and normal >= quota then
-                for _, e in ipairs(held) do yield(e) end
-                held = {}
+                release()
                 released = true
             end
         end
     end
-    for _, e in ipairs(held) do yield(e) end
+    release()
 end
 
 return M

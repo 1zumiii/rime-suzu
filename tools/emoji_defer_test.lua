@@ -92,5 +92,48 @@ do
   check("FE0F: text candidates unchanged", set["食指"] == true)
 end
 
+-- 自定义表情（emoji_custom.txt）
+do
+  local dir = os.tmpname(); os.remove(dir); os.execute("mkdir -p '" .. dir .. "'")
+  rime_api = { get_user_data_dir = function() return dir end }
+  function Candidate(ty, s, e, text, comment) return { text = text, type = ty, _start = s, _end = e, comment = comment } end
+  function yield(c) out[#out + 1] = c end
+  local ec = require("emoji_custom")
+  local function runc(list, inp)
+    local idx = 0
+    M.init({ engine = { schema = { page_size = 5 } } })
+    out = {}
+    M.func({ iter = function() return function() idx = idx + 1; return list[idx] end end },
+           { engine = { context = { input = inp } } })
+    local t = {}
+    for k, c in ipairs(out) do t[k] = c.text end
+    return t
+  end
+  local VS, UP, SWEAT = "\u{FE0F}", "\u{261D}", "\u{1F605}"
+
+  ec.refresh(true)
+  local t = runc({ word("上"), word("尚"), emoji(UP .. VS) }, "shang")
+  check("custom: no file, unchanged", t[1] == "上" and t[2] == "尚" and t[3] == UP .. VS, table.concat(t, " "))
+
+  local f = io.open(dir .. "/emoji_custom.txt", "w")
+  f:write("# 测试\nshang\t" .. UP .. "\n尴尬\t" .. SWEAT .. "\n"); f:close(); ec.refresh(true)
+  t = runc({ word("上"), word("尚"), word("商"), emoji(UP .. VS) }, "shang")
+  check("custom: pinyin key right after first candidate, with U+FE0F", t[2] == UP .. VS, table.concat(t, " "))
+  local n = 0
+  for _, x in ipairs(t) do if x:gsub(VS, "") == UP then n = n + 1 end end
+  check("custom: dictionary duplicate removed", n == 1, tostring(n))
+  t = runc({ word("尴尬"), word("干嘎"), word("w3"), word("w4"), word("w5"), emoji(SWEAT) }, "ganga")
+  check("custom: word key right after the word", t[1] == "尴尬" and t[2] == SWEAT and #t == 6, table.concat(t, " "))
+  t = runc({ word("刚刚"), word("尴尬") }, "gg")
+  check("custom: word key also via abbreviation", t[3] == SWEAT, table.concat(t, " "))
+  t = runc({ word("上"), word("尚") }, "shan")
+  check("custom: other input unaffected", #t == 2, table.concat(t, " "))
+
+  os.remove(dir .. "/emoji_custom.txt"); ec.refresh(true)
+  t = runc({ word("上"), word("尚") }, "shang")
+  check("custom: file removed, back to normal", #t == 2, table.concat(t, " "))
+  os.execute("rm -rf '" .. dir .. "'")
+end
+
 print(fails == 0 and "ALL OK" or (fails .. " FAILED"))
 os.exit(fails == 0 and 0 or 1)
