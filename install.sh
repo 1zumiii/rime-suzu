@@ -3,13 +3,14 @@
 #   macOS（Apple 芯片）：  curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash
 #   其他选项原样传给里面的安装脚本，例如 macOS 另装语法模型：... | bash -s -- macos --with-gram
 # Windows 请用 PowerShell，见 install.ps1。
-# 环境变量：SUZU_BUNDLE_FILE 使用本地的安装包 zip（跳过下载）；SUZU_BASE_URL 指定安装包所在的地址；SUZU_TAG 指定发布标签（默认 preview）。
+# 环境变量：SUZU_BUNDLE_FILE 使用本地的安装包 zip（跳过下载）；SUZU_BASE_URL 指定安装包所在的地址；SUZU_TAG 指定发布标签（默认取最新的正式版）。
 # 说明：安装包里是已编译好的推理核心、模型、配置和词库，下载后会先核对 sha256 再运行；脚本不会上传任何内容。
 set -euo pipefail
 
 REPO="1zumiii/rime-suzu"
-TAG="${SUZU_TAG:-preview}"
-BASE="${SUZU_BASE_URL:-https://github.com/$REPO/releases/download/$TAG}"
+TAG="${SUZU_TAG:-}"
+if [[ -n "$TAG" ]]; then REL="download/$TAG"; else REL="latest/download"; fi   # 默认取最新的正式版
+BASE="${SUZU_BASE_URL:-https://github.com/$REPO/releases/$REL}"
 WORK="${SUZU_WORK_DIR:-$HOME/.cache/suzu-install}"
 
 usage() {

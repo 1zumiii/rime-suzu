@@ -64,11 +64,11 @@ Windows（小狼毫 0.17，PowerShell；需要管理员权限时会弹出询问�
 irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 ```
 
-脚本会先列出操作并请求确认，备份现有配置后再安装。当前发布的是 [preview 预览版](https://github.com/1zumiii/rime-suzu/releases/tag/preview)：macOS 安装包已完成完整验证；Windows 已验证各个步骤，尚未在干净设备上验证完整流程。安装包关闭了选词统计、语料记录等开发功能，不会记录输入。
+脚本会先列出操作并请求确认，备份现有配置后再安装。当前发布的是 [v0.2.0 正式版](https://github.com/1zumiii/rime-suzu/releases/tag/v0.2.0)：macOS 安装包已完成完整验证；Windows 安装包已在隔离目录试装并实际安装验证，尚未在干净设备上验证完整流程。安装包关闭了选词统计、语料记录等开发功能，不会记录输入。
 
 桌面端默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时切换。
 
-Android 不使用上述安装脚本，从 [suzu-ime 的发布页](https://github.com/1zumiii/suzu-ime/releases/tag/android-v0.1.0)下载 APK，也可从源码构建，支持 arm64、Android 11 及以上。方案、Lua 和默认词库随 APK 提供，安装后可在引导页下载模型并通过 Shizuku 启动 AI 服务。手机重启后须重新启动服务，详见 [安装](docs/install.md)。
+Android 不使用上述安装脚本，从 [suzu-ime 的发布页](https://github.com/1zumiii/suzu-ime/releases/tag/android-v0.2.0)下载 APK，也可从源码构建，支持 arm64、Android 11 及以上。方案、Lua 和默认词库随 APK 提供，安装后可在引导页下载模型并通过 Shizuku 启动 AI 服务。手机重启后须重新启动服务，详见 [安装](docs/install.md)。
 
 ### 从源码安装
 

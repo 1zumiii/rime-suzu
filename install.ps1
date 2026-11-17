@@ -1,14 +1,14 @@
 # Suzu 一行安装（Windows）：下载安装包、校验、解压并运行里面的安装脚本。
 #   小狼毫（Windows 输入法）：  irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 # 环境变量：SUZU_TARGET（目前只有 windows）；SUZU_BUNDLE_FILE 使用本地的安装包 zip（跳过下载）；
-#          SUZU_BASE_URL 指定安装包所在的地址；SUZU_TAG 指定发布标签（默认 preview）。
+#          SUZU_BASE_URL 指定安装包所在的地址；SUZU_TAG 指定发布标签（默认取最新的正式版）。
 # 说明：安装包里是已编译好的推理核心、模型、配置和词库，下载后会先核对 sha256 再运行；脚本不会上传任何内容。
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'   # 进度条会让 Invoke-WebRequest 慢很多
 try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 } catch {}
 $repo = '1zumiii/rime-suzu'
-$tag = if ($env:SUZU_TAG) { $env:SUZU_TAG } else { 'preview' }
-$base = if ($env:SUZU_BASE_URL) { $env:SUZU_BASE_URL } else { "https://github.com/$repo/releases/download/$tag" }
+$rel = if ($env:SUZU_TAG) { "download/$($env:SUZU_TAG)" } else { 'latest/download' }   # 默认取最新的正式版
+$base = if ($env:SUZU_BASE_URL) { $env:SUZU_BASE_URL } else { "https://github.com/$repo/releases/$rel" }
 $target = if ($env:SUZU_TARGET) { $env:SUZU_TARGET } else { 'windows' }
 $work = if ($env:SUZU_WORK_DIR) { $env:SUZU_WORK_DIR } else { Join-Path $env:LOCALAPPDATA 'suzu-install' }
 
