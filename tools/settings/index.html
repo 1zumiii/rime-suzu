@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suzu 设置</title>
+<style>
+:root {
+  --bg: #f6f6f4; --card: #ffffff; --text: #1d1d1b; --muted: #6b6b66; --line: #e2e1dc;
+  --accent: #2f6f5e; --accent-text: #ffffff; --warn: #a14a12; --ok: #2f6f5e; --bad: #b42318;
+  --field: #fbfbfa;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161615; --card: #20201e; --text: #ecebe6; --muted: #a09f98; --line: #34332f;
+    --accent: #6fbfa6; --accent-text: #10201b; --warn: #e3a067; --ok: #6fbfa6; --bad: #f08c80;
+    --field: #1a1a19;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 15px/1.55 -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+main { max-width: 860px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+.sub { color: var(--muted); margin: 0 0 20px; font-size: 13px; }
+nav { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
+nav button {
+  border: 1px solid var(--line); background: var(--card); color: var(--text);
+  padding: 6px 14px; border-radius: 8px; cursor: pointer; font: inherit;
+}
+nav button[aria-selected="true"] { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+section.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; }
+section.card h2 { font-size: 16px; margin: 0 0 12px; }
+.status { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; font-size: 14px; }
+.status dt { color: var(--muted); }
+.status dd { margin: 0; overflow-wrap: anywhere; }
+.row { display: grid; grid-template-columns: 1fr 150px 90px; gap: 6px 14px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+.row:first-of-type { border-top: 0; }
+.row .label { font-weight: 600; }
+.row .help { grid-column: 1 / -1; color: var(--muted); font-size: 13px; margin-top: -4px; }
+.row .eff { color: var(--muted); font-size: 13px; }
+.row.changed .label::after { content: "（本页覆盖）"; font-weight: 400; color: var(--accent); font-size: 13px; }
+input[type=number], input[type=text], select {
+  width: 100%; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--field); color: var(--text); font: inherit;
+}
+.reset { background: none; border: 0; color: var(--accent); cursor: pointer; font: inherit; font-size: 13px; padding: 0; justify-self: start; }
+.reset[disabled] { color: var(--muted); cursor: default; opacity: .5; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.btn {
+  border: 1px solid var(--accent); background: var(--accent); color: var(--accent-text);
+  padding: 8px 16px; border-radius: 8px; cursor: pointer; font: inherit;
+}
+.btn.secondary { background: transparent; color: var(--accent); }
+.btn[disabled] { opacity: .5; cursor: progress; }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 6px 4px; text-align: left; border-top: 1px solid var(--line); font-size: 14px; }
+th { color: var(--muted); font-weight: 400; border-top: 0; }
+td.del { width: 40px; text-align: right; }
+td.del button { background: none; border: 0; color: var(--bad); cursor: pointer; font: inherit; }
+.note { color: var(--muted); font-size: 13px; }
+#msg { white-space: pre-wrap; font-size: 13px; margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: var(--field); border: 1px solid var(--line); display: none; }
+#msg.ok { border-color: var(--ok); }
+#msg.bad { border-color: var(--bad); color: var(--bad); }
+.pack { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
+.pack:first-of-type { border-top: 0; }
+.pack .name { font-weight: 600; }
+.tag { font-size: 12px; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 1px 8px; margin-left: 6px; }
+@media (max-width: 600px) {
+  .row { grid-template-columns: 1fr 110px; }
+  .row .eff { grid-column: 1 / -1; }
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>Suzu 设置</h1>
+  <p class="sub" id="sub">正在读取……</p>
+  <nav role="tablist">
+    <button role="tab" data-tab="rank" aria-selected="true">排序参数</button>
+    <button role="tab" data-tab="emoji" aria-selected="false">自定义表情</button>
+    <button role="tab" data-tab="pack" aria-selected="false">词库包</button>
+    <button role="tab" data-tab="status" aria-selected="false">状态</button>
+  </nav>
+
+  <div data-panel="rank">
+    <div id="groups"></div>
+    <div class="actions">
+      <button class="btn" id="save-deploy">保存并重新部署</button>
+      <button class="btn secondary" id="save-only">只保存</button>
+    </div>
+    <p class="note">修改只写入 suzu_settings.yaml。“恢复”会去掉本页的覆盖，回到方案补丁里的值。重新部署约需几秒到十几秒。</p>
+  </div>
+
+  <div data-panel="emoji" hidden>
+    <section class="card">
+      <h2>自定义表情</h2>
+      <p class="note">键全是字母时按拼音匹配：输入恰好是这串拼音时，表情排在首位后面。键含其他字符时按词匹配：候选里出现这个词时，表情紧跟在它后面。多个表情用空格隔开。保存后几秒内生效，无须部署。</p>
+      <table>
+        <thead><tr><th>键（拼音或词）</th><th>表情</th><th></th></tr></thead>
+        <tbody id="emoji-rows"></tbody>
+      </table>
+      <div class="actions">
+        <button class="btn secondary" id="emoji-add">添加一行</button>
+        <button class="btn" id="emoji-save">保存</button>
+      </div>
+    </section>
+  </div>
+
+  <div data-panel="pack" hidden>
+    <section class="card">
+      <h2>词库包</h2>
+      <p class="note">切换会整份替换用户目录的 cn_dicts 并重新部署，用户词典（学到的词）保留。首次安装某个包需要联网下载，可能要几分钟。</p>
+      <div id="packs"></div>
+    </section>
+  </div>
+
+  <div data-panel="status" hidden>
+    <section class="card">
+      <h2>状态</h2>
+      <dl class="status" id="status"></dl>
+      <div class="actions"><button class="btn secondary" id="deploy">重新部署</button></div>
+    </section>
+  </div>
+
+  <div id="msg" role="status"></div>
+</main>
+<script>
+const TOKEN = "__SUZU_TOKEN__";
+let S = null;          // 服务端状态
+let draft = {};        // 本页覆盖值：路径 → 值；删除键表示“恢复”
+
+const $ = (q) => document.querySelector(q);
+const el = (tag, props = {}, ...kids) => {
+  const e = document.createElement(tag);
+  Object.assign(e, props);
+  for (const k of kids) e.append(k);
+  return e;
+};
+
+async function api(path, body) {
+  const opt = body === undefined ? {} : {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Suzu-Token": TOKEN },
+    body: JSON.stringify(body),
+  };
+  const r = await fetch(path, opt);
+  const data = await r.json().catch(() => ({ error: `HTTP ${r.status}` }));
+  if (!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
+  return data;
+}
+
+function say(text, kind = "ok") {
+  const m = $("#msg");
+  m.textContent = text;
+  m.className = kind;
+  m.style.display = text ? "block" : "none";
+}
+
+function busy(on) {
+  document.querySelectorAll(".btn, .pack button").forEach((b) => (b.disabled = on));
+}
+
+function fmt(v) {
+  if (v === undefined || v === null) return "未设置";
+  if (typeof v === "boolean") return v ? "开" : "关";
+  return String(v);
+}
+
+function deployText(d) {
+  if (!d) return "";
+  if (!d.finished) return `没有等到部署完成的日志（${d.seconds} 秒）。请看输入法是否正常，必要时在输入法菜单里手动重新部署。`;
+  const r = d.result;
+  let t = `部署完成，用时 ${d.seconds} 秒：${r.success} 项成功，${r.failure} 项失败`;
+  if (r.schemas) t += `；方案 ${r.schemas.success} 个成功，${r.schemas.failure} 个失败`;
+  t += "。";
+  if (d.duplicate_words) t += `\n词库里有 ${d.duplicate_words} 条重复词条的提示，属正常情况。`;
+  if (d.messages.length) t += `\n其他警告或错误（${d.messages.length} 条）：\n` + d.messages.join("\n");
+  return t;
+}
+
+function renderRank() {
+  const box = $("#groups");
+  box.replaceChildren();
+  const groups = {};
+  for (const f of S.fields) (groups[f.group] ||= []).push(f);
+  for (const [name, fields] of Object.entries(groups)) {
+    const sec = el("section", { className: "card" }, el("h2", { textContent: name }));
+    for (const f of fields) {
+      const has = Object.prototype.hasOwnProperty.call(draft, f.path);
+      const eff = S.effective[f.path];
+      const cur = has ? draft[f.path] : eff;
+      let input;
+      if (f.type === "bool") {
+        input = el("select");
+        input.append(el("option", { value: "true", textContent: "开" }), el("option", { value: "false", textContent: "关" }));
+        input.value = cur === false ? "false" : "true";
+        input.onchange = () => { draft[f.path] = input.value === "true"; renderRank(); };
+      } else {
+        input = el("input", { type: "number", min: f.min, max: f.max, step: f.step });
+        input.value = cur ?? "";
+        input.onchange = () => {
+          if (input.value === "") { delete draft[f.path]; } else { draft[f.path] = Number(input.value); }
+          renderRank();
+        };
+      }
+      input.setAttribute("aria-label", f.label);
+      const reset = el("button", { className: "reset", textContent: "恢复", disabled: !has });
+      reset.onclick = () => { delete draft[f.path]; renderRank(); };
+      const row = el("div", { className: "row" + (has ? " changed" : "") },
+        el("div", { className: "label", textContent: f.label }),
+        input,
+        reset,
+        el("div", { className: "eff", textContent: `当前生效：${fmt(eff)}` }),
+        el("div", { className: "help", textContent: f.help }),
+      );
+      sec.append(row);
+    }
+    box.append(sec);
+  }
+}
+
+function emojiRow(e = { key: "", emoji: "" }) {
+  const k = el("input", { type: "text", value: e.key, placeholder: "例如 shang 或 尴尬" });
+  const v = el("input", { type: "text", value: e.emoji, placeholder: "例如 ☝️" });
+  k.setAttribute("aria-label", "键");
+  v.setAttribute("aria-label", "表情");
+  const del = el("button", { textContent: "删除" });
+  const tr = el("tr", {}, el("td", {}, k), el("td", {}, v), el("td", { className: "del" }, del));
+  del.onclick = () => tr.remove();
+  return tr;
+}
+
+function renderEmoji() {
+  const tb = $("#emoji-rows");
+  tb.replaceChildren(...S.emoji.map(emojiRow));
+}
+
+function renderPacks() {
+  const box = $("#packs");
+  box.replaceChildren();
+  for (const p of S.packs) {
+    const current = S.status.pack === p.name;
+    const btn = el("button", { className: "btn secondary", textContent: current ? "重新安装" : "切换到此包" });
+    btn.onclick = () => installPack(p.name);
+    const name = el("div", {}, el("span", { className: "name", textContent: p.name }));
+    if (current) name.append(el("span", { className: "tag", textContent: "当前" }));
+    box.append(el("div", { className: "pack" },
+      el("div", {}, name, el("div", { className: "note", textContent: `${p.note}（${p.license}）` })),
+      btn));
+  }
+  if (!S.status.pack) box.append(el("p", { className: "note", textContent: "当前词库不是用词库包装的（没有 dict_pack.lock）。" }));
+}
+
+function renderStatus() {
+  const s = S.status;
+  const hook = { ok: "已接入", missing: "未接入（第一次保存时自动接入）", manual: "须手动接入" }[s.hook];
+  const items = [
+    ["用户目录", s.rime_dir],
+    ["方案", s.schema],
+    ["输入法", { squirrel: "鼠须管", weasel: "小狼毫", unknown: "未知" }[s.frontend] + (s.deploy_available ? "" : "（找不到部署程序）")],
+    ["词库包", s.pack ? `${s.pack} ${s.pack_commit}` : "未用词库包"],
+    ["模型", s.model ? `suzu.gguf，${s.model_mb} MB` : "没有 suzu.gguf"],
+    ["推理核心", s.core ? "已安装" : "未安装"],
+    ["设置文件接入", hook],
+    ["上次编译方案", s.built_at ? new Date(s.built_at * 1000).toLocaleString() : "未编译"],
+  ];
+  $("#status").replaceChildren(...items.flatMap(([k, v]) => [el("dt", { textContent: k }), el("dd", { textContent: v })]));
+  $("#sub").textContent = `${s.rime_dir} · 方案 ${s.schema}`;
+}
+
+function load(state) {
+  S = state;
+  draft = { ...S.overrides };
+  renderRank(); renderEmoji(); renderPacks(); renderStatus();
+}
+
+async function saveSettings(deploy) {
+  busy(true);
+  say(deploy ? "正在保存并重新部署……" : "正在保存……");
+  try {
+    const r = await api("/api/settings", { overrides: draft, deploy });
+    load(r.state);
+    let t = `已保存 ${r.saved} 项覆盖。`;
+    if (r.hook === "added" || r.hook === "created") t += `\n已在 ${S.status.schema}.custom.yaml 末尾加入 __patch 引用（原文件备份为 .bak-before-settings）。`;
+    if (deploy) t += "\n" + deployText(r.deploy);
+    else t += "\n重新部署后生效。";
+    say(t, r.deploy && (!r.deploy.finished || r.deploy.result.failure || r.deploy.errors) ? "bad" : "ok");
+  } catch (e) { say(e.message, "bad"); }
+  busy(false);
+}
+
+async function saveEmoji() {
+  const entries = [...document.querySelectorAll("#emoji-rows tr")].map((tr) => {
+    const [k, v] = tr.querySelectorAll("input");
+    return { key: k.value, emoji: v.value };
+  }).filter((e) => e.key.trim() || e.emoji.trim());
+  busy(true);
+  try {
+    const r = await api("/api/emoji", { entries });
+    load(r.state);
+    say(`已保存 ${r.saved} 条自定义表情，几秒内生效。`);
+  } catch (e) { say(e.message, "bad"); }
+  busy(false);
+}
+
+async function installPack(name) {
+  if (!confirm(`切换到词库包 ${name}？会替换 cn_dicts 并重新部署，可能需要几分钟。`)) return;
+  busy(true);
+  say(`正在安装 ${name} 并重新部署……`);
+  try {
+    const r = await api("/api/pack", { name });
+    load(r.state);
+    say(r.install + "\n" + deployText(r.deploy), r.deploy.finished && !r.deploy.result.failure ? "ok" : "bad");
+  } catch (e) { say(e.message, "bad"); }
+  busy(false);
+}
+
+async function deployOnly() {
+  busy(true);
+  say("正在重新部署……");
+  try {
+    const r = await api("/api/deploy", {});
+    load(r.state);
+    say(deployText(r.deploy), r.deploy.finished && !r.deploy.result.failure ? "ok" : "bad");
+  } catch (e) { say(e.message, "bad"); }
+  busy(false);
+}
+
+document.querySelectorAll("nav button").forEach((b) => {
+  b.onclick = () => {
+    document.querySelectorAll("nav button").forEach((x) => x.setAttribute("aria-selected", x === b));
+    document.querySelectorAll("[data-panel]").forEach((p) => (p.hidden = p.dataset.panel !== b.dataset.tab));
+  };
+});
+$("#save-deploy").onclick = () => saveSettings(true);
+$("#save-only").onclick = () => saveSettings(false);
+$("#emoji-add").onclick = () => $("#emoji-rows").append(emojiRow());
+$("#emoji-save").onclick = saveEmoji;
+$("#deploy").onclick = deployOnly;
+
+api("/api/state").then(load).catch((e) => say(e.message, "bad"));
+</script>
+</body>
+</html>

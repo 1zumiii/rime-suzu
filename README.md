@@ -92,6 +92,7 @@ tools/install-dev.sh --pack frost    # 换用其他词库包，见下文
 | [其他功能](docs/features.md) | 个人词对、最近使用优先、本机记录一览、选词统计、语法模型、模糊音、小改动 |
 | [安装](docs/install.md) | macOS、Windows、Android 的完整安装步骤 |
 | [词库包](docs/dictionary-packs.md) | 词库不放在仓库里：安装与替换词库、新增词库包、本仓库的补充词条 |
+| [设置页](docs/settings.md) | macOS 与 Windows 的网页设置：排序参数、自定义表情、词库包切换、一键重新部署 |
 | [维护说明](docs/maintenance.md) | 补丁与部署的注意事项、与雾凇上游的关系、自定义内容的位置 |
 | [误触容错](docs/typo-tolerance.md) | 相邻按键误触的数据与取舍 |
 
