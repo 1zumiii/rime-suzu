@@ -492,6 +492,7 @@ class App:
         self.port = port
         self.token = secrets.token_urlsafe(24)
         self.lock = threading.Lock()   # 部署与词库安装不并发
+        self.last_seen = time.time()   # 最近一次请求的时间，供闲置退出使用
 
     def state(self):
         return {
@@ -569,6 +570,7 @@ def make_handler(app):
             return True
 
         def _dispatch(self, method):
+            app.last_seen = time.time()
             path = self.path.split("?", 1)[0]
             if method == "GET" and path in ("/", "/index.html"):
                 if self._guard(False):
@@ -612,6 +614,8 @@ def main(argv=None):
     ap.add_argument("--schema", default="rime_ice")
     ap.add_argument("--port", type=int, default=8767)
     ap.add_argument("--no-browser", action="store_true")
+    ap.add_argument("--idle-exit", type=float, default=0, metavar="分钟",
+                    help="闲置这么多分钟（没有任何请求、也没在部署）后自动退出，0 为不退出")
     a = ap.parse_args(argv)
     root = Path(a.rime_dir).expanduser()
     if not root.is_dir():
@@ -619,9 +623,18 @@ def main(argv=None):
     app = App(RimeDir(root, a.schema), a.port)
     srv = http.server.ThreadingHTTPServer(("127.0.0.1", a.port), make_handler(app))
     url = f"http://127.0.0.1:{a.port}/"
-    print(f"Suzu 设置页：{url}（Ctrl+C 退出）")
+    print(f"Suzu 设置页：{url}（Ctrl+C 退出）", flush=True)
     if not a.no_browser:
         threading.Timer(0.5, lambda: webbrowser.open(url)).start()
+    if a.idle_exit > 0:
+        def watchdog():
+            while True:
+                time.sleep(min(30, a.idle_exit * 60 / 4))
+                if time.time() - app.last_seen > a.idle_exit * 60 and not app.lock.locked():
+                    print("闲置超时，退出", flush=True)
+                    srv.shutdown()
+                    return
+        threading.Thread(target=watchdog, daemon=True).start()
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

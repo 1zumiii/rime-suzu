@@ -16,6 +16,7 @@ python3 tools/settings/suzu_settings.py
 | `--schema` | `rime_ice` | 方案名 |
 | `--port` | `8767` | 端口 |
 | `--no-browser` | 关 | 不自动打开浏览器 |
+| `--idle-exit` | `0` | 闲置这么多分钟后自动退出（没有请求、也没在部署），`0` 为不退出 |
 
 ## 功能
 
