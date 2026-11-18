@@ -2,12 +2,12 @@
 
 <p align="center">
   集成本地 AI 小模型的 Rime 拼音配置：按上文重排候选、补充简拼候选，支持鼠须管（macOS）、小狼毫（Windows）和同文输入法 Trime（Android）。<br>
-  方案基于 <a href="https://github.com/iDvel/rime-ice">雾凇拼音（rime-ice）</a>，词库以“词库包”的形式安装，可在雾凇、白霜等之间替换，其余标准 Rime 格式的词库理论上也兼容（只验证过雾凇和白霜）。
+  方案基于 <a href="https://github.com/iDvel/rime-ice">雾凇拼音（rime-ice）</a>，词库以“词库包”的形式安装，支持雾凇和白霜，可随时切换。
 </p>
 
 <p align="center">
   <img src="llm-android/docs/preview.png" alt="Android（同文输入法 Trime）预览：GBoard 风格主页面、AI 重排的候选" width="900"><br>
-  <sub>Android（Trime）预览：GBoard 风格布局；工具栏的 <code>● AI</code> 为 AI 重排的状态和开关；候选后的 <code>◇</code> 表示模型参与了这次排序。</sub>
+  <sub>Android（Trime）预览：GBoard 风格布局。工具栏的 <code>● AI</code> 为 AI 重排的状态和开关，候选后的 <code>◇</code> 表示模型参与了这次排序。</sub>
 </p>
 
 ---
@@ -23,7 +23,7 @@
 | 混合输入（如 `yangs`），首选 | 33.0% | 68.7% | **72.5%** |
 | 全拼，首选 | 63.4% | **91.7%** | 90.7% |
 
-全拼在 16000 题的维基评测上两个版本没有差别（+0.0，±0.3），表中全拼的 1 个点差别在 216 题的抽样误差内。留出集的答案偏冷门，真实输入多打常用词，实际收益以使用数据为准。推理在本机运行，模型文件约 44 MB，输入内容不出设备。三端的延迟与内存见 [AI 重排](docs/ai-rerank.md)。
+结果来自留出集测试，不代表日常输入的准确率。测试方法、样本量与版本对比见 [Suzu 的模型说明](https://github.com/1zumiii/Suzu)。推理在本机运行，模型文件约 44 MB，输入内容不出设备。三端的延迟与内存见 [AI 重排](docs/ai-rerank.md)。
 
 ## 功能
 
@@ -31,7 +31,7 @@
 - 候选生成：简拼和混合输入时，从词典中按上文筛选 Rime 未给出的词，补充到候选窗。默认开启。
 - 统一排序：总分 = Rime 名次先验 + 上文权重 × 模型分 + 个人习惯，关闭 AI 时上文权重为 0。
 - 个人词对与最近使用优先：同样的搭配再次出现时优先，最近上屏过的词提升到第 2 位。记录只保存在本机。
-- 语法模型、模糊音与误触容错：配置万象语法模型，开启平翘舌与前后鼻音模糊音；相邻按键误触仅处理 4 个字母及以上的音节。
+- 语法模型、模糊音与误触容错：配置万象语法模型，开启平翘舌与前后鼻音模糊音。相邻按键误触仅处理 4 个字母及以上的音节。
 - Android 手机端：改版 Trime 采用 GBoard 风格布局，推理在常驻进程 `rimellmd` 中运行，工具栏提供 AI 状态徽标和功能状态页。
 
 ## 平台
@@ -58,13 +58,13 @@ macOS（Apple 芯片，macOS 13 及以上，需先装好[鼠须管](https://gith
 curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash
 ```
 
-Windows（小狼毫 0.17，PowerShell；需要管理员权限时会弹出询问）：
+Windows（小狼毫 0.17，PowerShell，需要管理员权限时会弹出询问）：
 
 ```powershell
 irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 ```
 
-脚本会先列出操作并请求确认，备份现有配置后再安装。当前发布的是 [v0.2.0 正式版](https://github.com/1zumiii/rime-suzu/releases/tag/v0.2.0)：macOS 安装包已完成完整验证；Windows 安装包已在隔离目录试装并实际安装验证，尚未在干净设备上验证完整流程。安装包关闭了选词统计、语料记录等开发功能，不会记录输入。
+脚本会先列出操作并请求确认，备份现有配置后再安装。当前版本为 [v0.2.0](https://github.com/1zumiii/rime-suzu/releases/tag/v0.2.0)。开发用的输入日志（选词统计、语料记录、输入事件流）在安装包里默认关闭。最近用过的词、词对等个人习惯以明文保存在本机用户目录，用于调整候选顺序，可随时删除，见 [其他功能](docs/features.md)。
 
 桌面端默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时切换。
 
@@ -100,10 +100,10 @@ tools/install-dev.sh --pack frost    # 换用其他词库包，见下文
 
 本仓库的方案文件与配置结构来自 [iDvel/rime-ice](https://github.com/iDvel/rime-ice) 的 `da1fbe6`（2026-10-05），此后独立维护，不再定期合并上游。上游重要的 Lua 或方案修复按需摘取。
 
-仓库保留配置、Lua 脚本和各端部署脚本，不含词库。词库按 `packs/packs.tsv` 登记的固定提交安装，当前支持雾凇和白霜，新增或更换方法见 [词库包](docs/dictionary-packs.md)。个人改动放在独立文件中，包括 `*.custom.yaml` 补丁和 Lua 脚本；补充词条放在 `extras/extra.dict.yaml`，可叠加到任何词库包上。本项目仅供个人使用，尚非通用发行版。
+仓库保留配置、Lua 脚本和各端部署脚本，不含词库。词库按 `packs/packs.tsv` 登记的固定提交安装，当前支持雾凇和白霜，新增或更换方法见 [词库包](docs/dictionary-packs.md)。个人改动放在独立文件中，包括 `*.custom.yaml` 补丁和 Lua 脚本。补充词条放在 `extras/extra.dict.yaml`，可叠加到任何词库包上。
 
 ## 致谢与许可
 
-感谢 [iDvel/rime-ice](https://github.com/iDvel/rime-ice) 及其贡献者；[gaboolic/rime-frost](https://github.com/gaboolic/rime-frost)（白霜拼音词库，GPL-3.0，词库包之一）；[zhanghaozhecn/rime-llm-rerank](https://github.com/zhanghaozhecn/rime-llm-rerank)（AI 重排的原项目，署名许可，个人使用无限制）；[amzxyz/rime-wanxiang-data](https://github.com/amzxyz/rime-wanxiang-data)（万象语法模型，CC BY 4.0）；[llama.cpp](https://github.com/ggml-org/llama.cpp)；[osfans/trime](https://github.com/osfans/trime)（同文输入法，GPL-3.0）及同文风主题作者暖暖；[Shizuku](https://github.com/RikkaApps/Shizuku)；以及 Rime、librime-lua、librime-octagram 的作者。
+感谢 [iDvel/rime-ice](https://github.com/iDvel/rime-ice) 及其贡献者、[gaboolic/rime-frost](https://github.com/gaboolic/rime-frost)（白霜拼音词库，GPL-3.0，词库包之一）、[zhanghaozhecn/rime-llm-rerank](https://github.com/zhanghaozhecn/rime-llm-rerank)（AI 重排的原项目，署名许可，个人使用无限制）、[amzxyz/rime-wanxiang-data](https://github.com/amzxyz/rime-wanxiang-data)（万象语法模型，CC BY 4.0）、[llama.cpp](https://github.com/ggml-org/llama.cpp)、[osfans/trime](https://github.com/osfans/trime)（同文输入法，GPL-3.0）及同文风主题作者暖暖、[Shizuku](https://github.com/RikkaApps/Shizuku)，以及 Rime、librime-lua、librime-octagram 的作者。
 
 本仓库沿用雾凇的 GPL-3.0 许可证，见 [LICENSE](LICENSE)。词库包、模型文件和语法模型各自遵循发布方的许可，来源与许可证登记在 `packs/packs.tsv`。
