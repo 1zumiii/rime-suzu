@@ -62,7 +62,7 @@ function M.init(env)
     M.page_size = (type(size) == "number" and size >= 1) and size or 5
 end
 
--- 自定义表情（emoji_custom.lua）：不推迟，拼音键的放在首位后面，词键的紧跟在对应的词后面；
+-- 候选映射（emoji_custom.lua）：不推迟，拼音键的放在首位后面，词键的紧跟在对应的词后面；
 -- 词典给出的同一个表情（不计 U+FE0F）不再重复出现
 local okec, ec = pcall(require, "emoji_custom")
 local function norm(t) return (t:gsub("\u{FE0F}", "")) end
@@ -84,7 +84,7 @@ function M.func(input, env)
     end
     local shown, first = {}, true
 
-    local function emit(cand)   -- 放出一个候选；是文字候选时，后面跟上它关联的自定义表情
+    local function emit(cand)   -- 放出一个候选；是文字候选时，后面跟上它映射的候选
         yield(cand)
         if not custom_on or cand.type == "simplified" then return end
         local list = {}
@@ -109,7 +109,7 @@ function M.func(input, env)
         local emoji = cand.type == "simplified" and is_emoji_text(cand.text)
         if emoji then cand = present(cand) end
         if emoji and shown[norm(cand.text)] then
-            -- 已作为自定义表情放出过
+            -- 已作为映射的候选放出过
         elseif not released and emoji then
             held[#held + 1] = cand
         else

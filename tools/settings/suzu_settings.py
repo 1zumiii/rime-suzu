@@ -8,7 +8,7 @@
 - 只写自己的文件 suzu_settings.yaml（Rime 补丁格式），并在 <方案>.custom.yaml 的 patch 末尾加一行
   __patch: suzu_settings:/patch? 引用它。手写的 custom.yaml 其余内容（含注释）不改；设置文件不存在时部署照常。
 - 生效值读编译产物 build/<方案>.schema.yaml，网页上同时显示“当前生效”和“本页覆盖”。
-- 自定义表情直接读写 emoji_custom.txt，格式与安卓设置页、lua/emoji_custom.lua 一致，几秒内生效，无须部署。
+- 候选映射直接读写 emoji_custom.txt，格式与安卓设置页、lua/emoji_custom.lua 一致，几秒内生效，无须部署。
 - 词库包切换调用同目录上一级的 dict_pack.py。
 - 只监听 127.0.0.1；校验 Host 头；写操作须带启动时生成的随机令牌。只用 Python 标准库。
 """
@@ -30,7 +30,7 @@ REPO = HERE.parent.parent
 SETTINGS_FILE = "suzu_settings.yaml"
 HOOK = "__patch: suzu_settings:/patch?"
 EMOJI_FILE = "emoji_custom.txt"
-EMOJI_HEADER = "# 自定义表情：每行“键<Tab>表情”，多个表情用空格隔开。键全是小写字母时按拼音匹配输入，否则按词匹配候选。\n"
+EMOJI_HEADER = "# 候选映射：每行“键<Tab>候选”，候选可以是表情或任意文字，多个用空格隔开。键全是小写字母时按拼音匹配输入，否则按词匹配候选。\n"
 
 # 网页上可调的参数：配置路径、类型、范围、标题、说明。默认值以编译产物里的生效值为准。
 FIELDS = [
@@ -309,7 +309,7 @@ class RimeDir:
                 out[f["path"]] = v
         return out
 
-    # --- 自定义表情
+    # --- 候选映射
     def emoji_entries(self):
         p = self.root / EMOJI_FILE
         if not p.exists():
@@ -329,7 +329,7 @@ class RimeDir:
             k = normalize_key(str(e.get("key", "")))
             v = normalize_emoji(str(e.get("emoji", "")))
             if k is None or v is None:
-                raise ValueError("每一行都要有键和表情，且不能含 Tab 或换行")
+                raise ValueError("每一行都要有键和候选，且不能含 Tab 或换行")
             clean.append((k, v))
         write_atomic(self.root / EMOJI_FILE, EMOJI_HEADER + "".join(f"{k}\t{v}\n" for k, v in clean))
         return len(clean)

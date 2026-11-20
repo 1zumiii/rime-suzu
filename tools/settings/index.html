@@ -80,7 +80,7 @@ td.del button { background: none; border: 0; color: var(--bad); cursor: pointer;
   <p class="sub" id="sub">正在读取……</p>
   <nav role="tablist">
     <button role="tab" data-tab="rank" aria-selected="true">排序参数</button>
-    <button role="tab" data-tab="emoji" aria-selected="false">自定义表情</button>
+    <button role="tab" data-tab="emoji" aria-selected="false">候选映射</button>
     <button role="tab" data-tab="pack" aria-selected="false">词库包</button>
     <button role="tab" data-tab="status" aria-selected="false">状态</button>
   </nav>
@@ -96,10 +96,10 @@ td.del button { background: none; border: 0; color: var(--bad); cursor: pointer;
 
   <div data-panel="emoji" hidden>
     <section class="card">
-      <h2>自定义表情</h2>
-      <p class="note">键全是字母时按拼音匹配：输入恰好是这串拼音时，表情排在首位后面。键含其他字符时按词匹配：候选里出现这个词时，表情紧跟在它后面。多个表情用空格隔开。保存后几秒内生效，无须部署。</p>
+      <h2>候选映射</h2>
+      <p class="note">候选可以是表情或任意文字。键全是字母时按拼音匹配：输入恰好是这串拼音时，候选排在首位后面。键含其他字符时按词匹配：候选里出现这个词时，映射的候选紧跟在它后面。一个键可以映射多个候选，用空格隔开，所以单个候选里不能有空格。保存后几秒内生效，无须部署。</p>
       <table>
-        <thead><tr><th>键（拼音或词）</th><th>表情</th><th></th></tr></thead>
+        <thead><tr><th>键（拼音或词）</th><th>候选</th><th></th></tr></thead>
         <tbody id="emoji-rows"></tbody>
       </table>
       <div class="actions">
@@ -231,7 +231,7 @@ function emojiRow(e = { key: "", emoji: "" }) {
   const k = el("input", { type: "text", value: e.key, placeholder: "例如 shang 或 尴尬" });
   const v = el("input", { type: "text", value: e.emoji, placeholder: "例如 ☝️" });
   k.setAttribute("aria-label", "键");
-  v.setAttribute("aria-label", "表情");
+  v.setAttribute("aria-label", "候选");
   const del = el("button", { textContent: "删除" });
   const tr = el("tr", {}, el("td", {}, k), el("td", {}, v), el("td", { className: "del" }, del));
   del.onclick = () => tr.remove();
@@ -306,7 +306,7 @@ async function saveEmoji() {
   try {
     const r = await api("/api/emoji", { entries });
     load(r.state);
-    say(`已保存 ${r.saved} 条自定义表情，几秒内生效。`);
+    say(`已保存 ${r.saved} 条候选映射，几秒内生效。`);
   } catch (e) { say(e.message, "bad"); }
   busy(false);
 }

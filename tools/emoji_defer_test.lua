@@ -92,7 +92,7 @@ do
   check("FE0F: text candidates unchanged", set["食指"] == true)
 end
 
--- 自定义表情（emoji_custom.txt）
+-- 候选映射（emoji_custom.txt）
 do
   local dir = os.tmpname(); os.remove(dir); os.execute("mkdir -p '" .. dir .. "'")
   rime_api = { get_user_data_dir = function() return dir end }
