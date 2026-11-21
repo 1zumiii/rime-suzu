@@ -58,6 +58,13 @@ check("is_emoji_text: symbols", M.is_emoji_text("❤️") and M.is_emoji_text("�
 check("is_emoji_text: letters/CJK/digits are not emoji",
       not M.is_emoji_text("abc") and not M.is_emoji_text("笑") and not M.is_emoji_text("1😄") and not M.is_emoji_text(""))
 
+-- 键帽表情含 ASCII 数字或 # *，靠 U+20E3 认作 emoji，与其他 emoji 一样推迟
+check("is_emoji_text: keycaps", M.is_emoji_text("1\u{FE0F}\u{20E3}") and M.is_emoji_text("#\u{FE0F}\u{20E3}")
+      and M.is_emoji_text("*\u{FE0F}\u{20E3}") and not M.is_emoji_text("1"))
+r = run({ word("一选"), word("一"), emoji("1\u{FE0F}\u{20E3}"), word("以"), word("一轩"), word("已选"), word("亿") }, 5)
+check("keycap emoji moved to page 2", r == "一选 一 以 一轩 已选 1\u{FE0F}\u{20E3} 亿", r)
+
+
 -- 8. 惰性：第一页凑满后，后面的候选不会被提前取走（只取到被消费的位置）
 do
   local list = {}

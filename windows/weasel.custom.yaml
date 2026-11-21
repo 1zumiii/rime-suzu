@@ -1,0 +1,10 @@
+# 小狼毫样式补丁（Windows 专用）。install.ps1 只在用户目录还没有 weasel.custom.yaml 时复制这个文件；
+# 已经有的话，把下面 patch 里的 style/font_face 一行加进去，再重新部署。
+# 小狼毫的“界面风格设定”保存配色时会重写这个文件，可能把 font_face 一行冲掉，改完配色后检查一下。
+#
+# font_face 与仓库根目录 weasel.yaml 相同：数字、# * 和 U+FE0F、U+20E3 先交给 Segoe UI Emoji，
+# 键帽表情（1️⃣ #️⃣）的三个码位才会落在同一个字体里合成彩色键帽。只用微软雅黑时，数字由雅黑画，
+# 键帽框 U+20E3 回退到别的字体，候选窗里显示成“1”加一个方框。
+# 本机字体画不出的字由 windows/glyph_scan.ps1 生成清单，lua/glyph_guard.lua 据此隐藏候选。
+patch:
+  "style/font_face": "Segoe UI Emoji:23:23, Segoe UI Emoji:2a:2a, Segoe UI Emoji:30:39, Segoe UI Emoji:fe0f:fe0f, Segoe UI Emoji:20e3:20e3, Segoe UI, Microsoft YaHei, DengXian, Segoe UI Emoji, Noto Color Emoji, Segoe UI Symbol"

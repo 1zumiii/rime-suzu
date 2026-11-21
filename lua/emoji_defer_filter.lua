@@ -2,6 +2,7 @@
 -- 在 engine/filters 增加 - lua_filter@*emoji_defer_filter（必须放在 simplifier@emoji 之后）
 --
 -- 识别方式：simplifier 生成的候选类型是 simplified，emoji 的文字里没有字母、数字、汉字、假名、谚文。
+-- 例外：键帽表情（数字或 # * 加 U+FE0F U+20E3）含 ASCII 字符，凭 U+20E3 认作 emoji。
 -- 简繁转换（traditionalize）出来的候选类型也是 simplified，但含汉字，不会被当成 emoji。
 -- 默认按文字样式显示的单个表情补 U+FE0F（见 TEXT_DEFAULT）。
 -- 前 page_size 个非 emoji 候选放出之后，被扣住的 emoji 紧接着放出，之后的 emoji 保持原位置；
@@ -11,6 +12,7 @@ local M = {}
 
 local function is_emoji_text(text)
     if not text or text == "" then return false end
+    if text:find("\u{20E3}", 1, true) then return true end   -- 键帽表情（1️⃣ #️⃣ *️⃣）含 ASCII 数字或符号，按组合键帽框认
     local ok, res = pcall(function()
         for _, cp in utf8.codes(text) do
             if (cp >= 0x30 and cp <= 0x39) or (cp >= 0x41 and cp <= 0x5A) or (cp >= 0x61 and cp <= 0x7A)

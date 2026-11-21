@@ -67,6 +67,11 @@ if (-not $DryRun) {
   if ((Test-Path $wc) -and -not (Test-Path (Join-Path $RimeDir "weasel.custom.yaml"))) { Copy-Item $wc $RimeDir }
   $cp = Join-Path $RimeDir "custom_phrase.txt"
   if (-not (Test-Path $cp)) { Copy-Item (Join-Path $Src "custom_phrase.txt") $cp }
+  # glyph list for lua/glyph_guard.lua: candidates with characters no installed font can draw are hidden (otherwise shown as boxes)
+  & (Join-Path $Src "windows\glyph_scan.ps1") -RimeDir $RimeDir
+  if (-not (Select-String -Path (Join-Path $RimeDir "weasel.custom.yaml") -Pattern "style/font_face" -Quiet -ErrorAction SilentlyContinue)) {
+    Write-Warning "weasel.custom.yaml has no style/font_face: keycap emoji (digit + U+FE0F + U+20E3) will show as a digit plus a box. Copy the font_face line from windows\weasel.custom.yaml."
+  }
 }
 
 if ($DryRun) {
