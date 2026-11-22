@@ -14,7 +14,9 @@
 
 ## 效果
 
-测试方法：从留出集的句子里取一个词作为正确答案，在真实 librime 里逐键输入它的拼音或简拼，上文取答案之前的文字。表中的百分比是命中率：“首选”是正确答案排在第一位的题目占比，“前 5 名”是正确答案出现在前 5 个候选里的题目占比。题数为两字母简拼 407、混合输入 291、全拼 216，均为抽样。
+当前模型 Suzu-UER6-KD500 在 2,400 道固定候选的两字母简拼题中，首选准确率为 59.5%，Suzu-2.4 为 41.5%。在鼠须管的 librime 链路中，使用门槛 1.5 重算得到 KD500 的首选准确率为 54.0%。测试条件与全拼结果见 [模型卡](https://huggingface.co/IzumiThe3rd/Suzu-UER6-KD500)。
+
+下表是 Suzu-2.x 在另一套留出集上的历史结果。测试在 librime 中逐键输入，抽样包括 407 道两字母简拼、291 道混合输入和 216 道全拼题。
 
 | 输入 | 关 AI（Rime 原顺序） | Suzu-2.1 | Suzu-2.4 |
 |---|---|---|---|
@@ -23,7 +25,7 @@
 | 混合输入（如 `yangs`），首选 | 33.0% | 68.7% | **72.5%** |
 | 全拼，首选 | 63.4% | **91.7%** | 90.7% |
 
-结果来自留出集测试，不代表日常输入的准确率。测试方法、样本量与版本对比见 [Suzu 的模型说明](https://github.com/1zumiii/Suzu)。推理在本机运行，模型文件约 44 MB，输入内容不出设备。三端的延迟与内存见 [AI 重排](docs/ai-rerank.md)。
+推理在本机运行，模型文件约 52.8 MB，输入内容不出设备。三端的延迟与内存见 [AI 重排](docs/ai-rerank.md)。
 
 ## 功能
 
@@ -64,11 +66,11 @@ Windows（小狼毫 0.17，PowerShell，需要管理员权限时会弹出询问�
 irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 ```
 
-脚本会先列出操作并请求确认，备份现有配置后再安装。当前版本为 [v0.2.0](https://github.com/1zumiii/rime-suzu/releases/tag/v0.2.0)。开发用的输入日志（选词统计、语料记录、输入事件流）在安装包里默认关闭。最近用过的词、词对等个人习惯以明文保存在本机用户目录，用于调整候选顺序，可随时删除，见 [其他功能](docs/features.md)。
+脚本会先列出操作并请求确认，备份现有配置后再安装。版本与下载文件见 [桌面端发布页](https://github.com/1zumiii/rime-suzu/releases/latest)。开发用的输入日志（选词统计、语料记录、输入事件流）在安装包里默认关闭。最近用过的词、词对等个人习惯以明文保存在本机用户目录，用于调整候选顺序，可随时删除，见 [其他功能](docs/features.md)。
 
 桌面端默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时切换。
 
-Android 不使用上述安装脚本，从 [suzu-ime 的发布页](https://github.com/1zumiii/suzu-ime/releases/tag/android-v0.2.0)下载 APK，也可从源码构建，支持 arm64、Android 11 及以上。方案、Lua 和默认词库随 APK 提供，安装后可在引导页下载模型并通过 Shizuku 启动 AI 服务。手机重启后须重新启动服务，详见 [安装](docs/install.md)。
+Android 端从 [suzu-ime 发布页](https://github.com/1zumiii/suzu-ime/releases/latest) 下载 APK，支持 arm64、Android 11 及以上。方案、Lua 和默认词库随 APK 提供。安装后可在引导页下载模型，再通过 Shizuku 启动 AI 服务。手机重启后须重新启动服务，详见 [安装](docs/install.md)。
 
 ### 从源码安装
 
@@ -81,7 +83,7 @@ tools/install-dev.sh                 # 安装配置和词库包（首次需要�
 tools/install-dev.sh --pack frost    # 换用其他词库包，见下文
 ```
 
-之后从 Hugging Face 下载模型 [Suzu-2.4](https://huggingface.co/IzumiThe3rd/Suzu-2.4) 的 `suzu.gguf` 与 `suzu.vocab.txt`，按 [suzu-ime 的 macOS 说明](https://github.com/1zumiii/suzu-ime/blob/main/macos/README.md) 编译并安装推理核心 `rime_llm.so`，重启输入法。Windows 与 Android 的步骤见 [安装](docs/install.md)。
+下载 [Suzu-UER6-KD500](https://huggingface.co/IzumiThe3rd/Suzu-UER6-KD500) 的 GGUF 权重和配套词表，分别保存为 `suzu.gguf` 和 `suzu.vocab.txt`。按 [suzu-ime 的 macOS 说明](https://github.com/1zumiii/suzu-ime/blob/main/macos/README.md) 编译并安装推理核心 `rime_llm.so`，再重启输入法。Windows 与 Android 的步骤见 [安装](docs/install.md)。
 
 ## 文档
 

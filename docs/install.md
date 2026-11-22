@@ -2,7 +2,7 @@
 
 ## 一行命令安装
 
-本节适用于 macOS 和 Windows。安装包包含编译好的推理核心、Suzu-2.4 模型、配置、雾凇词库和补充词条，无需 git、Python 或自行编译。脚本先下载并核对 sha256，再备份现有配置，然后安装、部署。开发用的输入日志（选词统计、语料记录、输入事件流）默认关闭。最近用过的词、词对等个人习惯以明文保存在本机，见 [其他功能](features.md)。
+本节适用于 macOS 和 Windows。安装包包含编译好的推理核心、Suzu-UER6-KD500 模型、配置、雾凇词库和补充词条，无需 git、Python 或自行编译。脚本先下载并核对 SHA-256，再备份现有配置，然后安装、部署。开发用的输入日志（选词统计、语料记录、输入事件流）默认关闭。最近用过的词、词对等个人习惯以明文保存在本机，见 [其他功能](features.md)。
 
 ```bash
 # macOS（Apple 芯片，macOS 13 及以上，需先装好鼠须管）
@@ -14,7 +14,7 @@ curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh |
 irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 ```
 
-脚本会先列出操作并请求确认。Android 不使用安装包，从 [suzu-ime 的发布页](https://github.com/1zumiii/suzu-ime/releases/tag/android-v0.2.0)下载 APK，也可按下文从源码编译。Windows 支持仅预览、不执行修改：解压安装包后运行 `powershell -File install.ps1 -DryRun`。
+脚本会先列出操作并请求确认。Android 端可从 [suzu-ime 发布页](https://github.com/1zumiii/suzu-ime/releases/latest) 下载 APK，也可按下文从源码构建。Windows 可在解压后运行 `powershell -File install.ps1 -DryRun` 预览安装操作。
 
 可选环境变量：`SUZU_BUNDLE_FILE` 使用本地的安装包 zip（跳过下载），`SUZU_TAG` 指定发布标签（默认取最新的正式版，旧的预览版为 `preview`）。安装时会询问是否下载约 400 MB 的万象语法模型，不安装也可使用。macOS 可在命令后加 `--with-gram` 直接下载，或加 `--no-gram` 跳过下载与询问（写成 `| bash -s -- macos --with-gram`）。Windows 对应 `-Grammar download` 与 `-Grammar skip`。
 

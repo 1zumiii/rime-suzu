@@ -15,6 +15,17 @@ import argparse, datetime, hashlib, os, re, shutil, stat, subprocess, sys, tempf
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, ".."))
 
+MODEL_NOTICES = {
+    "953fa76eca9d1b171cf9e819e9f0474f12c309be1bc7c1aad46db2916d0b3859": (
+        "Suzu-UER6-KD500",
+        "Suzu-UER6-KD500。训练数据与权重许可说明见 https://huggingface.co/IzumiThe3rd/Suzu-UER6-KD500",
+    ),
+    "a2ff2c46110c7ba47746871eaf8ff37cc4fab58105ddbe11e0a768e340cdb996": (
+        "Suzu-2.4",
+        "Suzu-2.4（CC BY-SA 4.0）。训练数据与权重许可说明见 https://huggingface.co/IzumiThe3rd/Suzu-2.4",
+    ),
+}
+
 COMMON_EXCLUDE_DIRS = {"docs", "tools", "packs", "extras", "others", "tests", ".github", "build", "windows", "llm-android", "install"}
 COMMON_EXCLUDE_FILES = {".gitignore", "README.md", "install.sh", "install.ps1", "squirrel.yaml", "squirrel.custom.yaml", "weasel.yaml", "LICENSE"}
 
@@ -156,15 +167,19 @@ def main():
     shutil.copy2(os.path.join(REPO, "LICENSE"), os.path.join(root, "LICENSE"))
 
     # 版本与来源
+    model_name, model_notice = MODEL_NOTICES.get(
+        sha256(os.path.join(payload, "suzu.gguf")),
+        (os.path.basename(a.model), "自备权重。训练数据和许可见权重提供方的说明。"),
+    )
     try:
         git = sh("git", "rev-parse", "--short", "HEAD", cwd=REPO)
     except Exception:
         git = "unknown"
     lock = open(os.path.join(payload, "dict_pack.lock"), encoding="utf-8").read().replace("\t", " ").replace("\n", "；")
     with open(os.path.join(root, "VERSION"), "w", encoding="utf-8", newline="\n") as f:
-        f.write(f"suzu {arch} {ver}\nrime-suzu {git}\n{open(os.path.join(payload, 'lua', 'SUZU_IME_VERSION'), encoding='utf-8').read().strip()}\n词库包 {lock}\n模型 Suzu-2.4（见 payload/suzu.gguf）\n")
+        f.write(f"suzu {arch} {ver}\nrime-suzu {git}\n{open(os.path.join(payload, 'lua', 'SUZU_IME_VERSION'), encoding='utf-8').read().strip()}\n词库包 {lock}\n模型 {model_name}（见 payload/suzu.gguf）\n")
     with open(os.path.join(root, "NOTICE.txt"), "w", encoding="utf-8", newline="\n") as f:
-        f.write(NOTICE)
+        f.write(NOTICE.format(model_notice=model_notice))
 
     zip_path = os.path.join(a.out, f"suzu-{arch}.zip")   # 文件名不带版本，一行安装用固定地址下载；版本写在包内的 VERSION 和顶层目录名里
     zip_dir(root, zip_path, top, exec_names)
@@ -179,7 +194,7 @@ def main():
 NOTICE = """本安装包的组成与许可：
 - 配置与脚本：rime-suzu（GPL-3.0），方案与配置结构来自雾凇拼音 rime-ice（GPL-3.0）。
 - 词库：词库包 ice，来自 iDvel/rime-ice（GPL-3.0），另有本项目的补充词条（GPL-3.0）。
-- 模型：Suzu-2.4（CC BY-SA 4.0），https://huggingface.co/IzumiThe3rd/Suzu-2.4 ；训练数据与许可见该页面。
+- 模型：{model_notice}
 - 推理核心：suzu-ime（GPL-3.0），https://github.com/1zumiii/suzu-ime ；使用 llama.cpp（MIT）。
 - 同文输入法 Trime（Android 包，GPL-3.0）：https://github.com/osfans/trime ，改版补丁在 suzu-ime 仓库。
 - 万象语法模型 wanxiang-lts-zh-hans.gram（CC BY 4.0，作者 amzxyz）：不在安装包里，Windows 安装时可选从 https://github.com/amzxyz/rime-wanxiang-data 下载。

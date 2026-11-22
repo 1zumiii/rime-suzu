@@ -121,7 +121,7 @@ for f in suzu.gguf suzu.vocab.txt; do
   cp "$PAYLOAD/$f" "$DEST/$f"
 done
 xattr -dr com.apple.quarantine "$DEST" 2>/dev/null || true
-note "模型 Suzu-2.4（约 44 MB）和推理核心已安装"
+note "模型、词表和推理核心已安装"
 
 # 语法模型：已有就用；选了下载就下到临时文件、核对 sha256 后再放进用户目录；否则去掉配置里的 grammar
 GRAM="$DEST/$GRAM_NAME"
