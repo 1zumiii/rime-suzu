@@ -12,21 +12,47 @@
 
 ---
 
+## 安装
+
+| 平台 | 安装方式 |
+|---|---|
+| macOS（Apple 芯片，macOS 13 及以上） | 先装好[鼠须管](https://github.com/rime/squirrel/releases)，再运行下面的一行命令 |
+| Windows（小狼毫 0.17） | 在 PowerShell 中运行下面的一行命令 |
+| Android（arm64，Android 11 及以上） | 从 [suzu-ime 发布页](https://github.com/1zumiii/suzu-ime/releases/latest) 下载 APK，启用步骤见 [suzu-ime](https://github.com/1zumiii/suzu-ime#android) |
+
+macOS：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash
+```
+
+Windows：
+
+```powershell
+irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
+```
+
+安装包含编译好的推理核心、模型、配置和词库，无需 git 或自行编译。脚本先列出要做的事并请求确认，再下载、核对 sha256、备份并安装。已装过旧版的，重新运行同一条命令即可升级。
+
+- 恢复：安装前的用户目录备份在 `~/Library/Rime.backup-时间`（Windows 为用户目录名加 `.backup-时间`），改回原名即可恢复。`rime_ice.custom.yaml` 会换成本项目的版本，改过的设置在备份里。
+- 使用：桌面端默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时切换。候选后带 `◇` 表示模型参与了这次排序。macOS 读取光标前的文字需要在“系统设置 → 隐私与安全性 → 辅助功能”中允许鼠须管。
+- 隐私：开发用的输入日志默认关闭。最近用过的词、词对等个人习惯以明文保存在本机用户目录，可随时删除，见 [其他功能](docs/features.md)。
+
+已有自己的 Rime 方案、只想接入 AI 重排的，见 [接入已有的 Rime 配置](https://github.com/1zumiii/suzu-ime#接入已有的-rime-配置)。版本与下载文件见 [发布页](https://github.com/1zumiii/rime-suzu/releases/latest)。
+
 ## 效果
 
-当前模型为 [Suzu-UER6-KD500](https://huggingface.co/IzumiThe3rd/Suzu-UER6-KD500)。下表在鼠须管自带的 librime 中逐键输入两字母简拼题，启用 Rime 候选、候选生成和统一排序，报按帖子划分的约 1,190 道验证题的首选准确率。题目取自知乎、天涯和清华树洞，答案为原文里的词。
+当前模型为 [Suzu-UER6-KD500](https://huggingface.co/IzumiThe3rd/Suzu-UER6-KD500)。在鼠须管的 librime 中逐键采集两字母简拼的候选，再用记录的候选和分数回算排序。题目取自知乎、天涯和清华树洞，按帖子划分出验证题，答案为原文里的词：
 
-| 设置 | 首选 |
-|---|---:|
-| 不用模型分（同一批候选按 Rime 原名次排序） | 28.6% |
-| Suzu-2.4，首位门槛 2.5 | 39.3% |
-| Suzu-UER6-KD500，首位门槛 1.5（默认） | **54.0%** |
+| 设置 | 题数 | 首选 |
+|---|---:|---:|
+| 不用模型分（同一批候选按 Rime 原名次排序） | 1,190 | 28.6% |
+| Suzu-2.4，门槛 2.5（另一轮评测，未逐题配对） | 1,192 | 39.3% |
+| Suzu-UER6-KD500，门槛 1.5（默认） | 1,190 | **54.0%** |
 
-KD500 在这批题里改动首位 547 次，其中 12 次把原本正确的首选改错。Suzu-2.4 一行来自较早一轮评测，验证题为 1,192 道。全拼同音词 1,293 题上，KD500 与 Suzu-2.4 持平（92.81% 对 92.73%）。
+KD500 在这批题里改动首位 547 次，其中 12 次把原本正确的首选改错。全拼同音词 1,293 题上，KD500 与 Suzu-2.4 持平（92.81% 对 92.73%）。
 
-评测题只认原词，上文完整。日常输入里用户词典已学到大部分常用词，实际收益比表中小。
-
-推理在本机运行，模型文件约 52.8 MB，输入内容不出设备。手机上（ASUS Zenfone 10，守护进程 2 线程，每组 10 个候选），同结构模型每次打分比 Suzu-2.4 多 1.5～2 ms。打分加候选生成的 P99 约 20 ms，连续输入时约 26 ms，常驻内存约 151 MB（Suzu-2.4 约 109 MB）。
+推理在本机运行，模型文件约 52.8 MB，输入内容不出设备。手机上（ASUS Zenfone 10，守护进程 2 线程，每组 10 个候选），每次打分比 Suzu-2.4 多 1.5～2 ms，打分加候选生成的 P99 约 20 ms，常驻内存约 151 MB（Suzu-2.4 约 109 MB）。
 
 ## 功能
 
@@ -39,41 +65,15 @@ KD500 在这批题里改动首位 547 次，其中 12 次把原本正确的首�
 
 ## 平台
 
-| 平台 | 前端 | 使用情况 |
-|---|---|---|
-| macOS | 鼠须管 1.1.2（librime 1.16） | 主要的使用和测试平台 |
-| Windows | 小狼毫 0.17 | AI 重排已在 Windows 11 上部署使用，其余功能验证较少 |
-| Android | 改版同文输入法（Trime） | 在一台 ASUS Zenfone 10 上日常使用 |
+| 平台 | 前端 |
+|---|---|
+| macOS | 鼠须管 |
+| Windows | 小狼毫 0.17 |
+| Android | 改版同文输入法（Trime） |
 
 AI 重排的推理核心、守护进程和改版 Trime 的源码位于 [suzu-ime](https://github.com/1zumiii/suzu-ime) 仓库，本仓库只保留配置和同步的 Lua 脚本。没有模型文件时不重排，输入不受影响。
 
-已有 Rime 配置可通过 suzu-ime 的方案补丁接入 AI 重排，无需替换整套配置。调优后的参数已设为默认值，见 [接入已有的 Rime 配置](https://github.com/1zumiii/suzu-ime#接入已有的-rime-配置)。
-
-## 快速开始
-
-### 一行命令安装
-
-macOS 与 Windows 的安装包包含编译好的推理核心、模型、配置和词库，无需 git 或自行编译。脚本先下载并核对 sha256，再备份现有配置，然后安装并部署。
-
-macOS（Apple 芯片，macOS 13 及以上，需先装好[鼠须管](https://github.com/rime/squirrel/releases)）：
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash
-```
-
-Windows（小狼毫 0.17，PowerShell，需要管理员权限时会弹出询问）：
-
-```powershell
-irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
-```
-
-脚本会先列出操作并请求确认，备份现有配置后再安装。版本与下载文件见 [桌面端发布页](https://github.com/1zumiii/rime-suzu/releases/latest)。开发用的输入日志（选词统计、语料记录、输入事件流）在安装包里默认关闭。最近用过的词、词对等个人习惯以明文保存在本机用户目录，用于调整候选顺序，可随时删除，见 [其他功能](docs/features.md)。
-
-桌面端默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时切换。
-
-Android 端从 [suzu-ime 发布页](https://github.com/1zumiii/suzu-ime/releases/latest) 下载 APK，支持 arm64、Android 11 及以上。方案、Lua 和默认词库随 APK 提供。安装后可在引导页下载模型，再通过 Shizuku 启动 AI 服务。手机重启后须重新启动服务，详见 [安装](docs/install.md)。
-
-### 从源码安装
+## 从源码安装
 
 开发者可从源码安装，并自行编译推理核心：
 
@@ -81,7 +81,7 @@ Android 端从 [suzu-ime 发布页](https://github.com/1zumiii/suzu-ime/releases
 git clone https://github.com/1zumiii/rime-suzu.git
 cd rime-suzu
 tools/install-dev.sh                 # 安装配置和词库包（首次需要联网下载词库）
-tools/install-dev.sh --pack frost    # 换用其他词库包，见下文
+tools/install-dev.sh --pack frost    # 换用其他词库包，见 docs/dictionary-packs.md
 ```
 
 下载 [Suzu-UER6-KD500](https://huggingface.co/IzumiThe3rd/Suzu-UER6-KD500) 的 GGUF 权重和配套词表，分别保存为 `suzu.gguf` 和 `suzu.vocab.txt`。按 [suzu-ime 的 macOS 说明](https://github.com/1zumiii/suzu-ime/blob/main/macos/README.md) 编译并安装推理核心 `rime_llm.so`，再重启输入法。Windows 与 Android 的步骤见 [安装](docs/install.md)。
