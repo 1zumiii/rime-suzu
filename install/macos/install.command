@@ -17,11 +17,26 @@ GRAMMAR=ask                      # 万象语法模型：ask 询问 / download �
 YES="${SUZU_ASSUME_YES:-}"
 for a in "$@"; do case "$a" in --with-gram) GRAMMAR=download ;; --no-gram) GRAMMAR=skip ;; --yes) YES=1 ;; *) echo "未知选项 $a"; exit 2 ;; esac; done
 # 万象语法模型：改善整句输入的同音字选择，鼠须管自带 octagram 插件。文件太大不放进安装包，安装时按用户选择从作者的发布页下载。
-# 来源 amzxyz/rime-wanxiang-data（CC BY 4.0）。下载后核对作者公布的 sha256，对不上就不用（作者更新文件后要同步更新这里的哈希）。
+# 来源 amzxyz/rime-wanxiang-data（CC BY 4.0）。作者会更新这个文件，所以不写死哈希：下载前从发布信息里取作者公布的 sha256，下载后核对，对不上就不用。
 GRAM_NAME=wanxiang-lts-zh-hans.gram
 GRAM_URL=https://github.com/amzxyz/rime-wanxiang-data/releases/download/LTS/wanxiang-lts-zh-hans.gram
-GRAM_SHA256=9eedac1d836f3fdafb61b162035c8937253aedc106be40b2b957d9ab64e9ed89
+GRAM_API=https://api.github.com/repos/amzxyz/rime-wanxiang-data/releases/tags/LTS
 
+# 从发布信息（JSON）里取语法模型的 sha256，用系统自带的 plutil 解析；取不到时返回非 0
+gram_sha256() {
+  local json="$1" n i name digest
+  n="$(plutil -extract assets raw -o - "$json" 2>/dev/null)" || return 1
+  for ((i = 0; i < n; i++)); do
+    name="$(plutil -extract "assets.$i.name" raw -o - "$json" 2>/dev/null)" || continue
+    [[ "$name" == "$GRAM_NAME" ]] || continue
+    digest="$(plutil -extract "assets.$i.digest" raw -o - "$json" 2>/dev/null)" || return 1
+    digest="${digest#sha256:}"
+    [[ "$digest" =~ ^[0-9a-f]{64}$ ]] || return 1
+    echo "$digest"
+    return 0
+  done
+  return 1
+}
 say() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 note() { printf '  %s\n' "$*"; }
 die() { printf '\n\033[31m出错：%s\033[0m\n' "$*" >&2; read -r -p "按回车关闭" _ || true; exit 1; }
@@ -58,6 +73,7 @@ fi
 say "将要做的事"
 note "1. 把 $DEST 备份到 $DEST.backup-时间"
 note "2. 退出鼠须管，安装配置、词库和 Suzu 模型到 ${DEST}（不覆盖你的词频库和已有的 default.custom.yaml）"
+note "   rime_ice.custom.yaml 会换成本项目的版本，你在里面改过的设置可以从备份里找回"
 note "3. 安装推理核心，重新部署"
 note "不会创建任何统计或记录开关，不上传任何内容。"
 HAVE_GRAM=""; [[ -f "$DEST/$GRAM_NAME" ]] && HAVE_GRAM=1
@@ -82,7 +98,7 @@ mkdir -p "$DEST"
 
 say "1/5 备份现有配置"
 BACKUP="$DEST.backup-$(date +%Y%m%d-%H%M%S)"
-rsync -a --exclude='*.gram' --exclude='*.gguf' --exclude='build/' "$DEST"/ "$BACKUP"/
+rsync -a --exclude='*.gram' --exclude='build/' "$DEST"/ "$BACKUP"/
 note "已备份到 ${BACKUP}（想还原时把它改回 $DEST 的名字即可）"
 
 if [[ -z "$TESTING" ]]; then
@@ -128,15 +144,21 @@ GRAM="$DEST/$GRAM_NAME"
 GRAM_OK=""; [[ -f "$GRAM" ]] && GRAM_OK=1
 if [[ -z "$GRAM_OK" && "$GRAMMAR" == download ]]; then
   say "下载万象语法模型（约 400 MB，视网速需要几分钟）"
-  rm -f "$GRAM.part"
-  if ! curl -L --fail --retry 2 --progress-bar -o "$GRAM.part" "$GRAM_URL"; then
+  rm -f "$GRAM.part" "$GRAM.release.json"
+  GRAM_SHA256=""
+  if curl -fsSL --retry 2 -H "Accept: application/vnd.github+json" -o "$GRAM.release.json" "$GRAM_API"; then
+    GRAM_SHA256="$(gram_sha256 "$GRAM.release.json" || true)"
+  fi
+  if [[ -z "$GRAM_SHA256" ]]; then
+    note "取不到作者公布的校验值（网络问题或发布信息有变），先不下载语法模型。"
+  elif ! curl -L --fail --retry 2 --progress-bar -o "$GRAM.part" "$GRAM_URL"; then
     note "语法模型下载失败（网络问题）。"
   elif [[ "$(shasum -a 256 "$GRAM.part" | awk '{print $1}')" != "$GRAM_SHA256" ]]; then
-    note "语法模型校验不一致（可能是作者更新了文件），先不用它。"
+    note "语法模型与作者公布的校验值不一致，先不用它。"
   else
-    mv "$GRAM.part" "$GRAM"; GRAM_OK=1; note "语法模型已下载并校验"
+    mv "$GRAM.part" "$GRAM"; GRAM_OK=1; note "语法模型已下载并校验（sha256 ${GRAM_SHA256:0:12}…）"
   fi
-  rm -f "$GRAM.part"
+  rm -f "$GRAM.part" "$GRAM.release.json"
 fi
 if [[ -n "$GRAM_OK" ]]; then [[ "$GRAMMAR" == download ]] || note "使用已有的语法模型"
 else remove_grammar_config "$DEST/rime_ice.custom.yaml"; note "未安装语法模型：已从配置里去掉 grammar（不影响使用）"; fi

@@ -18,10 +18,10 @@ function Say($m) { Write-Host ""; Write-Host $m -ForegroundColor Cyan }
 function Note($m) { Write-Host "  $m" }
 function Fail($m) { Write-Host ""; Write-Host "出错：$m" -ForegroundColor Red; Read-Host "按回车关闭"; exit 1 }
 # 万象语法模型：改善整句输入的同音字选择，小狼毫自带 octagram 插件。文件太大不放进安装包，安装时按用户选择从作者的发布页下载。
-# 来源 amzxyz/rime-wanxiang-data（CC BY 4.0）。下载后核对作者公布的 sha256，对不上就不用（作者更新文件后要同步更新这里的哈希）。
+# 来源 amzxyz/rime-wanxiang-data（CC BY 4.0）。作者会更新这个文件，所以不写死哈希：下载前从发布信息里取作者公布的 sha256，下载后核对，对不上就不用。
 $GramName = 'wanxiang-lts-zh-hans.gram'
 $GramUrl = 'https://github.com/amzxyz/rime-wanxiang-data/releases/download/LTS/wanxiang-lts-zh-hans.gram'
-$GramSha256 = '9eedac1d836f3fdafb61b162035c8937253aedc106be40b2b957d9ab64e9ed89'
+$GramApi = 'https://api.github.com/repos/amzxyz/rime-wanxiang-data/releases/tags/LTS'
 # 没有语法模型时去掉配置里的 grammar 块与依赖它的 contextual_suggestions，免得每次部署都报错
 function Remove-GrammarConfig($yaml) {
   if (-not (Test-Path $yaml)) { return }
@@ -68,6 +68,7 @@ Note "用户目录：$UserDir"
 Say "将要做的事"
 Note "1. 把现有用户目录整个备份到 $UserDir.backup-时间"
 Note "2. 退出小狼毫服务，安装配置、词库和 Suzu 模型到 $UserDir（不覆盖你的样式、词频库和已有的 default.custom.yaml）"
+Note "   rime_ice.custom.yaml 会换成本项目的版本，你在里面改过的设置可以从备份里找回"
 Note "3. 把推理核心 rime_llm.dll 放进 $WeaselDir（旧的先备份），重新启动服务并部署"
 Note "不会创建任何统计或记录开关，不上传任何内容。"
 $haveGram = Test-Path (Join-Path $UserDir $GramName)
@@ -121,7 +122,7 @@ function Start-Unelevated($exe, $arg, $name) {
 
 Say "1/5 备份现有用户目录"
 $Backup = "$UserDir.backup-$stamp"
-robocopy $UserDir $Backup /E /R:1 /W:1 /XD build /XF *.gram *.gguf /NFL /NDL /NJH /NJS | Out-Null
+robocopy $UserDir $Backup /E /R:1 /W:1 /XD build /XF *.gram /NFL /NDL /NJH /NJS | Out-Null
 if ($LASTEXITCODE -ge 16) { Fail "备份失败（robocopy 返回 $LASTEXITCODE）" }
 Note "已备份到 $Backup（想还原时把它改回 $UserDir 的名字即可）"
 
@@ -146,11 +147,17 @@ if (-not $gramOk -and $Grammar -eq 'download') {
   $tmp = "$gram.download"
   Remove-Item $tmp -ErrorAction SilentlyContinue
   try {
+    try {
+      $rel = Invoke-RestMethod -Uri $GramApi -UseBasicParsing -Headers @{ 'Accept' = 'application/vnd.github+json'; 'User-Agent' = 'Suzu-Installer' }
+    } catch { throw "取不到作者公布的校验值（$($_.Exception.Message)）" }
+    $asset = @($rel.assets) | Where-Object { $_.name -eq $GramName } | Select-Object -First 1
+    $GramSha256 = if ($asset -and $asset.digest) { ([string]$asset.digest -replace '^sha256:', '').ToLower() } else { '' }
+    if ($GramSha256 -notmatch '^[0-9a-f]{64}$') { throw "发布信息里没有语法模型的校验值" }
     $curl = Join-Path $env:SystemRoot 'System32\curl.exe'
     if (Test-Path $curl) { & $curl -L --fail --retry 2 -o $tmp $GramUrl; if ($LASTEXITCODE -ne 0) { throw "curl 返回 $LASTEXITCODE" } }
     else { $ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri $GramUrl -OutFile $tmp -UseBasicParsing }
     $h = (Get-FileHash $tmp -Algorithm SHA256).Hash.ToLower()
-    if ($h -ne $GramSha256) { throw "文件校验不一致（可能是作者更新了文件）" }
+    if ($h -ne $GramSha256) { throw "文件与作者公布的校验值不一致" }
     Move-Item $tmp $gram -Force
     $gramOk = $true
     Note "语法模型已下载并校验"
