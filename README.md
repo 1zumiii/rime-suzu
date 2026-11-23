@@ -34,7 +34,7 @@ irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 
 安装包含编译好的推理核心、模型、配置和词库，无需 git 或自行编译。脚本先列出要做的事并请求确认，再下载、核对 sha256、备份并安装。已装过旧版的，重新运行同一条命令即可升级。
 
-安装包自带 Suzu-UER6-PG200。电脑性能较好时，可以改装准确率更高的 Suzu-UER12-PG100，每次打分的耗时约为前者的两倍。安装时从 Hugging Face 下载并核对 sha256，首位门槛随模型设置：
+安装包自带 Suzu-UER6-PG200。电脑性能较好时，可以改装准确率更高的 Suzu-UER12-PG100，每次打分的耗时约为前者的两倍。安装时从 Hugging Face 下载并核对 sha256，首位门控随模型设置：
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash -s -- macos --model PG100
@@ -44,7 +44,7 @@ curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh |
 $env:SUZU_MODEL = 'PG100'; irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 ```
 
-可选的模型见 [模型名录](https://github.com/1zumiii/suzu-ime/blob/main/models.json)，macOS 加 `--list-models` 也可列出。
+可选的模型见 [模型列表](https://github.com/1zumiii/suzu-ime/blob/main/models.json)，macOS 加 `--list-models` 也可列出。
 
 - 恢复：安装前的用户目录备份在 `~/Library/Rime.backup-时间`（Windows 为用户目录名加 `.backup-时间`），改回原名即可恢复。`rime_ice.custom.yaml` 会换成本项目的版本，改过的设置在备份里。
 - 使用：桌面端默认开启 AI 重排，`Control+Shift+5` 在当前输入框临时切换。候选后带 `◇` 表示模型参与了这次排序。macOS 读取光标前的文字需要在“系统设置 → 隐私与安全性 → 辅助功能”中允许鼠须管。
@@ -54,7 +54,7 @@ $env:SUZU_MODEL = 'PG100'; irm https://raw.githubusercontent.com/1zumiii/rime-su
 
 ## 效果
 
-默认模型为 [Suzu-UER6-PG200](https://huggingface.co/IzumiThe3rd/Suzu-UER6-PG200)，可选 [Suzu-UER12-PG100](https://huggingface.co/IzumiThe3rd/Suzu-UER12-PG100)。在鼠须管的 librime 中逐键输入两字母简拼的题目，题目取自知乎、天涯和清华树洞，按帖子划分出验证题，答案为原文里的词。首位门槛都是 1.5：
+默认模型为 [Suzu-UER6-PG200](https://huggingface.co/IzumiThe3rd/Suzu-UER6-PG200)，可选 [Suzu-UER12-PG100](https://huggingface.co/IzumiThe3rd/Suzu-UER12-PG100)。在鼠须管的 librime 中逐键输入两字母简拼的题目，题目取自知乎、天涯和清华树洞，按帖子划分出验证集，答案为原文里的词。首位门控都是 1.5：
 
 | 设置 | 题数 | 首选 | 改动首位 | 其中改错 |
 |---|---:|---:|---:|---:|
@@ -63,7 +63,7 @@ $env:SUZU_MODEL = 'PG100'; irm https://raw.githubusercontent.com/1zumiii/rime-su
 | Suzu-UER6-PG200（默认） | 1,195 | **56.4%** | 632 | 18 |
 | Suzu-UER12-PG100（可选） | 1,190 | **58.2%** | 638 | 14 |
 
-三个模型的验证题按同一规则划分，题数略有差别，不是逐题配对。“改错”指原本正确的首选被模型换掉。全拼同音词 1,293 题上，PG200 为 93.43%，PG100 为 93.50%，上一版 KD500 为 92.81%。
+三个模型的验证集按同一规则划分，题数略有差别，不是逐题配对。“改错”指原本正确的首选被模型换掉。全拼同音词 1,293 题上，PG200 为 93.43%，PG100 为 93.50%，上一版 KD500 为 92.81%。
 
 推理在本机运行，输入内容不出设备。PG200 的模型文件约 52.8 MB，PG100 约 98.2 MB。手机上（ASUS Zenfone 10，守护进程 2 线程，每组 10 个候选），PG200 打分加候选生成的 P99 约 20 ms，常驻内存约 150 MiB。PG100 每次打分的耗时约为 PG200 的两倍，在这台手机上连续输入时约 12% 的请求超过 45 ms 时限，所以手机默认用 PG200。
 

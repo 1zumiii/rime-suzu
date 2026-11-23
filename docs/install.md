@@ -18,7 +18,7 @@ irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 
 可选环境变量：`SUZU_BUNDLE_FILE` 使用本地的安装包 zip（跳过下载），`SUZU_TAG` 指定发布标签（默认取最新的正式版，旧的预览版为 `preview`）。安装时会询问是否下载约 400 MB 的万象语法模型，不安装也可使用。macOS 可在命令后加 `--with-gram` 直接下载，或加 `--no-gram` 跳过下载与询问（写成 `| bash -s -- macos --with-gram`）。Windows 对应 `-Grammar download` 与 `-Grammar skip`。
 
-要换用模型名录里的其他模型（如 Suzu-UER12-PG100），macOS 在命令后加 `--model PG100`（写成 `| bash -s -- macos --model PG100`），Windows 在运行前设置环境变量 `$env:SUZU_MODEL = 'PG100'`。脚本从 Hugging Face 下载该模型、核对 sha256，并按名录设置首位门槛。下载或校验失败时不改动用户目录。名录为 suzu-ime 仓库的 `models.json`，与 Android 共用。
+要换用模型列表里的其他模型（如 Suzu-UER12-PG100），macOS 在命令后加 `--model PG100`（写成 `| bash -s -- macos --model PG100`），Windows 在运行前设置环境变量 `$env:SUZU_MODEL = 'PG100'`。脚本从 Hugging Face 下载该模型、核对 sha256，并按模型列表设置首位门控。下载或校验失败时不改动用户目录。列表为 suzu-ime 仓库的 `models.json`，与 Android 共用。
 
 安装包由 `tools/make_bundle.py` 构建，包里带的 `README.txt` 有各平台的详细步骤、还原与卸载方法。
 
