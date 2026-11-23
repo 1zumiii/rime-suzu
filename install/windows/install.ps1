@@ -1,6 +1,8 @@
 ﻿# Suzu 一键安装（Windows，小狼毫 Weasel 0.17）
 # 用法：双击 install.bat。需要管理员权限时会弹出 UAC 询问。
 # 会做的事：备份现有用户目录 -> 安装配置、词库、Suzu 模型 -> 把推理核心 rime_llm.dll 放进小狼毫目录 -> 重新部署。
+# 换用模型名录里的其他模型：-Model PG100（或环境变量 SUZU_MODEL=PG100），从 Hugging Face 下载并核对 sha256；-ListModels 列出可用的模型。
+# 模型名录默认是 suzu-ime 仓库的 models.json（与 Android 共用），可用环境变量 SUZU_CATALOG_URL、SUZU_CATALOG_FILE 另指。
 # 不会做的事：不创建任何统计或记录开关（选词统计、语料、输入事件流都保持关闭），不联网上传任何东西。
 param(
   [string]$WeaselDir = "",
@@ -8,7 +10,9 @@ param(
   [switch]$Yes,         # 不再询问，直接安装（环境变量 SUZU_YES=1 同效）
   [switch]$DryRun,      # 只检查并列出将要做的事，不改动任何东西
   [switch]$SkipServer,  # 测试用：不停止、不启动小狼毫服务，不重新部署
-  [ValidateSet('ask', 'download', 'skip')][string]$Grammar = 'ask'   # 万象语法模型（约 400 MB）：询问 / 直接下载 / 不下载
+  [ValidateSet('ask', 'download', 'skip')][string]$Grammar = 'ask',  # 万象语法模型（约 400 MB）：询问 / 直接下载 / 不下载
+  [string]$Model = $env:SUZU_MODEL,  # 模型名录里的编号；空表示用安装包自带的模型
+  [switch]$ListModels
 )
 $ErrorActionPreference = "Stop"
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -32,7 +36,47 @@ function Remove-GrammarConfig($yaml) {
   [IO.File]::WriteAllText($yaml, $t, (New-Object Text.UTF8Encoding($false)))
 }
 
+# 模型名录：条目只能指向 huggingface.co/IzumiThe3rd/ 下固定 revision 的文件并带 sha256，规则与 Android 的 SuzuModels.parse 相同
+$CatalogUrl = if ($env:SUZU_CATALOG_URL) { $env:SUZU_CATALOG_URL } else { 'https://raw.githubusercontent.com/1zumiii/suzu-ime/main/models.json' }
+function Test-CatalogEntry($m) {
+  $t = [string]$m.title
+  return ([string]$m.id -cmatch '^[A-Za-z0-9._-]{1,40}$') -and $t.Length -ge 1 -and $t.Length -le 60 -and
+    ([string]$m.repo -cmatch '^IzumiThe3rd/[A-Za-z0-9._-]{1,96}$') -and -not ([string]$m.repo).Contains('..') -and
+    ([string]$m.revision -cmatch '^[0-9a-f]{40}$') -and ([string]$m.file -cmatch '^[A-Za-z0-9._-]{1,128}\.gguf$') -and
+    ([string]$m.sha256 -cmatch '^[0-9a-f]{64}$') -and ([string]$m.vocab_sha256 -cmatch '^[0-9a-f]{64}$') -and
+    ([string]$m.size -cmatch '^[0-9]{1,10}$') -and ([string]$m.vocab_size -cmatch '^[0-9]{1,10}$') -and
+    ([string]$m.top_gate -cmatch '^[0-9]{1,2}(\.[0-9]{1,3})?$')
+}
+# 先存成文件再按 UTF-8 读：Windows PowerShell 5.1 对不带字符集的 text/plain 会按 Latin-1 解码，模型名会乱码
+function Get-Catalog {
+  $f = if ($env:SUZU_CATALOG_FILE) { $env:SUZU_CATALOG_FILE } else {
+    $tmp = Join-Path $env:TEMP ('suzu-models-' + [guid]::NewGuid().ToString('N') + '.json')
+    $ProgressPreference = 'SilentlyContinue'
+    Invoke-WebRequest -Uri $CatalogUrl -OutFile $tmp -UseBasicParsing
+    $tmp
+  }
+  $c = [IO.File]::ReadAllText($f, [Text.Encoding]::UTF8) | ConvertFrom-Json
+  if (-not $env:SUZU_CATALOG_FILE) { Remove-Item $f -ErrorAction SilentlyContinue }
+  if ($c.schema -ne 1) { throw "模型名录的格式不对" }
+  return @(@($c.models) | Where-Object { Test-CatalogEntry $_ })
+}
+# 下载 $url 到 $out，核对体积与 sha256
+function Get-Verified($url, $out, $size, $sha) {
+  Remove-Item $out -ErrorAction SilentlyContinue
+  $curl = Join-Path $env:SystemRoot 'System32\curl.exe'
+  if (Test-Path $curl) { & $curl -L --fail --retry 2 -o $out $url; if ($LASTEXITCODE -ne 0) { throw "curl 返回 $LASTEXITCODE" } }
+  else { $ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri $url -OutFile $out -UseBasicParsing }
+  if ((Get-Item $out).Length -ne [long]$size) { throw "文件体积与名录不一致" }
+  if ((Get-FileHash $out -Algorithm SHA256).Hash.ToLower() -ne $sha) { throw "文件与名录里的 sha256 不一致" }
+}
+
 Say "Suzu 一键安装（Windows）"
+if ($ListModels) {
+  try { $all = Get-Catalog } catch { Write-Host "取不到模型名录：$CatalogUrl（$($_.Exception.Message)）" -ForegroundColor Red; exit 1 }
+  Note "可用的模型（第一项是 Android 的默认模型，用 -Model <编号> 或环境变量 SUZU_MODEL 选择）："
+  foreach ($m in $all) { Note ("  {0}`t{1}`t约 {2} MB" -f $m.id, $m.title, [math]::Round(([long]$m.size + 500000) / 1000000)) }
+  exit 0
+}
 if (-not ((Test-Path $Payload) -and (Test-Path $Dll))) { Fail "安装包不完整：找不到 payload 或 core\rime_llm.dll，请重新解压。" }
 if (-not [Environment]::Is64BitOperatingSystem) { Fail "只支持 64 位 Windows。" }
 
@@ -97,9 +141,33 @@ if (-not $canWrite -and -not $isAdmin) {
   Note "写入小狼毫目录需要管理员权限，正在请求……"
   $argList = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', "`"$($MyInvocation.MyCommand.Path)`"", '-WeaselDir', "`"$WeaselDir`"", '-Yes')
   $argList += @('-UserDir', "`"$UserDir`"", '-Grammar', $Grammar)
+  if ($Model) { $argList += @('-Model', $Model) }
   if ($SkipServer) { $argList += '-SkipServer' }
   Start-Process powershell -Verb RunAs -ArgumentList $argList
   exit 0
+}
+
+# 选了模型就先取名录并下载、核对，全部通过后才开始改动用户目录（放在提权之后，只下载一次）
+$ModelDir = ''; $ModelGate = ''
+if ($Model) {
+  Say "准备模型 $Model"
+  try { $all = Get-Catalog } catch { Fail "取不到模型名录：$CatalogUrl（$($_.Exception.Message)）" }
+  $m = $all | Where-Object { $_.id -eq $Model } | Select-Object -First 1   # -eq 不区分大小写
+  if (-not $m) { Fail "模型名录里没有 $Model。可以用 -ListModels 查看可用的编号。" }
+  $ModelGate = [string]$m.top_gate
+  Note "模型：$($m.title)，首位门槛 $ModelGate"
+  if ((Get-FileHash (Join-Path $Payload 'suzu.gguf') -Algorithm SHA256).Hash.ToLower() -eq $m.sha256) { Note "$($m.title) 就是安装包自带的模型，不用下载" }
+  else {
+    $ModelDir = Join-Path $env:TEMP ('suzu-model-' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Force $ModelDir | Out-Null
+    $url = "https://huggingface.co/$($m.repo)/resolve/$($m.revision)/$($m.file)"
+    Note ("从 Hugging Face 下载 {0}（约 {1} MB）" -f $m.title, [math]::Round(([long]$m.size + 500000) / 1000000))
+    try {
+      Get-Verified $url (Join-Path $ModelDir 'suzu.gguf') $m.size $m.sha256
+      Get-Verified "$url.vocab.txt" (Join-Path $ModelDir 'suzu.vocab.txt') $m.vocab_size $m.vocab_sha256
+    } catch { Remove-Item $ModelDir -Recurse -Force -ErrorAction SilentlyContinue; Fail "模型下载失败：$($_.Exception.Message)。没有改动任何东西。" }
+    Note "已下载并校验（sha256 $($m.sha256.Substring(0, 12))…）"
+  }
 }
 
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
@@ -138,6 +206,18 @@ if (-not (Test-Path $cp)) { Copy-Item (Join-Path $Payload 'custom_phrase.txt') $
 $dc = Join-Path $UserDir 'default.custom.yaml'
 if ((Test-Path $dc) -and (Select-String -Path $dc -Pattern 'schema: rime_ice' -SimpleMatch -Quiet)) { Note "保留你现有的 default.custom.yaml（已包含 rime_ice）" }
 else { Copy-Item (Join-Path $Payload 'default.custom.yaml') $dc -Force }
+if ($ModelDir) {
+  foreach ($f in 'suzu.gguf', 'suzu.vocab.txt') { Copy-Item (Join-Path $ModelDir $f) (Join-Path $UserDir $f) -Force }
+  Remove-Item $ModelDir -Recurse -Force -ErrorAction SilentlyContinue
+}
+# 换了模型时，按名录把首位门槛写进 rime_ice.custom.yaml（各模型的分数尺度不同）
+if ($ModelGate) {
+  $yaml = Join-Path $UserDir 'rime_ice.custom.yaml'
+  $t = [IO.File]::ReadAllText($yaml, [Text.Encoding]::UTF8)
+  $t = [regex]::Replace($t, '(?m)^([ \t]*top_gate:[ \t]*)[0-9.]+', ('${1}' + $ModelGate))
+  [IO.File]::WriteAllText($yaml, $t, (New-Object Text.UTF8Encoding($false)))
+  if (-not ([regex]::IsMatch($t, '(?m)^[ \t]*top_gate:[ \t]*' + [regex]::Escape($ModelGate) + '(?![0-9.])'))) { Fail "没能把首位门槛写进 rime_ice.custom.yaml" }
+}
 Note "配置、词库和模型已就位"
 # 语法模型：已有就用；选了下载就下到临时文件、核对 sha256 后再放进用户目录；否则去掉配置里的 grammar
 $gram = Join-Path $UserDir $GramName

@@ -16,6 +16,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, ".."))
 
 MODEL_NOTICES = {
+    "28782d8df7edc0b8d2bb6133a941c153a63a5f22d463411fea2aef37c7f2b67a": (
+        "Suzu-UER6-PG200",
+        "Suzu-UER6-PG200。训练数据与权重许可说明见 https://huggingface.co/IzumiThe3rd/Suzu-UER6-PG200",
+    ),
+    "62017d0b8b9693a558de3f1e89fa445ab2917df1c44a5d196959155fe54d2278": (
+        "Suzu-UER12-PG100",
+        "Suzu-UER12-PG100。训练数据与权重许可说明见 https://huggingface.co/IzumiThe3rd/Suzu-UER12-PG100",
+    ),
     "953fa76eca9d1b171cf9e819e9f0474f12c309be1bc7c1aad46db2916d0b3859": (
         "Suzu-UER6-KD500",
         "Suzu-UER6-KD500。训练数据与权重许可说明见 https://huggingface.co/IzumiThe3rd/Suzu-UER6-KD500",
