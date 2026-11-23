@@ -71,7 +71,7 @@ patch:
     code_pattern: '[a-z]{2,}'   # 2 个字母及以上触发，含简拼
     expected_length_weight: 0
     cpu_cores: 4                # 学生模型很小，4 线程足够
-    max_candidates: 5
+    max_candidates: 10          # 参与重排的候选数，与 macOS、Android 相同。单字的正确答案常在第 6 到 8 位，取 5 个时约 77% 进得来
     unified:                    # 统一排序（默认排序方式）；候选生成默认开启
       alpha: 0.05
       top_gate: 1.5             # 首位门控：Suzu-UER 系列 1.5，Suzu-2.4 为 2.5（安装时按模型名录设置）
