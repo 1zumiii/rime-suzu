@@ -3,7 +3,7 @@
   # Mac（Metal）和 PC 上这一步只要几毫秒。Suzu 学生模型下实测第二阶段中位几毫秒，因此保持「两段」开关默认开，
   # 需要时在三个点的开关面板里切到「单段」。
   llm_rerank/stage2: true
-  llm_rerank/max_candidates: 9      # 守护进程 n-seq-max 为 10，候选最多 9 个
+  llm_rerank/max_candidates: 10     # 与 macOS、Windows 相同；守护进程 n-seq-max 为 11，一次最多给 10 个候选打分
   # 选词语料里“重排没改动的普通选词”的记录比例，默认 0.1；调到 1.0 让语料积累更快（文件只在手机本机）
   llm_rerank/select_anchor_rate: 1.0
   # 统一排序（总分 = Rime 原名次先验 + λ(上文)·模型分 + 个人习惯）与候选生成已是默认；下面只调名次先验的系数
