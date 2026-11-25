@@ -6,8 +6,8 @@
 </p>
 
 <p align="center">
-  <img src="llm-android/docs/preview.png" alt="Android（同文输入法 Trime）预览：GBoard 风格主页面、AI 重排的候选" width="900"><br>
-  <sub>Android（Trime）预览：GBoard 风格布局。工具栏的 <code>● AI</code> 为 AI 重排的状态和开关，候选后的 <code>◇</code> 表示模型参与了这次排序。</sub>
+  <img src="llm-android/docs/preview.png" alt="Android（同文输入法 Trime）预览：GBoard 风格键盘、选错修正提示、光标换词、AI 重排的简拼候选" width="900"><br>
+  <sub>Android（Trime）预览：GBoard 风格布局。左：打完后面的字，工具栏提示把选错的“背”改成“被”。中：光标点到“心”上，候选栏按整句分列出同音字。右：简拼 <code>thyl</code> 按上文排出“太好用了”，<code>◇</code> 表示模型参与了这次排序。</sub>
 </p>
 
 ---
@@ -70,11 +70,12 @@ $env:SUZU_MODEL = 'PG100'; irm https://raw.githubusercontent.com/1zumiii/rime-su
 ## 功能
 
 - AI 重排：本地小模型 [Suzu](https://github.com/1zumiii/Suzu) 按上文为候选打分，调整顺序。四字及以上的输入另有第二阶段。
-- 候选生成：简拼和混合输入时，从词典中按上文筛选 Rime 未给出的词，补充到候选窗。默认开启。
+- 候选生成：简拼和混合输入时，从词典中按上文筛选 Rime 未给出的词，补充到候选窗。
 - 统一排序：总分 = Rime 名次先验 + 上文权重 × 模型分 + 个人习惯，关闭 AI 时上文权重为 0。
 - 个人词对与最近使用优先：同样的搭配再次出现时优先，最近上屏过的词提升到第 2 位。记录只保存在本机。
 - 语法模型、模糊音与误触容错：配置万象语法模型，开启平翘舌与前后鼻音模糊音。相邻按键误触仅处理 4 个字母及以上的音节。
-- Android 手机端：改版 Trime 采用 GBoard 风格布局，推理在常驻进程 `rimellmd` 中运行，工具栏提供 AI 状态徽标和功能状态页。
+- 选错修正（Android）：停顿后检查句中刚选过的词。换成同页的同音候选后整句更通顺时，工具栏提示“A → B”，点按才替换。光标点到文字上时，候选栏列出可替换的同音候选，点选后只替换对应片段。
+- Android 手机端：改版 Trime 采用 GBoard 风格布局，推理在常驻进程 `rimellmd` 中运行。工具栏提供 AI 状态徽标，“设置 → AI 与输入辅助”可单独开关各项功能。
 
 ## 平台
 
