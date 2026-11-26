@@ -60,6 +60,8 @@ patch:
   "engine/processors/@before 0": lua_processor@*ai_rerank_processor
   "engine/processors/@before 1": lua_processor@*ai_rerank_app_ctx
   "engine/filters/@after last": lua_filter@*ai_rerank_filter
+  # 正反问候选（解没解决、优不优化）：按“X + 没/不 + X 开头的词”生成，交给 AI 重排排序，见 lua/ab_question_translator.lua。
+  "engine/translators/@after last": lua_translator@*ab_question_translator
   # 方案开关：同一个键只能出现一次，两个开关用 "switches/+" 一次追加；key_binder 用 "/+" 追加，不要整体替换官方绑定
   "switches/+":
     - { name: ai_rerank, reset: 1, states: [ "AI 关", "AI 开" ], abbrev: [ "AI关", "AI开" ] }

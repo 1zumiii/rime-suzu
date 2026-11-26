@@ -68,6 +68,8 @@ patch:
   # llm_rerank/context_source: history 可临时只用上屏历史。
   "engine/processors/@before 1": lua_processor@*ai_rerank_app_ctx
   "engine/filters/@after last": lua_filter@*ai_rerank_filter
+  # 正反问候选（解没解决、优不优化）：按“X + 没/不 + X 开头的词”生成，交给 AI 重排排序，见 lua/ab_question_translator.lua。
+  "engine/translators/@after last": lua_translator@*ab_question_translator
   # 默认开（reset: 1）：鼠须管的开关状态是每个应用/输入框各管各的，新输入框会回到默认状态，
   # 所以默认值必须是开；Control+Shift+5 只在当前输入框里临时开/关。
   # 注意：同一个键在 YAML 里只能出现一次，两个开关要用 "switches/+" 一次追加，不能写两行 "switches/@next"（后者会把前者挤掉）
