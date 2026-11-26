@@ -117,7 +117,7 @@ tools/install-dev.sh --pack frost    # 换用其他词库包，见 docs/dictiona
 
 本仓库的方案文件与配置结构来自 [iDvel/rime-ice](https://github.com/iDvel/rime-ice) 的 `da1fbe6`（2026-10-05），此后独立维护，不再定期合并上游。上游重要的 Lua 或方案修复按需摘取。
 
-仓库保留配置、Lua 脚本和各端部署脚本，不含词库。词库按 `packs/packs.tsv` 登记的固定提交安装，当前支持雾凇和白霜，新增或更换方法见 [词库包](docs/dictionary-packs.md)。个人改动放在独立文件中，包括 `*.custom.yaml` 补丁和 Lua 脚本。补充词条放在 `extras/extra.dict.yaml`，可叠加到任何词库包上。
+仓库保留配置、Lua 脚本和各端部署脚本，不含词库。词库按在线名录登记的固定提交安装，离线时使用 `packs/packs.tsv`。当前支持雾凇和白霜，安装和更换方法见 [词库包](docs/dictionary-packs.md)。个人改动放在独立文件中，包括 `*.custom.yaml` 补丁和 Lua 脚本。补充词条放在 `extras/extra.dict.yaml`，可叠加到任何词库包上。
 
 ## 致谢与许可
 

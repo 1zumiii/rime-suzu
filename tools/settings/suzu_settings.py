@@ -388,16 +388,17 @@ def write_atomic(path, text):
 # ---------------------------------------------------------------- 词库包
 
 def list_packs():
-    tsv = REPO / "packs" / "packs.tsv"
+    script = REPO / "tools" / "dict_pack.py"
     out = []
-    if not tsv.exists():
+    if not script.exists():
         return out
-    for line in tsv.read_text(encoding="utf-8").splitlines():
-        if not line.strip() or line.startswith("#") or line.startswith("name\t"):
-            continue
-        cols = line.split("\t")
-        if len(cols) >= 6:
-            out.append({"name": cols[0], "license": cols[3], "note": cols[5]})
+    result = subprocess.run([sys.executable, "-I", str(script), "list"], capture_output=True, text=True, timeout=15)
+    if result.returncode != 0:
+        return out
+    for line in result.stdout.splitlines():
+        cols = line.split("\t", 4)
+        if len(cols) == 5:
+            out.append({"name": cols[0], "license": cols[2], "note": cols[4]})
     return out
 
 

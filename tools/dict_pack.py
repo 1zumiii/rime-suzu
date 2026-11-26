@@ -2,7 +2,7 @@
 """词库包：把某个 Rime 拼音词库按固定提交装进 Rime 用户目录，并生成主词典文件。
 
 词库包是一个 Git 仓库里的词库目录（词<Tab>拼音<Tab>权重）加一个主词典文件（<name>.dict.yaml，用 import_tables 列出词库）。
-packs/packs.tsv 登记每个包的来源仓库、固定提交与主词典文件名。本脚本只拷贝主词典实际导入的词库文件，
+优先使用 Suzu 的在线词库名录，离线时回退到 packs/packs.tsv。本脚本只拷贝主词典实际导入的词库文件，
 并把路径改写成目标目录，因此可以同时装多个包（各用不同目录），也可以整份替换。
 
 用法：
@@ -19,10 +19,13 @@ install 的效果：
 显示成方块，而且在非标准音节（如 bun）上会成为唯一的精确匹配排到首位。需要时加 --big-tables。
 候选生成的词典目录（llm_rerank/lexicon_dir）指向 <into>，须含 base.dict.yaml。
 """
-import argparse, hashlib, os, re, shutil, subprocess, sys
+import argparse, hashlib, json, os, re, shutil, subprocess, sys, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PACKS = os.path.join(HERE, "..", "packs", "packs.tsv")
+CATALOG_URL = "https://raw.githubusercontent.com/1zumiii/suzu-ime/main/dicts.json"
+MAX_CATALOG = 256 * 1024
+UPSTREAMS = {"https://github.com/iDvel/rime-ice.git", "https://github.com/gaboolic/rime-frost.git"}
 EXTRA = os.path.join(HERE, "..", "extras", "extra.dict.yaml")
 CACHE = os.environ.get("SUZU_PACK_CACHE") or os.path.join(os.path.expanduser("~"), ".cache", "suzu-dict-packs")
 BIG_TABLES = {"41448", "GB18030-2022"}   # 生僻字大字表，默认不导入
@@ -33,7 +36,7 @@ def die(msg):
     sys.exit(f"错误：{msg}")
 
 
-def load_packs():
+def load_source_packs():
     rows = {}
     with open(PACKS, encoding="utf-8") as f:
         head = None
@@ -46,7 +49,58 @@ def load_packs():
                 head = cols
                 continue
             rows[cols[0]] = dict(zip(head, cols))
+    for name, pack in rows.items():
+        pack["schema_label"] = {"ice": "雾凇", "frost": "白霜"}.get(name, name)
     return rows
+
+
+def parse_catalog(contents):
+    if len(contents) > MAX_CATALOG:
+        raise ValueError("dictionary catalog too large")
+    root = json.loads(contents)
+    if not isinstance(root, dict) or root.get("schema") != 1 or not isinstance(root.get("packs"), list):
+        raise ValueError("unsupported dictionary catalog")
+    rows = {}
+    for item in root["packs"]:
+        if not isinstance(item, dict):
+            continue
+        name, repo, commit, main, label, license_name, source = (
+            item.get(k) for k in ("id", "repo", "commit", "main_dict", "schema_label", "license", "source")
+        )
+        label = label or item.get("title")
+        if not all(isinstance(x, str) for x in (name, repo, commit, main, label, license_name, source)):
+            continue
+        if not (re.fullmatch(r"[a-z][a-z0-9_-]{0,39}", name)
+                and (repo in UPSTREAMS or re.fullmatch(r"https://github\.com/1zumiii/[A-Za-z0-9_-]+\.git", repo))
+                and re.fullmatch(r"[0-9a-f]{40}", commit)
+                and re.fullmatch(r"[A-Za-z0-9_-]+\.dict\.yaml", main)
+                and 0 < len(label) <= 60 and label.isprintable()
+                and 0 < len(license_name) <= 100 and license_name.isprintable()
+                and 0 < len(source) <= 300 and source.isprintable()):
+            continue
+        rows.setdefault(name, dict(name=name, repo=repo, commit=commit, main_dict=main, schema_label=label,
+                                   license=license_name, note=source))
+    default = root.get("default_pack")
+    if not rows or not isinstance(default, str) or default not in rows:
+        raise ValueError("dictionary catalog has no usable default pack")
+    return rows, default
+
+
+def load_catalog():
+    local = os.environ.get("SUZU_DICT_CATALOG_FILE")
+    if local:
+        with open(local, "rb") as f:
+            return parse_catalog(f.read(MAX_CATALOG + 1))
+    try:
+        with urllib.request.urlopen(CATALOG_URL, timeout=4) as response:
+            if response.geturl() != CATALOG_URL:
+                raise ValueError("unexpected catalog redirect")
+            return parse_catalog(response.read(MAX_CATALOG + 1))
+    except (OSError, ValueError):
+        rows = load_source_packs()
+        path = os.path.join(os.path.dirname(PACKS), "DEFAULT")
+        with open(path, encoding="utf-8") as f:
+            return rows, f.read().strip()
 
 
 def fetch(pack, url):
@@ -100,10 +154,9 @@ def check_dict(path):
 
 
 def install(a):
-    packs = load_packs()
+    packs, default = load_catalog()
     if not a.pack:
-        d = os.path.join(HERE, "..", "packs", "DEFAULT")
-        a.pack = open(d, encoding="utf-8").read().strip() if os.path.isfile(d) else ""
+        a.pack = default
     if a.pack not in packs:
         die(f"没有这个词库包：{a.pack}（可用：{', '.join(packs)}）")
     pack = packs[a.pack]
@@ -177,6 +230,12 @@ def install(a):
         f.write(text)
     with open(os.path.join(a.rime_dir, "dict_pack.lock"), "w", encoding="utf-8", newline="\n") as f:
         f.write(f"pack\t{a.pack}\ncommit\t{pack['commit']}\ninto\t{a.into}\nschema\t{a.schema}\nlicense\t{pack['license']}\n")
+    if a.schema == "rime_ice":
+        patch = os.path.join(a.rime_dir, "suzu_pack.yaml")
+        name = json.dumps(pack["schema_label"], ensure_ascii=False)
+        with open(patch + ".tmp", "w", encoding="utf-8", newline="\n") as f:
+            f.write(f"patch:\n  schema/name: {name}\n")
+        os.replace(patch + ".tmp", patch)
     print(f"已安装 {a.pack}（{pack['commit'][:12]}，{pack['license']}）：{len(need)} 个词库文件{'，含补充词条' if use_extra else ''}，{total / 1e6:.1f} MB → {a.rime_dir}/{a.into}")
     print(f"主词典 {a.schema}.dict.yaml sha256 {hashlib.sha256(text.encode('utf-8')).hexdigest()[:16]}")
 
@@ -205,7 +264,7 @@ def main():
     s.add_argument("--rime-dir", required=True)
     a = ap.parse_args()
     if a.cmd == "list":
-        for n, p in load_packs().items():
+        for n, p in load_catalog()[0].items():
             print(f"{n}\t{p['commit'][:12]}\t{p['license']}\t{p['repo']}\t{p.get('note', '')}")
     elif a.cmd == "install":
         install(a)

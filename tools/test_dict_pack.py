@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """dict_pack.py 的测试：用临时 Git 仓库当词库包，检查按提交取包、改写导入路径、格式检查与拒绝、整份替换。
 用法：python3 -I tools/test_dict_pack.py"""
-import os, subprocess, sys, tempfile, shutil, importlib.util
+import os, subprocess, sys, tempfile, shutil, importlib.util, json
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 fails = 0
@@ -33,11 +33,24 @@ os.environ["SUZU_PACK_CACHE"] = tmp + "/cache"
 spec = importlib.util.spec_from_file_location("dict_pack", HERE + "/dict_pack.py")
 dp = importlib.util.module_from_spec(spec); spec.loader.exec_module(dp)
 
+def offline(*args, **kwargs):
+    raise OSError("offline fixture")
+
+dp.urllib.request.urlopen = offline
+
+catalog_pack = dict(id="frost", repo="https://github.com/gaboolic/rime-frost.git", commit="a" * 40,
+                    main_dict="rime_frost.dict.yaml", schema_label="白霜", license="GPL-3.0", source="白霜拼音")
+rows, default_pack = dp.parse_catalog(json.dumps(
+    dict(schema=1, default_pack="frost", packs=[catalog_pack, dict(catalog_pack, id="bad", repo="file:///tmp")]))
+)
+check("桌面读在线名录并跳过不受信的 Git 地址", list(rows) == ["frost"] and default_pack == "frost")
+
 def set_packs(commit):
     os.makedirs(tmp + "/packs", exist_ok=True)
     open(tmp + "/packs/packs.tsv", "w", encoding="utf-8").write(
         f"name\trepo\tcommit\tlicense\tmain_dict\tnote\nfake\t{tmp}/pack\t{commit}\tGPL-3.0\tfakepack.dict.yaml\t\n")
     dp.PACKS = tmp + "/packs/packs.tsv"
+    open(tmp + "/packs/DEFAULT", "w", encoding="utf-8").write("fake\n")
 
 class A:  # 命令行参数的替身
     def __init__(s, **k): s.__dict__.update(dict(pack="fake", into="cn_dicts", schema="rime_ice", repo_url=None, no_extra=True, big_tables=False), **k)
@@ -52,6 +65,8 @@ check("词库文件拷贝，只拷导入的", os.path.exists(rime + "/cn_dicts/b
       and not os.path.exists(rime + "/cn_dicts/unused.dict.yaml") and os.path.exists(rime + "/cn_dicts_cell/food.dict.yaml"))
 check("尾部词条保留", d.rstrip().endswith("A\tA"))
 check("lock 记录提交", c1 in open(rime + "/dict_pack.lock").read())
+check("显示名补丁保留方案 ID", open(rime + "/suzu_pack.yaml", encoding="utf-8").read() ==
+      'patch:\n  schema/name: "fake"\n')
 
 # 补充词条：放在导入列表最前面，并拷进词库目录
 open(tmp + "/extra.dict.yaml", "w", encoding="utf-8").write("---\nname: extra\n...\n宝子们\tbao zi men\t1000\n")

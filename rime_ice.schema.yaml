@@ -1,16 +1,20 @@
 # Rime schema
 # encoding: utf-8
 
+# 先应用用户方案补丁，再按当前词库包更新显示名。
+__patch:
+  - rime_ice.custom:/patch?
+  - suzu_pack:/patch?
 
 # 方案说明
 schema:
   schema_id: rime_ice
-  name: 雾凇拼音
+  name: 白霜
   version: "2026-03-08"
   author:
     - Dvel
   description: |
-    雾凇拼音
+    Suzu 拼音方案，基于雾凇拼音。
     https://github.com/iDvel/rime-ice
   dependencies:
     - melt_eng        # 英文输入，作为次翻译器挂载到拼音方案
