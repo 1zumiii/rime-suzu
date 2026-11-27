@@ -34,14 +34,14 @@ irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 
 安装包含编译好的推理核心、模型、配置和词库，无需 git 或自行编译。脚本先列出要做的事并请求确认，再下载、核对 sha256、备份并安装。已装过旧版的，重新运行同一条命令即可升级。
 
-安装包自带 Suzu-UER6-PG200。电脑性能较好时，可以改装准确率更高的 Suzu-UER12-PG100，每次打分的耗时约为前者的两倍。安装时从 Hugging Face 下载并核对 sha256，首位门控随模型设置：
+桌面安装包自带 Suzu-UER12-PG100。希望缩短推理耗时，可以在安装时选择 Suzu-UER6-PG200。安装脚本会从 Hugging Face 下载所选模型，校验 SHA-256，并设置对应的首位门控。
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash -s -- macos --model PG100
+curl -fsSL https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.sh | bash -s -- macos --model PG200
 ```
 
 ```powershell
-$env:SUZU_MODEL = 'PG100'; irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
+$env:SUZU_MODEL = 'PG200'; irm https://raw.githubusercontent.com/1zumiii/rime-suzu/main/install.ps1 | iex
 ```
 
 可选的模型见 [模型列表](https://github.com/1zumiii/suzu-ime/blob/main/models.json)，macOS 加 `--list-models` 也可列出。
@@ -54,14 +54,14 @@ $env:SUZU_MODEL = 'PG100'; irm https://raw.githubusercontent.com/1zumiii/rime-su
 
 ## 效果
 
-默认模型为 [Suzu-UER6-PG200](https://huggingface.co/IzumiThe3rd/Suzu-UER6-PG200)，可选 [Suzu-UER12-PG100](https://huggingface.co/IzumiThe3rd/Suzu-UER12-PG100)。在鼠须管的 librime 中逐键输入两字母简拼的题目，题目取自知乎、天涯和清华树洞，按帖子划分出验证集，答案为原文里的词。首位门控都是 1.5：
+桌面默认使用 [Suzu-UER12-PG100](https://huggingface.co/IzumiThe3rd/Suzu-UER12-PG100)，Android 默认使用 [Suzu-UER6-PG200](https://huggingface.co/IzumiThe3rd/Suzu-UER6-PG200)。评测在鼠须管的 librime 中逐键输入两字母简拼。题目取自知乎、天涯和清华树洞，按帖子划分验证集，答案为原文中的词。首位门控均为 1.5。
 
 | 设置 | 题数 | 首选 | 改动首位 | 其中改错 |
 |---|---:|---:|---:|---:|
 | 不用模型分（同一批候选按 Rime 原名次排序） | 1,195 | 28.5% | | |
 | Suzu-UER6-KD500（上一版） | 1,190 | 54.0% | 547 | 12 |
-| Suzu-UER6-PG200（默认） | 1,195 | **56.4%** | 632 | 18 |
-| Suzu-UER12-PG100（可选） | 1,190 | **58.2%** | 638 | 14 |
+| Suzu-UER6-PG200（Android 默认） | 1,195 | **56.4%** | 632 | 18 |
+| Suzu-UER12-PG100（桌面默认） | 1,190 | **58.2%** | 638 | 14 |
 
 三个模型的验证集按同一规则划分，题数略有差别，不是逐题配对。“改错”指原本正确的首选被模型换掉。全拼同音词 1,293 题上，PG200 为 93.43%，PG100 为 93.50%，上一版 KD500 为 92.81%。
 

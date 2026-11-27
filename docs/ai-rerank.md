@@ -4,7 +4,7 @@ AI 重排根据本次输入会话中刚上屏的内容调整候选顺序。四�
 
 ## 模型与性能
 
-默认模型为 Suzu-UER6-PG200，以 UER 的 6 层中文 GPT-2 为起点，在论坛口语文本上继续预训练，再用原词微调。Q8_0 权重约 52.8 MB。可选的 Suzu-UER12-PG100 以 12 层版为起点，做法相同，Q8_0 权重约 98.2 MB，每次打分的耗时约为 PG200 的两倍。两者的词表相同，换模型时仍须同时替换权重和词表。下载和评测条件见模型卡：[PG200](https://huggingface.co/IzumiThe3rd/Suzu-UER6-PG200)、[PG100](https://huggingface.co/IzumiThe3rd/Suzu-UER12-PG100)。
+桌面默认使用 12 层的 Suzu-UER12-PG100，Android 默认使用 6 层的 Suzu-UER6-PG200。两个模型均基于 UER 的中文 GPT-2，在论坛口语文本上继续预训练，再用原词微调。PG100 和 PG200 的 Q8_0 权重分别约为 98.2 MB 和 52.8 MB。PG100 的单次打分耗时约为 PG200 的两倍。两个模型使用同一份词表，手动换模型时请同时安装配套词表。下载和评测条件见模型卡。 [PG100](https://huggingface.co/IzumiThe3rd/Suzu-UER12-PG100) · [PG200](https://huggingface.co/IzumiThe3rd/Suzu-UER6-PG200)
 
 在 2,400 道固定候选的两字母简拼题中，PG200 的首选准确率为 61.9%，PG100 为 63.7%，上一版 KD500 为 59.5%。在 1,293 道固定候选全拼题中，三者分别为 93.43%、93.50% 和 92.81%。
 
