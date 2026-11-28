@@ -7,15 +7,15 @@
 set -euo pipefail
 
 ADB="${ADB:-adb}"
-PKG=com.osfans.trime
+PKG=izumiii.suzu.ime
 DEST=/sdcard/Android/data/$PKG/files/rime
 GRAM="${GRAM:-$HOME/Library/Rime/wanxiang-lts-zh-hans.gram}"
 DRY=0
 for a in "$@"; do case "$a" in --dry-run) DRY=1;; *) echo "unknown option $a"; exit 2;; esac; done
 
 "$ADB" get-state >/dev/null 2>&1 || { echo "没有连接的设备（adb devices）"; exit 1; }
-"$ADB" shell "pm list packages $PKG" | grep -q "$PKG" || { echo "手机上没有安装 Trime"; exit 1; }
-"$ADB" shell "test -d $DEST" || { echo "$DEST 不存在：请先打开 Trime 走完首次启动引导"; exit 1; }
+"$ADB" shell "pm path $PKG" | grep -q '^package:' || { echo "手机上没有安装 suzu-ime"; exit 1; }
+"$ADB" shell "test -d $DEST" || { echo "$DEST 不存在：请先打开 suzu-ime 走完首次启动引导"; exit 1; }
 [[ -f "$GRAM" ]] || { echo "找不到语法模型 $GRAM"; exit 1; }
 
 WANT=$(stat -f%z "$GRAM" 2>/dev/null || stat -c%s "$GRAM")
@@ -31,7 +31,7 @@ fi
 
 # 接收器只在输入法服务运行时才响应，也就是手机上要先弹出过键盘
 if ! "$ADB" shell "pidof $PKG" | grep -q '[0-9]'; then
-  echo ">>> 手机上 Trime 进程没有在运行：请在手机上打开任意输入框，把键盘弹出来，再重新运行本脚本"
+  echo ">>> 手机上 suzu-ime 进程没有在运行：请在手机上打开任意输入框，把键盘弹出来，再重新运行本脚本"
   exit 1
 fi
 "$ADB" shell "am broadcast -a $PKG.action.DEPLOY -p $PKG" | tail -1

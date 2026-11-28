@@ -67,4 +67,4 @@ llm-android/deploy_trime.sh                          # 推送语法模型并触�
 
 安装后按引导启用并选择输入法，再按需下载 Suzu 模型、下载或导入语法模型，并启动 AI 服务。这些可选步骤可跳过，之后可在“设置 → 词库”中管理模型。上面的语法模型推送命令是电脑端的可选安装方式。
 
-手动安装模型时，将从 Hugging Face 下载的 `suzu.gguf` 和 `suzu.vocab.txt` 放入 Trime 用户目录 `/sdcard/Android/data/com.osfans.trime/files/rime/`。完整说明、测试和基准脚本见 [suzu-ime 的 Android 说明](https://github.com/1zumiii/suzu-ime/blob/main/android/README.md)。
+手动安装模型时，将从 Hugging Face 下载的 `suzu.gguf` 和 `suzu.vocab.txt` 放入 Suzu 用户目录 `/sdcard/Android/data/izumiii.suzu.ime/files/rime/`。从旧包名迁移的步骤见 [suzu-ime 的 Android 说明](https://github.com/1zumiii/suzu-ime/blob/main/android/README.md#从旧包名迁移)。
